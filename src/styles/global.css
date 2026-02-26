@@ -1,0 +1,97 @@
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  min-height: 100vh;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+input, select, textarea {
+  font-family: var(--font-body);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar        { width: 4px; height: 4px; }
+::-webkit-scrollbar-track  { background: var(--bg); }
+::-webkit-scrollbar-thumb  { background: var(--border2); border-radius: 2px; }
+
+/* ── Page animation ── */
+.page-enter {
+  animation: pageFadeIn 0.25s ease;
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Layout shell ── */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main {
+  margin-left: var(--sidebar-w);        /* shift right past fixed sidebar */
+  padding-top: 64px;                    /* push content below fixed topbar (64px = topbar height) */
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  transition: background 0.2s ease;
+}
+
+.content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* ── Divider ── */
+hr, .divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 20px 0;
+}
+
+/* ── Add this to your global CSS (App.css or index.css) ── */
+
+/* When sidebar is collapsed, main content takes full width */
+body.sidebar--collapsed .main-content,
+body.sidebar--collapsed main,
+body.sidebar--collapsed .layout__content {
+  margin-left: 0 !important;
+  transition: margin-left 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Smooth transition when sidebar is visible too */
+.main-content,
+main,
+.layout__content {
+  transition: margin-left 0.25s cubic-bezier(0.4,0,0.2,1);
+}

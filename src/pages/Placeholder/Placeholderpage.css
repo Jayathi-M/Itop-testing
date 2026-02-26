@@ -1,0 +1,35 @@
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+.placeholder__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.placeholder__icon {
+  font-size: 52px;
+  opacity: 0.3;
+}
+
+.placeholder__title {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text2);
+  margin-bottom: 8px;
+}
+
+.placeholder__desc {
+  font-size: 13px;
+  color: var(--text3);
+  line-height: 1.8;
+}

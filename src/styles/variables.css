@@ -1,0 +1,127 @@
+/* Dark theme clrs */
+:root,
+[data-theme="dark"] {
+
+  /* --- Page backgrounds --- */
+  --bg:     #070b18;
+  --bg2:    #0c1121;
+  --bg3:    #111827;
+  --card:   #0f172a;
+  --card2:  #1e293b;
+
+  /* --- Borders --- */
+  --border:  #1e293b;
+  --border2: #2d3f5a;
+
+  /* --- Sidebar specific --- */
+  --sidebar-bg:            #0c1121;
+  --sidebar-border:        #1e293b;
+  --sidebar-text:          #cad0d8;
+  --sidebar-text-hover:    #e2e8f0;
+  --sidebar-text-muted:    #475569;
+  --sidebar-item-hover-bg: rgba(255, 255, 255, 0.06);
+  --sidebar-sub-dash:      #2d3f5a;
+  --sidebar-logo-title:    #e2e8f0;
+  --sidebar-profile-name:  #e2e8f0;
+  --sidebar-scrollbar:     #2d3f5a;
+  --sidebar-theme-track-bg:#1e293b;
+  --sidebar-theme-track-border: #2d3f5a;
+  --sidebar-thumb-color:   #94a3b8;
+
+  /* --- Brand / Accent colours (same in both themes) --- */
+  --accent:  #06d6a0;
+  --accent2: #3b82f6;
+  --accent3: #8b5cf6;
+
+  /* --- Semantic colours --- */
+  --warn:    #f59e0b;
+  --danger:  #ef4444;
+  --success: #10b981;
+
+  /* --- Main content text --- */
+  --text:  #e2e8f0;
+  --text2: #bac2ce;
+  --text3: #8995a5;
+
+  /* --- Inputs --- */
+  --input-bg:     #111827;
+  --input-border: #2d3f5a;
+  --input-text:   #e2e8f0;
+
+  /* --- Shadows --- */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+/* Light Theme */
+[data-theme="light"] {
+
+  /* --- Page backgrounds --- */
+  --bg:     #f0f4f8;
+  --bg2:    #ffffff;
+  --bg3:    #f8fafc;
+  --card:   #ffffff;
+  --card2:  #f1f5f9;
+
+  /* --- Borders --- */
+  --border:  #e2e8f0;
+  --border2: #cbd5e1;
+
+  /* --- Sidebar specific (light) --- */
+  --sidebar-bg:            #ffffff;
+  --sidebar-border:        #e2e8f0;
+  --sidebar-text:          #475569;
+  --sidebar-text-hover:    #0b0d11;
+  --sidebar-text-muted:    #adb9c9;
+  --sidebar-item-hover-bg: rgba(0, 0, 0, 0.04);
+  --sidebar-sub-dash:      #cbd5e1;
+  --sidebar-logo-title:    #0f172a;
+  --sidebar-profile-name:  #0f172a;
+  --sidebar-scrollbar:     #cbd5e1;
+  --sidebar-theme-track-bg:#f1f5f9;
+  --sidebar-theme-track-border: #cbd5e1;
+  --sidebar-thumb-color:   #94a3b8;
+
+  /* --- Brand / Accent colours --- */
+  --accent:  #059669;
+  --accent2: #2563eb;
+  --accent3: #7c3aed;
+
+  /* --- Semantic colours --- */
+  --warn:    #d97706;
+  --danger:  #dc2626;
+  --success: #059669;
+
+  /* --- Main content text --- */
+  --text:  #0a101e;
+  --text2: #45546a;
+  --text3: #8291a5;
+
+  /* --- Inputs --- */
+  --input-bg:     #f8fafc;
+  --input-border: #cbd5e1;
+  --input-text:   #0f172a;
+
+  /* --- Shadows --- */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+:root {
+  --sidebar-w:   60px;          /* ← changed from 260px */
+  --topbar-h:    60px;
+
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   10px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  --font-body:    'Nunito', sans-serif;
+  --font-heading: 'Rajdhani', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  --transition: 0.15s ease;
+}

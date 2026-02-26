@@ -1,0 +1,111 @@
+/* SystemDashboard.css */
+.sys-dash { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+
+/* Header row: title left, search+button right */
+.sys-dash__header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+.sys-dash__title { font-family: var(--font-heading); font-size: 24px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+.sys-dash__subtitle { font-size: 13px; color: var(--text3); margin-top: 3px; }
+.sys-dash__actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.sys-dash__search { display: flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 0 12px; height: 38px; width: 220px; transition: border-color 0.15s; }
+.sys-dash__search:focus-within { border-color: var(--accent); }
+.sys-dash__search-icon { font-size: 13px; opacity: 0.5; flex-shrink: 0; }
+.sys-dash__search input { flex: 1; background: transparent; border: none; outline: none; font-size: 13px; color: var(--text); font-family: var(--font-body); }
+.sys-dash__search input::placeholder { color: var(--text3); }
+.sys-dash__btn { height: 38px; padding: 0 18px; background: rgb(45, 79, 180); color: #fefefe; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; font-family: var(--font-body); white-space: nowrap; cursor: pointer; transition: opacity 0.15s; }
+.sys-dash__btn:hover { opacity: 0.88; }
+
+/* Stat tiles */
+.sys-dash__stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; position: relative; overflow: hidden; }
+.stat-card:hover { border-color: var(--border2); }
+.stat-card__icon { position: absolute; top: 14px; right: 16px; font-size: 20px; opacity: 0.5; }
+.stat-card__label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text3); margin-bottom: 6px; }
+.stat-card__value { font-size: 30px; font-weight: 700; font-family: var(--font-mono); letter-spacing: -1px; line-height: 1; }
+@media (max-width: 900px) { .sys-dash__stats { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .sys-dash__stats { grid-template-columns: 1fr; } }
+
+/* Category cards 2x2 grid */
+.sys-dash__categories { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+.cat-card:hover { border-color: var(--border2); }
+.cat-card__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.cat-card__title { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--text); }
+.cat-card__count { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; background: rgba(59,130,246,0.12); color: var(--accent2); }
+.cat-card__list { display: flex; flex-direction: column; gap: 6px; }
+.cat-card__empty { font-size: 12px; color: var(--text3); padding: 8px 0; text-align: center; }
+
+/* Each system row inside a category card */
+.sys-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg3); border-radius: 6px; transition: background 0.15s; }
+.sys-row:hover { background: var(--card2); }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.sys-row__name { flex: 1; font-size: 13px; font-weight: 500; color: var(--text); }
+.sys-row__make { font-size: 11px; color: var(--text3); }
+
+/* Badge pills */
+.badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge--green  { background: rgba(34,197,94,0.13);   color: var(--success); }
+.badge--yellow { background: rgba(245,158,11,0.13);  color: var(--warn); }
+.badge--grey   { background: rgba(107,126,153,0.13); color: var(--text3); }
+@media (max-width: 700px) { .sys-dash__categories { grid-template-columns: 1fr; } }
+
+/* Bottom row */
+.sys-dash__bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.bottom-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+.bottom-card__title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 16px; }
+
+/* Risk bars */
+.risk-list { display: flex; flex-direction: column; gap: 12px; }
+.risk-item__top { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); margin-bottom: 4px; }
+.risk-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.risk-bar__fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+
+/* Activity feed */
+.activity-list { display: flex; flex-direction: column; gap: 0; padding-left: 16px; border-left: 2px solid var(--border); }
+.activity-item { display: flex; align-items: flex-start; gap: 10px; padding-bottom: 14px; position: relative; }
+.activity-item__dot { position: absolute; left: -20px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); }
+.activity-item__body { flex: 1; }
+.activity-item__time { font-size: 11px; color: var(--text3); font-family: var(--font-mono); margin-bottom: 2px; }
+.activity-item__text { font-size: 13px; color: var(--text2); }
+.activity-item__tag { display: inline-block; margin-left: 6px; padding: 1px 7px; background: var(--card2); border: 1px solid var(--border); border-radius: 4px; font-size: 11px; color: var(--accent); font-family: var(--font-mono); }
+@media (max-width: 700px) { .sys-dash__bottom { grid-template-columns: 1fr; } }
+/* Add these rules to the bottom of SystemDashboardPage.css */
+
+/* Makes the card show a pointer cursor and lift slightly on hover */
+.cat-card--clickable {
+  cursor: pointer;
+  transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+.cat-card--clickable:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(6, 214, 160, 0.12);
+}
+
+/* The › arrow next to the count badge */
+.cat-card__arrow {
+  font-size: 18px;
+  color: var(--accent);
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+.cat-card--clickable:hover .cat-card__arrow {
+  opacity: 1;
+}
+
+/* "Click to view all systems ›" hint at the bottom of each card */
+.cat-card__footer {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  text-align: right;
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+.cat-card--clickable:hover .cat-card__footer {
+  opacity: 1;
+}

@@ -1,0 +1,57 @@
+/* ── Header: full-width, no sticky needed — layout handles position ── */
+.topbar {
+  width: 100%;
+  height: 60px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+[data-theme="dark"] .topbar {
+  background: #0c1121;
+  border-bottom-color: #1e293b;
+}
+
+/* Logo */
+.topbar__logo {
+  display: flex;
+  align-items: center;
+}
+
+.topbar__logo-img {
+  height: 55px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Profile */
+.topbar__profile {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: 2px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  font-size: 15px;
+  transition: border-color 0.15s;
+}
+
+[data-theme="dark"] .topbar__profile {
+  background: #1e293b;
+  border-color: #2d3f5a;
+  color: #94a3b8;
+}
+
+.topbar__profile:hover {
+  border-color: #06d6a0;
+  color: #0f172a;
+}

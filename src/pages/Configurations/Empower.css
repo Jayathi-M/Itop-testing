@@ -1,0 +1,205 @@
+/* ══════════════════════════════════════
+   EMPOWER PAGE — content only, no layout
+══════════════════════════════════════ */
+.empower-page {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  min-height: 100%;
+  background: var(--bg, #f0f4f8);
+}
+
+/* ── Header block: breadcrumb on top, title+stats below ── */
+.empower-header-block {
+  background: var(--bg2, #fff);
+  border-bottom: 1px solid var(--border, #e2e8f0);
+}
+
+/* ── Breadcrumb inside header block ── */
+.empower-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px 10px;
+  background: var(--bg2, #fff);
+  border-bottom: 1px solid var(--border, #e2e8f0);
+}
+
+.empower-back {
+  width: 28px; 
+  height: 28px;
+  border-radius: 6px;
+  background: none;
+  border: 1px solid var(--border, #e2e8f0);
+  color: var(--text3, #8291a5);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  transition: border-color 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.empower-back:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.empower-bc-link {
+  font-size: 13px;
+  color: #3b82f6;
+  cursor: pointer;
+  font-weight: 500;
+}
+.empower-bc-link:hover { text-decoration: underline; }
+
+.empower-bc-sep {
+  font-size: 14px;
+  color: var(--text3, #94a3b8);
+}
+
+.empower-bc-active {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text, #0f172a);
+}
+
+/* ── Title + stats row (inside header block) ── */
+.empower-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px 20px;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.empower-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.empower-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text, #0f172a);
+  font-family: var(--font-heading, 'Rajdhani', sans-serif);
+  letter-spacing: -0.2px;
+}
+
+.empower-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(59,130,246,0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59,130,246,0.2);
+}
+
+.empower-stats {
+  display: flex;
+  gap: 28px;
+}
+
+.empower-stat {
+  text-align: center;
+}
+
+.empower-stat__val {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text, #0f172a);
+  font-family: var(--font-heading, 'Rajdhani', sans-serif);
+}
+
+.empower-stat__val--warn    { color: #ef4444; }
+.empower-stat__val--success { color: #10b981; font-size: 16px; font-weight: 600; }
+
+.empower-stat__lbl {
+  font-size: 11px;
+  color: var(--text3, #8291a5);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── Tabs row ── */
+.empower-tabs {
+  display: flex;
+  gap: 0;
+  background: var(--bg2, #fff);
+  border-bottom: 1px solid var(--border, #e2e8f0);
+  padding: 0 24px;
+}
+
+.empower-tab {
+  padding: 12px 20px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text3, #64748b);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  font-family: var(--font-body, sans-serif);
+}
+
+.empower-tab:hover {
+  color: var(--text, #0f172a);
+}
+
+.empower-tab--active {
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
+  font-weight: 600;
+}
+
+/* ── Tab content area ── */
+.empower-tab-content {
+  flex: 1;
+  padding: 4px;
+}
+
+.empower-panel {
+  background: var(--bg2, #fff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 10px;
+  padding: 28px;
+}
+
+.empower-panel__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text, #0f172a);
+  margin-bottom: 8px;
+  font-family: var(--font-heading, 'Rajdhani', sans-serif);
+}
+
+.empower-panel__sub {
+  font-size: 13px;
+  color: var(--text3, #64748b);
+}
+
+/* ── Empty state (no tab selected) ── */
+.empower-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 10px;
+  color: var(--text3, #8291a5);
+}
+
+.empower-empty__icon { font-size: 40px; opacity: 0.3; }
+.empower-empty__text { font-size: 14px; }
+
+/* ── Breadcrumb indent (shift right) ── */
+.empower-breadcrumb-indent {
+  padding-left: 24px;
+  margin-top: 10px;
+}
