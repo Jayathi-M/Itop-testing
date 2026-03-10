@@ -1,177 +1,206 @@
-/* =========================================
-   Layout
-========================================= */
+/* ══════════════════════════════════════════════════════
+   Configurationcenter.css
+   All colors hard-coded — immune to dark/light theme vars
+   Matches supplied design: white cards, purple title accent,
+   blue active state, gray group labels
+══════════════════════════════════════════════════════ */
 
-.cc-layout{
-  display:flex;
-  height:100%;
-  background:#f1f5f9;
-  font-family: "Segoe UI","Nunito",sans-serif;
+/* ── Outer layout ── */
+.cc-layout {
+  display: flex;
+  height: 100%;
+  min-height: calc(100vh - 60px);
+  font-family: 'Nunito', 'Segoe UI', sans-serif;
+  background: #f1f5f9;
 }
 
-
-/* =========================================
+/* ══════════════════════════════════════════
    Sidebar
-========================================= */
-
-.cc-sidebar{
-  width:260px;
-  background:#f8fafc;
-  border-right:1px solid #e2e8f0;
-  display:flex;
-  flex-direction:column;
+══════════════════════════════════════════ */
+.cc-sidebar {
+  width: 272px;
+  min-height: 100%;
+  background: #f8fafc !important;
+  border-right: 1px solid #e2e8f0 !important;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  color: #1a2540 !important;
+  box-shadow: none !important;
 }
 
-
-/* Sidebar Header */
-
-.cc-sidebar__header{
-  padding:16px 18px;
-  border-bottom:1px solid #e2e8f0;
+/* ── Header ── */
+.cc-sidebar__header {
+  padding: 20px 18px 16px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  background: #f8fafc !important;
 }
 
-.cc-sidebar__title{
-  font-size:14px;
-  font-weight:700;
-  color:#0f172a;
+.cc-sidebar__title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-
-/* =========================================
-   Sidebar Body
-========================================= */
-
-.cc-sidebar__body{
-  padding:14px;
-  display:flex;
-  flex-direction:column;
-  gap:20px;
+.cc-sidebar__title {
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  color: #1a2540 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  font-family: 'Nunito', 'Segoe UI', sans-serif !important;
 }
 
-
-/* =========================================
-   Group Section
-========================================= */
-
-.cc-nav-group{
-  display:flex;
-  flex-direction:column;
+/* Purple underline accent — matches screenshot */
+.cc-sidebar__title-bar {
+  display: block;
+  width: 36px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
 }
 
-.cc-nav-group__label{
-  font-size:11px;
-  font-weight:700;
-  color:#94a3b8;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  margin-bottom:8px;
+/* ── Scrollable body ── */
+.cc-sidebar__body {
+  flex: 1;
+  padding: 12px 12px 28px !important;
+  overflow-y: auto;
+  background: #f8fafc !important;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
+.cc-sidebar__body::-webkit-scrollbar { width: 3px; }
+.cc-sidebar__body::-webkit-scrollbar-track { background: #f8fafc; }
+.cc-sidebar__body::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
 
-/* =========================================
-   Menu Item Card
-========================================= */
-
-.cc-nav-item{
-  display:flex;
-  align-items:center;
-  gap:12px;
-
-  padding:12px 14px;
-  margin-bottom:8px;
-
-  background:#ffffff;
-  border:1px solid #e2e8f0;
-  border-radius:12px;
-
-  text-decoration:none;
-  color:#334155;
-  font-size:14px;
-  font-weight:500;
-
-  transition:all .15s ease;
+/* ══════════════════════════════════════════
+   Nav groups
+══════════════════════════════════════════ */
+.cc-nav-group {
+  margin-bottom: 6px;
 }
 
-
-/* Hover */
-
-.cc-nav-item:hover{
-  background:#f8fafc;
-  border-color:#cbd5f5;
+.cc-nav-group__label {
+  display: block;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: #94a3b8 !important;
+  padding: 10px 4px 6px !important;
+  margin: 0 !important;
+  font-family: 'Nunito', 'Segoe UI', sans-serif !important;
 }
 
-
-/* =========================================
-   Icon Box
-========================================= */
-
-.cc-nav-item__icon-box{
-  width:34px;
-  height:34px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:8px;
-  background:#f1f5f9;
-
-  color:#64748b;
+/* ══════════════════════════════════════════
+   Nav item — individual white card
+══════════════════════════════════════════ */
+.cc-nav-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 11px 13px !important;
+  margin-bottom: 6px !important;
+  border-radius: 14px !important;
+  background: #ffffff !important;
+  border: 1px solid #e8edf5 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 0 1px rgba(0,0,0,0.03) !important;
+  text-decoration: none !important;
+  color: #3d4f6b !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  font-family: 'Nunito', 'Segoe UI', sans-serif !important;
+  cursor: pointer !important;
+  transition: background 0.15s, border-color 0.15s,
+              box-shadow 0.15s, color 0.15s !important;
 }
 
-.cc-nav-item__icon-box svg{
-  width:18px;
-  height:18px;
+.cc-nav-item:hover {
+  background: #f0f4ff !important;
+  border-color: #c7d4f7 !important;
+  color: #2563eb !important;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.09) !important;
+  text-decoration: none !important;
 }
 
-
-/* =========================================
-   Text
-========================================= */
-
-.cc-nav-item__text{
-  flex:1;
+/* ── Active state ── */
+.cc-nav-item--active {
+  background: #eaf2ff !important;
+  border-color: #9bb8ff !important;
+  color: #2563eb !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 10px rgba(37,99,235,0.10) !important;
 }
 
-
-/* =========================================
-   Active Item
-========================================= */
-
-.cc-nav-item--active{
-  background:#eaf2ff;
-  border-color:#9bb8ff;
-  color:#2563eb;
-  font-weight:600;
+/* ── Icon box ── */
+.cc-nav-item__icon-box {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 9px !important;
+  background: #f1f5f9 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  color: #64748b !important;
+  transition: background 0.15s, color 0.15s !important;
 }
 
-.cc-nav-item--active .cc-nav-item__icon-box{
-  background:#ffffff;
-  color:#2563eb;
+.cc-nav-item:hover .cc-nav-item__icon-box {
+  background: #dbeafe !important;
+  color: #2563eb !important;
 }
 
-
-/* =========================================
-   Right Content
-========================================= */
-
-.cc-main{
-  flex:1;
-  padding:30px;
-  overflow:auto;
+.cc-nav-item--active .cc-nav-item__icon-box,
+.cc-nav-item__icon-box--active {
+  background: #ffffff !important;
+  color: #2563eb !important;
 }
 
-.cc-main__empty{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  color:#94a3b8;
+.cc-nav-item__icon-box svg {
+  width: 17px !important;
+  height: 17px !important;
 }
 
-.cc-main__empty-icon{
-  font-size:42px;
-  opacity:.4;
+/* ── Label text ── */
+.cc-nav-item__text {
+  flex: 1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* ══════════════════════════════════════════
+   Right content area
+══════════════════════════════════════════ */
+.cc-main {
+  flex: 1 !important;
+  background: #f1f5f9 !important;
+  overflow-y: auto !important;
+  min-width: 0;
+}
+
+.cc-main__empty {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+  min-height: 400px !important;
+  gap: 12px !important;
+  color: #94a3b8 !important;
+}
+
+.cc-main__empty-icon {
+  font-size: 48px !important;
+  opacity: 0.25 !important;
+}
+
+.cc-main__empty-text {
+  font-size: 14px !important;
+  color: #94a3b8 !important;
+  font-family: 'Nunito', sans-serif !important;
 }

@@ -40,12 +40,12 @@ export default function Login() {
 
       if (response.ok && data.success) {
         // ── Store token & user info ──────────────────────────────
-        localStorage.setItem('token',    data.token);
-        localStorage.setItem('username', data.username);
-        localStorage.setItem('role',     data.role);
+        sessionStorage.setItem('token',    data.token);
+        sessionStorage.setItem('username', data.username);
+        sessionStorage.setItem('role',     data.role);
 
         // ── Redirect to home (landing page with sidebar) ─────────
-        navigate('/home');
+        navigate('/home', { replace: true });
       } else {
         setError(data.message || 'Invalid credentials. Please try again.');
       }

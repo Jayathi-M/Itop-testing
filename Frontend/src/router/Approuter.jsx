@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Mainlayout      from '../layouts/Mainlayout';
 import Placeholderpage from '../pages/Placeholder/Placeholderpage';
+import Login           from '../pages/Login/Login';
 
 import DashboardPage   from '../pages/Dashboard/SystemDashboardPage';
 import UserDashboard   from '../pages/User Dashboard/UserDashboard';
@@ -10,41 +11,37 @@ import Workflow        from '../pages/Workflow/Workflow';
 import Reports         from '../pages/Reports/Reports';
 
 import Systemconfiguration from '../pages/Configurations/Systemconfiguration';
-import Empower from '../pages/Configurations/Empower';
-/* ── Config pages — add imports as you place files in project ── */
-// import ConfigSystem        from '../pages/Configurations/ConfigSystem';
-// import ConfigDashboards    from '../pages/Configurations/Dashboards/ConfigDashboards';
-// import ConfigReports       from '../pages/Configurations/Reports/ConfigReports';
-// import ConfigTemplates     from '../pages/Configurations/Templates/ConfigTemplates';
-// import ConfigWorkflow      from '../pages/Configurations/Workflow/ConfigWorkflow';
-// import ConfigBusinessRules from '../pages/Configurations/BusinessRules/ConfigBusinessRules';
+import Empower             from '../pages/Configurations/Empower';
 
-function LandingPage() {
-  return (
-    <div style={{
-      display: 'flex', flexDirection: 'column', alignItems: 'center',
-      justifyContent: 'center', minHeight: '70vh', gap: 12, textAlign: 'center',
-    }}>
-      <div style={{ fontSize: 52, color: 'var(--accent)', opacity: 0.3 }}>◈</div>
-      <div style={{ fontFamily: 'var(--font-heading)', fontSize: 26, fontWeight: 700, color: 'var(--text2)' }}>
-        Welcome to Nexis
-      </div>
-      <div style={{ fontSize: 13, color: 'var(--text3)' }}>
-        Select a module from the sidebar to get started
-      </div>
-    </div>
-  );
+/* ── If logged in and tries to visit / or /login → send to /home ── */
+function PublicRoute({ children }) {
+  const token = sessionStorage.getItem('token');
+  return token ? <Navigate to="/home" replace /> : children;
+}
+
+/* ── If NOT logged in and tries to visit protected route → send to / ── */
+function PrivateRoute({ children }) {
+  const token = sessionStorage.getItem('token');
+  return token ? children : <Navigate to="/" replace />;
 }
 
 export default function Approuter() {
   return (
     <Routes>
-      <Route element={<Mainlayout />}>
 
-        {/* Landing */}
-        <Route path="/"          element={<DashboardPage />} />
+      {/* ── Public: Login — if already logged in, skip to /home ── */}
+      <Route path="/"      element={<PublicRoute><Login /></PublicRoute>} />
+      <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
 
-        {/* Main pages */}
+      {/* ── Protected: all app pages inside MainLayout ── */}
+      <Route
+        element={
+          <PrivateRoute>
+            <Mainlayout />
+          </PrivateRoute>
+        }
+      >
+        <Route path="/home"       element={<UserDashboard />} />
         <Route path="/dashboard"  element={<DashboardPage />} />
         <Route path="/dashboards" element={<UserDashboard />} />
         <Route path="/workflow"   element={<Workflow />} />
@@ -52,32 +49,17 @@ export default function Approuter() {
         <Route path="/users"      element={<UserManagement />} />
         <Route path="/audit"      element={<AuditTrail />} />
 
-        {/* Configuration pages — direct routes, no nested layout */}
-        <Route path="/configurations/system" element={<Systemconfiguration />} />
+        <Route path="/configurations/system"         element={<Systemconfiguration />} />
         <Route path="/configurations/system/empower" element={<Empower />} />
-        <Route path="/configurations/dashboards"
-          element={<Placeholderpage title="Dashboard Config" />}
-          // element={<ConfigDashboards />}
-        />
-        <Route path="/configurations/reports"
-          element={<Placeholderpage title="Reports Config" />}
-          // element={<ConfigReports />}
-        />
-        <Route path="/configurations/templates"
-          element={<Placeholderpage title="Templates" />}
-          // element={<ConfigTemplates />}
-        />
-        <Route path="/configurations/workflow"
-          element={<Placeholderpage title="Workflow Config" />}
-          // element={<ConfigWorkflow />}
-        />
-        <Route path="/configurations/rules"
-          element={<Placeholderpage title="Business Rules" />}
-          // element={<ConfigBusinessRules />}
-        />
+        <Route path="/configurations/dashboards"     element={<Placeholderpage title="Dashboard Config" />} />
+        <Route path="/configurations/reports"        element={<Placeholderpage title="Reports Config" />} />
+        <Route path="/configurations/templates"      element={<Placeholderpage title="Templates" />} />
+        <Route path="/configurations/workflow"       element={<Placeholderpage title="Workflow Config" />} />
+        <Route path="/configurations/rules"          element={<Placeholderpage title="Business Rules" />} />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/home" replace />} />
       </Route>
+
     </Routes>
   );
 }
