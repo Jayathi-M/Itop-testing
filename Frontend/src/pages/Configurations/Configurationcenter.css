@@ -1,0 +1,177 @@
+/* =========================================
+   Layout
+========================================= */
+
+.cc-layout{
+  display:flex;
+  height:100%;
+  background:#f1f5f9;
+  font-family: "Segoe UI","Nunito",sans-serif;
+}
+
+
+/* =========================================
+   Sidebar
+========================================= */
+
+.cc-sidebar{
+  width:260px;
+  background:#f8fafc;
+  border-right:1px solid #e2e8f0;
+  display:flex;
+  flex-direction:column;
+}
+
+
+/* Sidebar Header */
+
+.cc-sidebar__header{
+  padding:16px 18px;
+  border-bottom:1px solid #e2e8f0;
+}
+
+.cc-sidebar__title{
+  font-size:14px;
+  font-weight:700;
+  color:#0f172a;
+}
+
+
+/* =========================================
+   Sidebar Body
+========================================= */
+
+.cc-sidebar__body{
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+
+/* =========================================
+   Group Section
+========================================= */
+
+.cc-nav-group{
+  display:flex;
+  flex-direction:column;
+}
+
+.cc-nav-group__label{
+  font-size:11px;
+  font-weight:700;
+  color:#94a3b8;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+
+/* =========================================
+   Menu Item Card
+========================================= */
+
+.cc-nav-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:12px 14px;
+  margin-bottom:8px;
+
+  background:#ffffff;
+  border:1px solid #e2e8f0;
+  border-radius:12px;
+
+  text-decoration:none;
+  color:#334155;
+  font-size:14px;
+  font-weight:500;
+
+  transition:all .15s ease;
+}
+
+
+/* Hover */
+
+.cc-nav-item:hover{
+  background:#f8fafc;
+  border-color:#cbd5f5;
+}
+
+
+/* =========================================
+   Icon Box
+========================================= */
+
+.cc-nav-item__icon-box{
+  width:34px;
+  height:34px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:8px;
+  background:#f1f5f9;
+
+  color:#64748b;
+}
+
+.cc-nav-item__icon-box svg{
+  width:18px;
+  height:18px;
+}
+
+
+/* =========================================
+   Text
+========================================= */
+
+.cc-nav-item__text{
+  flex:1;
+}
+
+
+/* =========================================
+   Active Item
+========================================= */
+
+.cc-nav-item--active{
+  background:#eaf2ff;
+  border-color:#9bb8ff;
+  color:#2563eb;
+  font-weight:600;
+}
+
+.cc-nav-item--active .cc-nav-item__icon-box{
+  background:#ffffff;
+  color:#2563eb;
+}
+
+
+/* =========================================
+   Right Content
+========================================= */
+
+.cc-main{
+  flex:1;
+  padding:30px;
+  overflow:auto;
+}
+
+.cc-main__empty{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  color:#94a3b8;
+}
+
+.cc-main__empty-icon{
+  font-size:42px;
+  opacity:.4;
+}

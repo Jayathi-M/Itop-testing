@@ -1,0 +1,446 @@
+/* ══════════════════════════════════════════════════════
+   Scheduler.css  —  theme-aware (light / dark)
+   Pill colors:  active=blue  inactive=red
+                 paused=orange  completed=green
+══════════════════════════════════════════════════════ */
+
+/* ── Light theme ── */
+:root,
+[data-theme="light"] {
+  --sch-bg:             #f5f7fa;
+  --sch-card-bg:        #ffffff;
+  --sch-card-border:    #e4e9f0;
+  --sch-card-shadow:    rgba(0, 0, 0, 0.06);
+  --sch-text-primary:   #1a1a2e;
+  --sch-text-muted:     #64748b;
+  --sch-id-color:       #1976d2;
+  --sch-input-bg:       #f8fafc;
+  --sch-input-border:   #d0d7e3;
+  --sch-input-text:     #1a1a2e;
+  --sch-label-color:    #475569;
+  --sch-modal-bg:       #ffffff;
+  --sch-overlay:        rgba(0, 0, 0, 0.45);
+  --sch-editor-bg:      #f1f5f9;
+  --sch-editor-border:  #e4e9f0;
+  --sch-divider:        #e4e9f0;
+}
+
+/* ── Dark theme ── */
+[data-theme="dark"] {
+  --sch-bg:             #070b18;
+  --sch-card-bg:        #0f172a;
+  --sch-card-border:    #1e293b;
+  --sch-card-shadow:    rgba(0, 0, 0, 0.35);
+  --sch-text-primary:   #e2e8f0;
+  --sch-text-muted:     #94a3b8;
+  --sch-id-color:       #3b82f6;
+  --sch-input-bg:       #111827;
+  --sch-input-border:   #2d3f5a;
+  --sch-input-text:     #e2e8f0;
+  --sch-label-color:    #94a3b8;
+  --sch-modal-bg:       #0f172a;
+  --sch-overlay:        rgba(0, 0, 0, 0.65);
+  --sch-editor-bg:      #111827;
+  --sch-editor-border:  #1e293b;
+  --sch-divider:        #1e293b;
+}
+
+/* ══════════════════════════════════════════
+   Container
+══════════════════════════════════════════ */
+.scheduler-container {
+  padding: 20px;
+  font-family: 'Nunito', Arial, sans-serif;
+  background-color: var(--sch-bg);
+  min-height: 100%;
+  transition: background-color 0.2s;
+}
+
+/* ══════════════════════════════════════════
+   Header
+══════════════════════════════════════════ */
+.scheduler-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.scheduler-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--sch-text-primary);
+  transition: color 0.2s;
+}
+
+/* ══════════════════════════════════════════
+   Buttons
+══════════════════════════════════════════ */
+.sch-btn-primary {
+  padding: 8px 16px;
+  background-color: #1976d2;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+.sch-btn-primary:hover { background-color: #125ca1; }
+
+.sch-btn-secondary {
+  padding: 8px 16px;
+  background-color: transparent;
+  color: var(--sch-text-muted);
+  border: 1px solid var(--sch-input-border);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sch-btn-secondary:hover {
+  background-color: var(--sch-editor-bg);
+  color: var(--sch-text-primary);
+}
+
+/* ══════════════════════════════════════════
+   Grid
+══════════════════════════════════════════ */
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* ══════════════════════════════════════════
+   Card
+══════════════════════════════════════════ */
+.schedule-card {
+  background: var(--sch-card-bg);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px var(--sch-card-shadow);
+  border: 1px solid var(--sch-card-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.schedule-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 16px 0;
+  margin-bottom: 8px;
+}
+
+.schedule-id {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--sch-id-color);
+  transition: color 0.2s;
+}
+
+.schedule-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--sch-text-primary);
+  padding: 0 16px 8px;
+  transition: color 0.2s;
+}
+
+.schedule-meta {
+  font-size: 12px;
+  color: var(--sch-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 16px 14px;
+  transition: color 0.2s;
+}
+
+.sch-meta-dt {
+  font-size: 11px;
+  color: var(--sch-text-muted);
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.sch-pill {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* ── ACTIVE — Blue ── */
+.sch-pill--active {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+[data-theme="dark"] .sch-pill--active {
+  background-color: rgba(29, 78, 216, 0.18);
+  color: #60a5fa;
+}
+
+/* ── INACTIVE — Red ── */
+.sch-pill--inactive {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+[data-theme="dark"] .sch-pill--inactive {
+  background-color: rgba(185, 28, 28, 0.18);
+  color: #f87171;
+}
+
+/* ── PAUSED — Orange ── */
+.sch-pill--paused {
+  background-color: #ffedd5;
+  color: #c2410c;
+}
+[data-theme="dark"] .sch-pill--paused {
+  background-color: rgba(194, 65, 12, 0.18);
+  color: #fb923c;
+}
+
+/* ── COMPLETED — Green ── */
+.sch-pill--completed {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+[data-theme="dark"] .sch-pill--completed {
+  background-color: rgba(6, 95, 70, 0.2);
+  color: #34d399;
+}
+
+/* ══════════════════════════════════════════
+   Card editor section
+══════════════════════════════════════════ */
+.sch-editor {
+  background: var(--sch-editor-bg);
+  border-top: 1px solid var(--sch-editor-border);
+  padding: 12px 14px;
+  margin-top: auto;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.sch-editor__row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.sch-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.sch-field__label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sch-label-color);
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.sch-field__select,
+.sch-field__input {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--sch-input-border);
+  background-color: var(--sch-input-bg);
+  color: var(--sch-input-text);
+  font-size: 12px;
+  font-family: 'Nunito', Arial, sans-serif;
+  outline: none;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.sch-field__select:focus,
+.sch-field__input:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.15);
+}
+
+[data-theme="dark"] .sch-field__select:focus,
+[data-theme="dark"] .sch-field__input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+/* calendar icon tint in dark mode */
+[data-theme="dark"] .sch-field__input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.65);
+  cursor: pointer;
+}
+
+.sch-editor__footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Update button */
+.sch-update-btn {
+  padding: 6px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--sch-input-border);
+  background: transparent;
+  color: var(--sch-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sch-update-btn:hover {
+  background: var(--sch-card-bg);
+  color: var(--sch-text-primary);
+}
+
+/* Blue when dirty (unsaved changes) */
+.sch-update-btn--dirty {
+  background: #1976d2;
+  color: #ffffff;
+  border-color: #1976d2;
+}
+.sch-update-btn--dirty:hover { background: #125ca1; border-color: #125ca1; }
+[data-theme="dark"] .sch-update-btn--dirty { background: #3b82f6; border-color: #3b82f6; }
+[data-theme="dark"] .sch-update-btn--dirty:hover { background: #2563eb; border-color: #2563eb; }
+
+/* ══════════════════════════════════════════
+   Modal
+══════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--sch-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.sch-modal {
+  background: var(--sch-modal-bg);
+  width: 420px;
+  border-radius: 10px;
+  border: 1px solid var(--sch-card-border);
+  box-shadow: 0 12px 40px var(--sch-card-shadow);
+  overflow: hidden;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.sch-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--sch-divider);
+}
+.sch-modal__header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--sch-text-primary);
+  transition: color 0.2s;
+}
+
+.sch-modal__close {
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--sch-text-muted);
+  transition: color 0.15s;
+  padding: 4px;
+}
+.sch-modal__close:hover { color: var(--sch-text-primary); }
+
+.sch-modal__body { padding: 18px 20px 20px; }
+
+.sch-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--sch-divider);
+}
+
+/* Form fields inside modal */
+.sch-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 14px;
+}
+.sch-form-group label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  color: var(--sch-label-color);
+  transition: color 0.2s;
+}
+.sch-form-group input,
+.sch-form-group select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--sch-input-border);
+  background-color: var(--sch-input-bg);
+  color: var(--sch-input-text);
+  font-size: 13px;
+  font-family: 'Nunito', Arial, sans-serif;
+  outline: none;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+.sch-form-group input:focus,
+.sch-form-group select:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.15);
+}
+[data-theme="dark"] .sch-form-group input:focus,
+[data-theme="dark"] .sch-form-group select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+[data-theme="dark"] .sch-form-group input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.65);
+  cursor: pointer;
+}
+
+.scheduler-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.sch-search-input {
+  width: 240px;
+  padding: 9px 14px;
+  margin-right: 10px;
+  font-size: 14px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #333;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.sch-search-input:hover {
+  border-color: #a0a4ab;
+}
+
+.sch-search-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}

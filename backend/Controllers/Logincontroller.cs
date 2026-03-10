@@ -1,0 +1,162 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using MySql.Data.MySqlClient;
+
+namespace YourApp.Controllers
+{
+    // ─────────────────────────────────────────────
+    //  REQUEST / RESPONSE MODELS
+    // ─────────────────────────────────────────────
+    public class LoginRequest
+    {
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+
+    public class LoginResponse
+    {
+        public bool   Success  { get; set; }
+        public string Message  { get; set; } = string.Empty;
+        public string Token    { get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
+    }
+
+    // ─────────────────────────────────────────────
+    //  LOGIN CONTROLLER
+    // ─────────────────────────────────────────────
+    [ApiController]
+    [Route("api/[controller]")]
+    public class LoginController : ControllerBase
+    {
+        private readonly IConfiguration _config;
+
+        public LoginController(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        // POST: api/Login
+        [HttpPost]
+        public IActionResult Login([FromBody] LoginRequest request)
+        {
+            // ── 1. Basic validation ────────────────────────────────────
+            if (string.IsNullOrWhiteSpace(request.Username) ||
+                string.IsNullOrWhiteSpace(request.Password))
+            {
+                return BadRequest(new LoginResponse
+                {
+                    Success = false,
+                    Message = "Username and password are required."
+                });
+            }
+
+            // ── 2. Check credentials in DB ─────────────────────────────
+            var user = GetUserFromDb(request.Username, request.Password);
+
+            if (user == null)
+            {
+                return Unauthorized(new LoginResponse
+                {
+                    Success = false,
+                    Message = "Invalid Employee ID or Password."
+                });
+            }
+
+            // ── 3. Generate JWT token ──────────────────────────────────
+            string token = GenerateJwtToken(user.Username);
+
+            return Ok(new LoginResponse
+            {
+                Success  = true,
+                Message  = "Login successful.",
+                Token    = token,
+                Username = user.Username
+            });
+        }
+
+        // ─────────────────────────────────────────────
+        //  DB LOOKUP — checks EmpID + Password in `Employee Data` table
+        // ─────────────────────────────────────────────
+        private UserRecord? GetUserFromDb(string empId, string password)
+        {
+            string connStr = _config.GetConnectionString("DefaultConnection")!;
+
+            using var conn = new MySqlConnection(connStr);
+
+            try
+            {
+                conn.Open();
+
+                // Note: backticks around `Employee Data` because table name has a space
+                string query = @"
+                    SELECT EmpID
+                    FROM   `Employee Data`
+                    WHERE  EmpID    = @EmpID
+                      AND  Password = @Password
+                    LIMIT 1";
+
+                using var cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@EmpID",    empId);
+                cmd.Parameters.AddWithValue("@Password", password);
+
+                using var reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    return new UserRecord
+                    {
+                        Username = reader["EmpID"].ToString()!
+                    };
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[DB Error] {ex.Message}");
+                return null;
+            }
+        }
+
+        // ─────────────────────────────────────────────
+        //  JWT TOKEN GENERATOR
+        // ─────────────────────────────────────────────
+        private string GenerateJwtToken(string username)
+        {
+            string jwtKey   = _config["Jwt:Key"]!;
+            string issuer   = _config["Jwt:Issuer"]!;
+            string audience = _config["Jwt:Audience"]!;
+            int    expiry   = int.Parse(_config["Jwt:ExpiryMinutes"] ?? "60");
+
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var token = new JwtSecurityToken(
+                issuer:             issuer,
+                audience:           audience,
+                claims:             claims,
+                expires:            DateTime.UtcNow.AddMinutes(expiry),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+    }
+
+    // ─────────────────────────────────────────────
+    //  INTERNAL MODEL
+    // ─────────────────────────────────────────────
+    internal class UserRecord
+    {
+        public string Username { get; set; } = string.Empty;
+    }
+}
