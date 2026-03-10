@@ -1,0 +1,96 @@
+===============================================================
+  XCEPTION.AI (NEXIS) - Project Requirements
+  Stack: .NET 10 (C#) Backend + React 19 + Vite 7 Frontend
+===============================================================
+
+----------------------------------------------------------------
+  SYSTEM PREREQUISITES
+----------------------------------------------------------------
+Node.js              >= 18.x        https://nodejs.org
+npm                  >= 9.x         (bundled with Node.js)
+.NET SDK             >= 10.0        https://dotnet.microsoft.com/download
+Git                  >= 2.x         https://git-scm.com
+MySQL Server         >= 8.x         https://dev.mysql.com/downloads/
+
+----------------------------------------------------------------
+  FRONTEND DEPENDENCIES  (frontend/package.json)
+----------------------------------------------------------------
+
+# Core
+react                          ^19.2.0
+react-dom                      ^19.2.0
+react-router-dom               ^7.13.1
+
+# Icons
+@fortawesome/fontawesome-free  ^7.2.0
+
+# Dev Dependencies
+vite                           ^7.3.1
+@vitejs/plugin-react           ^5.1.1
+eslint                         ^9.39.1
+eslint-plugin-react-hooks      ^7.0.1
+eslint-plugin-react-refresh    ^0.4.24
+@eslint/js                     ^9.39.1
+@types/react                   ^19.2.7
+@types/react-dom               ^19.2.3
+globals                        ^16.5.0
+
+----------------------------------------------------------------
+  BACKEND DEPENDENCIES  (backend/*.csproj - NuGet Packages)
+----------------------------------------------------------------
+
+# Target Framework
+.NET SDK                                        10.0
+
+# Authentication & Security
+Microsoft.AspNetCore.Authentication.JwtBearer   10.0.3
+Microsoft.IdentityModel.Tokens                  8.16.0
+
+# Database
+MySql.Data                                      9.6.0
+
+# API Documentation
+Microsoft.AspNetCore.OpenApi                    10.0.3
+Swashbuckle.AspNetCore                          10.1.4
+
+----------------------------------------------------------------
+  INSTALLATION INSTRUCTIONS
+----------------------------------------------------------------
+
+# 1. Clone the repository
+    git clone https://github.com/Abhitruezenix/nexis-truezenix-app.git
+    cd nexis-truezenix-app
+
+# 2. Install frontend dependencies
+    cd frontend
+    npm install
+
+# 3. Restore backend NuGet packages
+    cd ../backend
+    dotnet restore
+
+# 4. Run frontend (development)
+    cd frontend
+    npm run dev
+    # Runs at: http://localhost:5173
+
+# 5. Run backend (development)
+    cd backend
+    dotnet run
+    # Runs at: https://localhost:7000
+    # Swagger UI: https://localhost:7000/swagger
+
+----------------------------------------------------------------
+  ENVIRONMENT VARIABLES
+----------------------------------------------------------------
+
+# Frontend (.env in /frontend)
+    VITE_API_BASE_URL=https://localhost:7000/api
+
+# Backend (appsettings.Development.json in /backend)
+    ConnectionStrings__DefaultConnection=server=localhost;database=nexis_db;user=root;password=<your_password>
+    JwtSettings__SecretKey=<your_jwt_secret>
+    JwtSettings__Issuer=XceptionAI
+    JwtSettings__Audience=XceptionAIClient
+
+===============================================================
