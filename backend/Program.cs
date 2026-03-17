@@ -30,7 +30,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReact", policy =>
     {
-        policy.WithOrigins("http://localhost:5173") // React Vite default port
+        policy.WithOrigins("http://localhost:5174") // React Vite default port
               .AllowAnyHeader()
               .AllowAnyMethod();
     });

@@ -41,9 +41,9 @@ export default function Approuter() {
           </PrivateRoute>
         }
       >
-        <Route path="/home"       element={<UserDashboard />} />
+        <Route path="/home"       element={<UserManagement />} />
         <Route path="/dashboard"  element={<DashboardPage />} />
-        <Route path="/dashboards" element={<UserDashboard />} />
+        <Route path="/dashboards" element={<UserManagement />} />
         <Route path="/workflow"   element={<Workflow />} />
         <Route path="/reports"    element={<Reports />} />
         <Route path="/users"      element={<UserManagement />} />
