@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BFnQK2ZbTJo=",
+  "dgSpecHash": "wruaY9YHiwg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Venkata Abhishek V\\Desktop\\React-Nexis-App\\backend\\backend.csproj",
+  "projectFilePath": "C:\\Users\\Venkata Abhishek V\\Desktop\\Nexis-App\\nexis-truezenix-app\\backend\\backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Venkata Abhishek V\\.nuget\\packages\\bouncycastle.cryptography\\2.6.2\\bouncycastle.cryptography.2.6.2.nupkg.sha512",
     "C:\\Users\\Venkata Abhishek V\\.nuget\\packages\\google.protobuf\\3.32.0\\google.protobuf.3.32.0.nupkg.sha512",

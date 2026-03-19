@@ -8,19 +8,45 @@ const SYSTEMS = {
     { id: 'chr',  name: 'Chromeleon',    make: 'Thermo Fisher', model: '7.3',        version: '7.3.2', site: 'Site A - Lab 2', status: 'in-progress', connection: 'online',  risk: 3,  checks: 18, exceptions: 2  },
     { id: 'lab',  name: 'LabSolutions',  make: 'Shimadzu',      model: '5.97',       version: '5.100', site: 'Site B - Lab 1', status: 'pending',     connection: 'offline', risk: 0,  checks: 0,  exceptions: 0  },
   ],
-  'Non-CDS': [
-    { id: 'port', name: 'Port Based',    make: 'Generic',       model: 'RS232/IP',   version: '2.1',   site: 'Site C - Lab 1', status: 'configured',  connection: 'online',  risk: 5,  checks: 12, exceptions: 1  },
-    { id: 'file', name: 'File Based',    make: 'Generic',       model: 'CSV/XML',    version: '1.0',   site: 'Site C - Lab 2', status: 'pending',     connection: 'offline', risk: 0,  checks: 0,  exceptions: 0  },
-  ],
   Manufacturing: [
     { id: 'blen', name: 'Bin Blender',   make: 'GlobePharma',   model: 'BIN-100',    version: '4.2',   site: 'Site B - Mfg',   status: 'configured',  connection: 'online',  risk: 8,  checks: 20, exceptions: 5  },
     { id: 'coat', name: 'Tablet Coater', make: 'Generic',       model: 'Labcoat II', version: '3.1',   site: 'Site B - Mfg',   status: 'in-progress', connection: 'online',  risk: 2,  checks: 14, exceptions: 1  },
   ],
-  Enterprise: [
-    { id: 'lims', name: 'LIMS',          make: 'LabVantage',    model: '8.7',        version: '8.7.2', site: 'Site A - QA',    status: 'configured',  connection: 'online',  risk: 1,  checks: 30, exceptions: 0  },
-    { id: 'sap',  name: 'SAP QM',        make: 'SAP',           model: 'S/4HANA',    version: '2023',  site: 'Site A - IT',    status: 'pending',     connection: 'offline', risk: 0,  checks: 0,  exceptions: 0  },
-    { id: 'erp',  name: 'ERP System',    make: 'Oracle',        model: 'Cloud ERP',  version: '23.4',  site: 'Site A - IT',    status: 'configured',  connection: 'online',  risk: 2,  checks: 15, exceptions: 0  },
+  Packaging: [
+    { id: 'pack1', name: 'Blister Pack',  make: 'Uhlmann',  model: 'UPS 300', version: '2.1', site: 'Site C - Pack', status: 'configured',  connection: 'online',  risk: 3,  checks: 10, exceptions: 1 },
+    { id: 'pack2', name: 'Carton Sealer', make: 'Marchesini', model: 'MA 305', version: '1.8', site: 'Site C - Pack', status: 'pending',    connection: 'offline', risk: 0,  checks: 0,  exceptions: 0 },
   ],
+  Warehouse: [
+    { id: 'wh1', name: 'Cold Storage',   make: 'Thermo', model: 'CryoGuard', version: '3.0', site: 'Site D - WH',  status: 'configured',  connection: 'online',  risk: 2,  checks: 8,  exceptions: 0 },
+    { id: 'wh2', name: 'Dispatch Unit',  make: 'Generic', model: 'DU-100',   version: '1.2', site: 'Site D - WH',  status: 'in-progress', connection: 'online',  risk: 1,  checks: 5,  exceptions: 0 },
+  ],
+  Utilities: [
+    { id: 'util1', name: 'HVAC System',  make: 'Carrier', model: 'AHU-40',   version: '4.1', site: 'Site A - Util', status: 'configured',  connection: 'online',  risk: 4,  checks: 12, exceptions: 2 },
+    { id: 'util2', name: 'Pure Water',   make: 'Millipore', model: 'Milli-Q', version: '2.5', site: 'Site A - Util', status: 'configured', connection: 'online',  risk: 2,  checks: 9,  exceptions: 0 },
+  ],
+  Engineering: [
+    { id: 'eng1', name: 'Autoclave',     make: 'Tuttnauer', model: '5596EP', version: '3.3', site: 'Site B - Eng', status: 'configured',  connection: 'online',  risk: 6,  checks: 15, exceptions: 3 },
+    { id: 'eng2', name: 'Oven Validator', make: 'Memmert', model: 'UF110',  version: '2.0', site: 'Site B - Eng', status: 'pending',     connection: 'offline', risk: 0,  checks: 0,  exceptions: 0 },
+  ],
+  Enterprise: [
+    { id: 'lims', name: 'LIMS',          make: 'LabVantage', model: '8.7',      version: '8.7.2', site: 'Site A - QA', status: 'configured',  connection: 'online',  risk: 1,  checks: 30, exceptions: 0 },
+    { id: 'sap',  name: 'SAP QM',        make: 'SAP',        model: 'S/4HANA',  version: '2023',  site: 'Site A - IT', status: 'pending',     connection: 'offline', risk: 0,  checks: 0,  exceptions: 0 },
+    { id: 'erp',  name: 'ERP System',    make: 'Oracle',     model: 'Cloud ERP', version: '23.4', site: 'Site A - IT', status: 'configured',  connection: 'online',  risk: 2,  checks: 15, exceptions: 0 },
+  ],
+};
+
+/* ── Tab order ── */
+const CAT_TABS = ['Quality','Manufacturing','Packaging','Warehouse','Utilities','Engineering','Enterprise'];
+
+/* ── Sub-cards shown after tab click (before system drill-down) ── */
+const SUB_CARDS = {
+  Quality:       [ { key:'cds',      icon:'fa-database',           name:'CDS',          sub:'Computerized System' }, { key:'noncds', icon:'fa-list-check',           name:'Non-CDS',      sub:'Manual System'        } ],
+  Manufacturing: [ { key:'batch',    icon:'fa-industry',           name:'Batch',         sub:'Batch Processing'    }, { key:'proc',   icon:'fa-gears',                name:'Process',      sub:'Process Flow'         } ],
+  Packaging:     [ { key:'primary',  icon:'fa-box',                name:'Primary',       sub:'Primary Packing'     }, { key:'sec',    icon:'fa-boxes-stacked',        name:'Secondary',    sub:'Secondary Packing'    } ],
+  Warehouse:     [ { key:'storage',  icon:'fa-warehouse',          name:'Storage',       sub:'Storage Mgmt'        }, { key:'dist',   icon:'fa-truck',                name:'Distribution', sub:'Distribution Flow'    } ],
+  Utilities:     [ { key:'hvac',     icon:'fa-wind',               name:'HVAC',          sub:'Air Systems'         }, { key:'water',  icon:'fa-droplet',              name:'Water',        sub:'Water Systems'        } ],
+  Engineering:   [ { key:'proj',     icon:'fa-diagram-project',    name:'Projects',      sub:'Project Mgmt'        }, { key:'maint',  icon:'fa-screwdriver-wrench',   name:'Maintenance',  sub:'Asset Care'           } ],
+  Enterprise:    [ { key:'erp',      icon:'fa-building',           name:'ERP',           sub:'Enterprise Planning' }, { key:'anal',   icon:'fa-chart-line',           name:'Analytics',    sub:'Business Insights'    } ],
 };
 
 /* ── Route map: systems with their own dedicated page ── */
@@ -28,7 +54,7 @@ const SYS_ROUTES = {
   emp: '/configurations/system/empower',
 };
 
-const CAT_ICONS = { Quality: '⚗️', 'Non-CDS': '🔌', Manufacturing: '🏭', Enterprise: '🏢' };
+
 
 const CHECKLISTS = {
   emp:  [
@@ -295,8 +321,9 @@ export default function ConfigSystem() {
   const location = useLocation();
 
   const [level,     setLevel]     = useState(location.state?.level ?? 0);
-  const [selCat,    setSelCat]    = useState(location.state?.cat   ?? '');
+  const [selCat,    setSelCat]    = useState(location.state?.cat   ?? null);
   const [selSys,    setSelSys]    = useState(null);
+  const [selSubCard, setSelSubCard] = useState(location.state?.subCard ?? null);
   const [activeTab, setActiveTab] = useState('checklist');
 
   // If state carries level 1, clear window state so refresh goes to level 0
@@ -312,7 +339,7 @@ export default function ConfigSystem() {
   /* ── ONLY CHANGE: check SYS_ROUTES first, navigate if exists ── */
   function goLevel2(sys) {
     if (SYS_ROUTES[sys.id]) {
-      navigate(SYS_ROUTES[sys.id], { state: { sys, cat: selCat } });
+      navigate(SYS_ROUTES[sys.id], { state: { sys, cat: selCat, subCard: selSubCard } });
     } else {
       setSelSys(sys);
       setActiveTab('checklist');
@@ -320,71 +347,71 @@ export default function ConfigSystem() {
     }
   }
 
-  /* ── LEVEL 0 ── */
-  if (level === 0) return (
+  /* ── LEVEL 0 + 1 combined — tabs + system cards ── */
+  if (level === 0 || level === 1) return (
     <div className="cs-page">
+
+      {/* Page header */}
       <div className="cs-page__header">
         <div>
           <h1 className="cs-page__title">System Configurations</h1>
-          <p className="cs-page__subtitle">Configure instruments by category</p>
+          <p className="cs-page__subtitle">Select a category and configure instruments</p>
         </div>
         <button className="btn btn--primary">+ Register System</button>
       </div>
-      <div className="cs-categories">
-        {Object.entries(SYSTEMS).map(([cat, systems]) => (
-          <div key={cat} className="cs-cat-card" onClick={() => goLevel1(cat)}>
-            <div className="cs-cat-card__header">
-              <div className="cs-cat-card__title">
-                <span>{CAT_ICONS[cat]}</span>
-                <span>{cat}</span>
-              </div>
-              <span className="cs-cat-card__arrow">›</span>
-            </div>
-            <div className="cs-cat-card__list">
-              {systems.map(sys => (
-                <div key={sys.id} className="cs-sys-row">
-                  <span className="cs-sys-row__dot" style={{ background: statusColor(sys.status) }} />
-                  <span className="cs-sys-row__name">{sys.name}</span>
-                  <span className="cs-sys-row__status" style={{ color: statusColor(sys.status) }}>{sys.status}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
 
-  /* ── LEVEL 1 ── */
-  if (level === 1) return (
-    <div className="cs-page">
-      <div className="breadcrumb">
-        <span className="breadcrumb__link" onClick={() => navigate('/dashboard')}>System Dashboard</span>
-        <span className="breadcrumb__sep">›</span>
-        <span className="breadcrumb__link" onClick={goLevel0}>System Configurations</span>
-        <span className="breadcrumb__sep">›</span>
-        <span className="breadcrumb__current">{CAT_ICONS[selCat]} {selCat}</span>
-      </div>
-      <div className="cs-page__header">
-        <div>
-          <h1 className="cs-page__title">{CAT_ICONS[selCat]} {selCat}</h1>
-          <p className="cs-page__subtitle">Select a system to configure</p>
-        </div>
-        <button className="btn btn--secondary" onClick={goLevel0}>← All Categories</button>
-      </div>
-      <div className="cs-sys-cards">
-        {SYSTEMS[selCat].map(sys => (
-          <div key={sys.id} className="cs-sys-card" onClick={() => goLevel2(sys)}>
-            <div className="cs-sys-card__header">
-              <span className="cs-sys-card__dot" style={{ background: statusColor(sys.status) }} />
-              <span className="cs-sys-card__arrow">›</span>
-            </div>
-            <div className="cs-sys-card__name">{sys.name}</div>
-            <div className="cs-sys-card__make">{sys.make} — {sys.model}</div>
-            <div className="cs-sys-card__status" style={{ color: statusColor(sys.status) }}>{sys.status}</div>
-          </div>
+      {/* Category tabs */}
+      <div className="cs-cat-tabs">
+        {CAT_TABS.map(cat => (
+          <button
+            key={cat}
+            className={`cs-cat-tab ${selCat === cat ? 'cs-cat-tab--active' : ''}`}
+            onClick={() => { setSelCat(cat); setSelSubCard(null); }}
+          >
+            {cat}
+          </button>
         ))}
       </div>
+
+      {/* Sub-cards — shown after a tab is selected */}
+      {selCat && (
+        <div className="cs-sub-cards">
+          {(SUB_CARDS[selCat] || []).map(sc => (
+            <div
+              key={sc.key}
+              className={`cs-sub-card ${selSubCard === sc.key ? 'cs-sub-card--active' : ''}`}
+              onClick={() => setSelSubCard(sc.key)}
+            >
+              <i className={`fa-solid ${sc.icon} cs-sub-card__icon`} />
+              <div className="cs-sub-card__body">
+                <div className="cs-sub-card__name">{sc.name}</div>
+                <div className="cs-sub-card__sub">{sc.sub}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* System cards — only shown after a sub-card is selected */}
+      {selCat && selSubCard && (
+        <div className="cs-sys-cards">
+          {(SYSTEMS[selCat] || []).map(sys => (
+            <div key={sys.id} className="cs-sys-card" onClick={() => goLevel2(sys)}>
+              {/* Document icon top-left, dot + arrow top-right */}
+              <div className="cs-sys-card__header">
+                <div className="cs-sys-card__icon-wrap">
+                  <i className="fa-regular fa-file" />
+                </div>
+                <span className="cs-sys-card__arrow">›</span>
+              </div>
+              <div className="cs-sys-card__name">{sys.name}</div>
+              <div className="cs-sys-card__make">{sys.make}<br/>{sys.model}</div>
+              <div className="cs-sys-card__status" style={{ color: statusColor(sys.status) }}>{sys.status}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
     </div>
   );
 
@@ -396,7 +423,7 @@ export default function ConfigSystem() {
         <span className="breadcrumb__sep">›</span>
         <span className="breadcrumb__link" onClick={goLevel0}>System Configurations</span>
         <span className="breadcrumb__sep">›</span>
-        <span className="breadcrumb__link" onClick={() => setLevel(1)}>{selCat}</span>
+        <span className="breadcrumb__link" onClick={() => { setLevel(0); }}>{selCat}</span>
         <span className="breadcrumb__sep">›</span>
         <span className="breadcrumb__current">{selSys.name}</span>
       </div>
