@@ -82,7 +82,16 @@ namespace YourApp.Controllers
         // ─────────────────────────────────────────────
         private UserRecord? GetUserFromDb(string empId, string password)
         {
-            string connStr = _config.GetConnectionString("DefaultConnection")!;
+            // ── Railway env vars → fallback to appsettings.json locally ──
+            var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+            var dbPort = Environment.GetEnvironmentVariable("DB_PORT") ?? "3306";
+            var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+            var dbUser = Environment.GetEnvironmentVariable("DB_USER");
+            var dbPass = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+            string connStr = (dbHost != null)
+                ? $"Server={dbHost};Port={dbPort};Database={dbName};User={dbUser};Password={dbPass};"
+                : _config.GetConnectionString("DefaultConnection")!;
 
             using var conn = new MySqlConnection(connStr);
 
@@ -90,7 +99,6 @@ namespace YourApp.Controllers
             {
                 conn.Open();
 
-                // Note: backticks around `Employee Data` because table name has a space
                 string query = @"
                     SELECT EmpID
                     FROM   `Employee Data`
