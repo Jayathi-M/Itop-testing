@@ -101,9 +101,9 @@ namespace YourApp.Controllers
 
                 string query = @"
                     SELECT EmpID
-                    FROM   `Employee Data`
+                    FROM   `employee data`
                     WHERE  EmpID    = @EmpID
-                      AND  Password = @Password
+                    AND  Password = @Password
                     LIMIT 1";
 
                 using var cmd = new MySqlCommand(query, conn);
