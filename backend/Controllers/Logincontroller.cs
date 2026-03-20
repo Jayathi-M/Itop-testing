@@ -77,6 +77,34 @@ namespace YourApp.Controllers
             });
         }
 
+        // GET: api/Login/test
+        [HttpGet("test")]
+        public IActionResult Test()
+        {
+            var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+            var dbPort = Environment.GetEnvironmentVariable("DB_PORT") ?? "3306";
+            var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+            var dbUser = Environment.GetEnvironmentVariable("DB_USER");
+            var dbPass = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+            string connStr = (dbHost != null)
+                ? $"Server={dbHost};Port={dbPort};Database={dbName};User={dbUser};Password={dbPass};"
+                : _config.GetConnectionString("DefaultConnection")!;
+
+            try
+            {
+                using var conn = new MySqlConnection(connStr);
+                conn.Open();
+                var cmd = new MySqlCommand("SELECT COUNT(*) FROM `employee data`", conn);
+                var count = cmd.ExecuteScalar();
+                return Ok(new { status = "Connected!", host = dbHost, database = dbName, rowCount = count });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { status = "Failed!", error = ex.Message, host = dbHost, database = dbName });
+            }
+        }
+
         // ─────────────────────────────────────────────
         //  DB LOOKUP — checks EmpID + Password in `Employee Data` table
         // ─────────────────────────────────────────────
