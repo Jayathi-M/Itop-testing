@@ -82,7 +82,6 @@ namespace YourApp.Controllers
         // ─────────────────────────────────────────────
         private UserRecord? GetUserFromDb(string empId, string password)
         {
-            // ── Railway env vars → fallback to appsettings.json locally ──
             var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
             var dbPort = Environment.GetEnvironmentVariable("DB_PORT") ?? "3306";
             var dbName = Environment.GetEnvironmentVariable("DB_NAME");
@@ -93,11 +92,15 @@ namespace YourApp.Controllers
                 ? $"Server={dbHost};Port={dbPort};Database={dbName};User={dbUser};Password={dbPass};"
                 : _config.GetConnectionString("DefaultConnection")!;
 
+            Console.WriteLine($"[DB] Connecting to: Server={dbHost};Port={dbPort};Database={dbName};User={dbUser}");
+            Console.WriteLine($"[DB] EmpID={empId}");
+
             using var conn = new MySqlConnection(connStr);
 
             try
             {
                 conn.Open();
+                Console.WriteLine("[DB] Connection opened successfully");
 
                 string query = @"
                     SELECT EmpID
@@ -114,17 +117,20 @@ namespace YourApp.Controllers
 
                 if (reader.Read())
                 {
+                    Console.WriteLine("[DB] User found!");
                     return new UserRecord
                     {
                         Username = reader["EmpID"].ToString()!
                     };
                 }
 
+                Console.WriteLine("[DB] No user matched the credentials");
                 return null;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"[DB Error] {ex.Message}");
+                Console.WriteLine($"[DB Error] {ex.StackTrace}");
                 return null;
             }
         }
