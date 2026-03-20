@@ -6,8 +6,8 @@ import './Sidebar.css';
 const TOP_NAV = [
   { id: 'chart',    icon: 'fa-solid fa-chart-column',   path: '/dashboard' },
   { id: 'gear',     icon: 'fa-solid fa-gear',            path: null         },
-  { id: 'user',     icon: 'fa-solid fa-user',            path: '/users'     },
   { id: 'workflow', icon: 'fa-solid fa-chart-diagram',   path: '/workflow'  },
+  { id: 'user',     icon: 'fa-solid fa-user',            path: '/users'     },
 ];
 
 const BTM_NAV = [

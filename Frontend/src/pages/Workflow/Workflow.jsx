@@ -227,7 +227,6 @@ export default function WorkflowPage() {
                     <th key={k} className="wf-th--sortable" onClick={()=>handleSort(k)}>{l}<SortIcon k={k}/></th>
                   ))}
                 </tr>
-                <tr className="wf-thead-sub">{Array(8).fill(null).map((_,i)=><th key={i}><span className="wf-sub-arrow" onClick={()=>{}}>↑</span></th>)}</tr>
               </thead>
               <tbody>
                 {paged1.length===0?(<tr><td colSpan={8} className="wf-empty">No entries found.</td></tr>)
