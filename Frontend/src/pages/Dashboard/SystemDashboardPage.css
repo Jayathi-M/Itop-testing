@@ -110,32 +110,47 @@
   overflow: hidden;
 }
 
-.sd__stat--purple { background: linear-gradient(135deg, #3730a3 0%, #4f46e5 100%); }
-.sd__stat--green  { background: linear-gradient(135deg, #065f46 0%, #059669 100%); }
-.sd__stat--blue   { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); }
+/* ── Stat card backgrounds — pastel to match image ── */
+.sd__stat--1 { background: #f7f7ff }  
+.sd__stat--2 { background: #eefbe7 }  
+.sd__stat--3 { background: #e6f9fe }  
 
-.sd__stat-icon {
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  font-size: 22px;
-  opacity: 0.35;
-  color: #fff;
+/* Stat card row layout */
+.sd__stat {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 14px;
 }
 
+/* Icon circle */
+.sd__stat-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.sd__stat-icon-wrap--1 { background: #7c3aed; color: #fff; }
+.sd__stat-icon-wrap--2 { background: #16a34a; color: #fff; }
+.sd__stat-icon-wrap--3 { background: #0891b2; color: #fff; }
+
 .sd__stat-val {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 800;
-  color: #fff;
+  color: #111827;
   font-family: var(--font-heading, sans-serif);
   letter-spacing: -1px;
-  line-height: 1;
+  line-height: 1.1;
 }
 
 .sd__stat-lbl {
-  font-size: 12px;
-  color: rgba(255,255,255,0.75);
+  font-size: 13px;
+  color: #4b5563;
   font-weight: 500;
+  margin-top: 2px;
 }
 
 /* ── Date picker row ── */
@@ -557,15 +572,14 @@
 ══════════════════════════════════════ */
 .sd__transaction {
   display: flex;
-  flex-direction: flex;
+  flex-direction: column;
   gap: 12px;
-  padding: 24px 15px;
+  padding: 24px 20px;
 }
 
 .txn-card {
   display: flex;
   align-items: center;
-  width: 50%;
   gap: 16px;
   padding: 18px 20px;
   background: var(--bg2, #fff);
@@ -696,4 +710,122 @@
   color: #f1f5f9;
   font-weight: 700;
   font-family: var(--font-mono, monospace);
+}
+
+/* ── Bubble chart ── */
+/* ══════════════════════════════════════
+   BUBBLE CHART
+══════════════════════════════════════ */
+.bubble-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Staggered fade-in + scale-up animation for each bubble */
+.bc-bubble {
+  animation: bcPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+/* Total — first, no delay */
+.bc-bubble--0 { animation-delay: 0s; }
+/* Open — appears after Total */
+.bc-bubble--1 { animation-delay: 0.45s; }
+/* Closed — appears last */
+.bc-bubble--2 { animation-delay: 0.85s; }
+
+@keyframes bcPop {
+  0%   { opacity: 0; transform: scale(0.15); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Legend */
+.bubble-legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  animation: bcFadeIn 0.4s ease 1.1s both;
+}
+
+@keyframes bcFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.bubble-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text2, #374151);
+}
+
+.bubble-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.bubble-tooltip {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+/* ══════════════════════════════════════
+   LINE GRAPH DRAW ANIMATION
+   Uses large fixed strokeDasharray — no JS getTotalLength needed
+══════════════════════════════════════ */
+
+/* Lines draw left → right */
+.lg-line {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: lgDraw 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.lg-line--open   { animation-duration: 1.4s; animation-delay: 0s; }
+.lg-line--closed { animation-duration: 1.6s; animation-delay: 0.3s; }
+
+@keyframes lgDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Area fills fade in after lines */
+.lg-area {
+  opacity: 0;
+  animation: lgFade 0.7s ease forwards;
+}
+.lg-area--open   { animation-delay: 1.2s; }
+.lg-area--closed { animation-delay: 1.5s; }
+
+@keyframes lgFade {
+  to { opacity: 1; }
+}
+
+/* End dots pop in after their line finishes */
+.lg-dot {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: lgDotPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.lg-dot--open   { animation-delay: 1.35s; }
+.lg-dot--closed { animation-delay: 1.85s; }
+
+@keyframes lgDotPop {
+  0%   { opacity: 0; transform: scale(0); }
+  100% { opacity: 1; transform: scale(1); }
 }

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logoImg from '../../../assets/react.svg';
+import logoImg from '../../../assets/Logo.svg';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './Header.css';
 
@@ -41,6 +41,7 @@ export default function Header() {
       {/* Logo */}
       <div className="topbar__logo">
         <img src={logoImg} alt="Logo" className="topbar__logo-img" />
+        <h1 style={{fontSize:'18px'}}>Xception AI</h1>
       </div>
 
       {/* Profile button + dropdown */}

@@ -19,11 +19,12 @@
 /* Logo */
 .topbar__logo {
   display: flex;
+  gap: 5px;
   align-items: center;
 }
 
 .topbar__logo-img {
-  height: 55px;
+  height: 36px;
   width: auto;
   object-fit: contain;
   display: block;

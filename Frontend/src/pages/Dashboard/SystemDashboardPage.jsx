@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./SystemDashboardPage.css";
 
@@ -45,96 +45,69 @@ const CLOSED_PTS = [80,  60,  95,  50,  70,  40,  55,  30,  23 ];
 /* ══════════════════════════════════════
    DONUT CHART — with hover tooltip
 ══════════════════════════════════════ */
-function DonutChart() {
-  const [hovered, setHovered] = useState(null);
-  const cx = 70, cy = 70, r = 50, sw = 20;
-  const circ = 2 * Math.PI * r;
-
-  const segs = [
-    { pct:0.70, color:'#2a2fa8', label:'Total',  value:'9187', offset:0    },
-    { pct:0.20, color:'#7c3aed', label:'Open',   value:'2625', offset:0.70 },
-    { pct:0.10, color:'#111827', label:'Closed', value:'1312', offset:0.90 },
+function BubbleChart() {
+  // Total sum = 13124 → 70% + 20% + 10% = 100%
+  const data = [
+    { label:'Total',  value:9187, pct:'70%', color:'#2a2fa8', cx:82,  cy:105, r:72  },
+    { label:'Open',   value:2625, pct:'20%', color:'#a78bfa', cx:148, cy:70,  r:48  },
+    { label:'Closed', value:1312, pct:'10%', color:'#111827', cx:158, cy:128, r:32  },
   ];
 
-  /* compute arc midpoint for tooltip anchor */
-  function arcMid(seg) {
-    const midAngle = (seg.offset + seg.pct / 2) * 2 * Math.PI - Math.PI / 2;
-    const tr = r + sw / 2 + 4;
-    return {
-      x: cx + tr * Math.cos(midAngle),
-      y: cy + tr * Math.sin(midAngle),
-    };
-  }
+  const [hovered, setHovered] = useState(null);
 
+  // Render back-to-front (Total first → gets covered by Open → then Closed on top)
+  // This makes overlapping areas show only the top bubble — no blending
   return (
-    <div className="donut-wrap">
-      <div style={{ position:'relative', width:140, height:140 }}>
-        <svg width="140" height="140" viewBox="0 0 140 140">
-          {segs.map((s, i) => {
-            const isHov = hovered === i;
-            return (
-              <circle key={i} cx={cx} cy={cy} r={r}
-                fill="none"
-                stroke={s.color}
-                strokeWidth={isHov ? sw + 4 : sw}
-                strokeDasharray={`${s.pct * circ} ${circ}`}
-                strokeDashoffset={-s.offset * circ}
-                style={{
-                  transform:'rotate(-90deg)',
-                  transformOrigin:`${cx}px ${cy}px`,
-                  cursor:'pointer',
-                  transition:'stroke-width 0.15s',
-                  filter: isHov ? `drop-shadow(0 0 6px ${s.color}88)` : 'none',
-                }}
-                onMouseEnter={() => setHovered(i)}
-                onMouseLeave={() => setHovered(null)}
-              />
-            );
-          })}
-
-          {/* Center text — changes on hover */}
-          <text x={cx} y={cy - 6} textAnchor="middle" fill="#fff" fontSize="13" fontWeight="700">
-            {hovered !== null ? segs[hovered].value : '70%'}
-          </text>
-          <text x={cx} y={cy + 9} textAnchor="middle" fill="#aaa" fontSize="9">
-            {hovered !== null ? segs[hovered].label : 'Total'}
-          </text>
-          <text x={cx} y={cy + 20} textAnchor="middle" fill="#aaa" fontSize="8">
-            {hovered !== null ? `${(segs[hovered].pct * 100).toFixed(0)}%` : ''}
-          </text>
-        </svg>
-
-        {/* Floating tooltip near hovered segment */}
-        {hovered !== null && (() => {
-          const mid = arcMid(segs[hovered]);
-          const seg = segs[hovered];
-          const left = mid.x > 70 ? mid.x + 6 : mid.x - 70;
-          const top  = mid.y - 16;
+    <div className="bubble-wrap">
+      <svg width="220" height="190" style={{ overflow:'visible' }}>
+        {/* Render in order: Total(0) → Open(1) → Closed(2) — each covers previous */}
+        {data.map((d, i) => {
+          const isHov = hovered === i;
+          const r     = isHov ? d.r + 5 : d.r;
           return (
-            <div className="donut-tooltip" style={{ left, top, borderColor: seg.color }}>
-              <span style={{ color: seg.color, fontWeight:700 }}>{seg.label}</span>
-              <span>{seg.value} ({(seg.pct*100).toFixed(0)}%)</span>
-            </div>
+            <g
+              key={i}
+              className={`bc-bubble bc-bubble--${i}`}
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
+              style={{ cursor:'pointer' }}
+            >
+              <circle
+                cx={d.cx} cy={d.cy} r={r}
+                fill={d.color}
+                style={{ transition:'r 0.18s ease' }}
+              />
+              <text
+                x={d.cx} y={d.cy + 4}
+                textAnchor="middle"
+                fill="#fff"
+                fontSize={i===0 ? 16 : i===1 ? 13 : 11}
+                fontWeight="700"
+                style={{ pointerEvents:'none', userSelect:'none' }}
+              >
+                {isHov ? d.value.toLocaleString() : d.pct}
+              </text>
+            </g>
           );
-        })()}
-      </div>
+        })}
+      </svg>
 
-      <div className="donut-legend">
-        {segs.map((s, i) => (
-          <div key={i} className={`legend-item ${hovered === i ? 'legend-item--active' : ''}`}
-            onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)}
-            style={{ cursor:'pointer' }}>
-            <span className="legend-dot" style={{ background: s.color }} />
-            <span>{s.label}</span>
-          </div>
+      {/* Legend */}
+      <div className="bubble-legend">
+        {data.map((d, i) => (
+          <span key={i} className="bubble-legend-item">
+            <span className="bubble-legend-dot" style={{ background:d.color }} />
+            {d.label}
+          </span>
         ))}
       </div>
     </div>
   );
 }
 
+
 /* ══════════════════════════════════════
-   LINE GRAPH — with crosshair tooltip
+   LINE GRAPH — animated draw left→right
 ══════════════════════════════════════ */
 function LineGraph() {
   const [tooltip, setTooltip] = useState(null);
@@ -163,16 +136,10 @@ function LineGraph() {
     if (!svg) return;
     const rect = svg.getBoundingClientRect();
     const mouseX = (e.clientX - rect.left) * (W / rect.width);
-    const relX   = mouseX - PL;
-    const idx    = Math.round((relX / gW) * steps);
-    const clamped = Math.max(0, Math.min(steps, idx));
+    const clamped = Math.max(0, Math.min(steps, Math.round(((mouseX - PL) / gW) * steps)));
     setTooltip({
-      idx:    clamped,
-      x:      toX(clamped),
-      openY:  toY(OPEN_PTS[clamped]),
-      closedY:toY(CLOSED_PTS[clamped]),
-      open:   OPEN_PTS[clamped],
-      closed: CLOSED_PTS[clamped],
+      x: toX(clamped), openY: toY(OPEN_PTS[clamped]), closedY: toY(CLOSED_PTS[clamped]),
+      open: OPEN_PTS[clamped], closed: CLOSED_PTS[clamped],
     });
   }
 
@@ -181,8 +148,7 @@ function LineGraph() {
   return (
     <div style={{ position:'relative' }}>
       <svg ref={svgRef} width="100%" viewBox={`0 0 ${W} ${H}`} className="linegraph-svg"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={() => setTooltip(null)}
+        onMouseMove={handleMouseMove} onMouseLeave={() => setTooltip(null)}
         style={{ cursor:'crosshair' }}>
 
         {yTicks.map((y, i) => (
@@ -191,52 +157,47 @@ function LineGraph() {
         ))}
 
         {/* Area fills */}
-        <path d={`${smooth(OPEN_PTS)} L ${toX(steps)} ${PT+gH} L ${toX(0)} ${PT+gH} Z`}
+        <path className="lg-area lg-area--open"
+          d={`${smooth(OPEN_PTS)} L ${toX(steps)} ${PT+gH} L ${toX(0)} ${PT+gH} Z`}
           fill="rgba(6,214,160,0.08)" />
-        <path d={`${smooth(CLOSED_PTS)} L ${toX(steps)} ${PT+gH} L ${toX(0)} ${PT+gH} Z`}
+        <path className="lg-area lg-area--closed"
+          d={`${smooth(CLOSED_PTS)} L ${toX(steps)} ${PT+gH} L ${toX(0)} ${PT+gH} Z`}
           fill="rgba(239,68,68,0.06)" />
 
-        {/* Lines */}
-        <path d={smooth(OPEN_PTS)}   stroke="#06d6a0" strokeWidth="2.2" fill="none" strokeLinecap="round" />
-        <path d={smooth(CLOSED_PTS)} stroke="#ef4444" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+        {/* Lines — pure CSS draw animation via strokeDashoffset */}
+        <path className="lg-line lg-line--open"
+          d={smooth(OPEN_PTS)} stroke="#06d6a0" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+        <path className="lg-line lg-line--closed"
+          d={smooth(CLOSED_PTS)} stroke="#ef4444" strokeWidth="2.2" fill="none" strokeLinecap="round" />
 
         {/* End dots */}
-        <circle cx={toX(steps)} cy={toY(OPEN_PTS[steps])}   r="3.5" fill="#06d6a0" />
-        <circle cx={toX(steps)} cy={toY(CLOSED_PTS[steps])} r="3.5" fill="#ef4444" />
+        <circle className="lg-dot lg-dot--open"
+          cx={toX(steps)} cy={toY(OPEN_PTS[steps])} r="3.5" fill="#06d6a0" />
+        <circle className="lg-dot lg-dot--closed"
+          cx={toX(steps)} cy={toY(CLOSED_PTS[steps])} r="3.5" fill="#ef4444" />
 
-        {/* ── Crosshair + hover dots ── */}
-        {tooltip && (
-          <>
-            {/* Vertical crosshair line */}
-            <line x1={tooltip.x} y1={PT} x2={tooltip.x} y2={PT+gH}
-              stroke="#94a3b8" strokeWidth="1" strokeDasharray="3 3" />
-
-            {/* Open dot */}
-            <circle cx={tooltip.x} cy={tooltip.openY} r="5"
-              fill="#fff" stroke="#06d6a0" strokeWidth="2" />
-
-            {/* Closed dot */}
-            <circle cx={tooltip.x} cy={tooltip.closedY} r="5"
-              fill="#fff" stroke="#ef4444" strokeWidth="2" />
-          </>
-        )}
+        {/* Crosshair + hover dots */}
+        {tooltip && (<>
+          <line x1={tooltip.x} y1={PT} x2={tooltip.x} y2={PT+gH}
+            stroke="#94a3b8" strokeWidth="1" strokeDasharray="3 3" />
+          <circle cx={tooltip.x} cy={tooltip.openY}   r="5" fill="#fff" stroke="#06d6a0" strokeWidth="2" />
+          <circle cx={tooltip.x} cy={tooltip.closedY} r="5" fill="#fff" stroke="#ef4444" strokeWidth="2" />
+        </>)}
       </svg>
 
-      {/* ── Floating tooltip box ── */}
       {tooltip && (
-        <div className="graph-tooltip"
-          style={{
-            left: tooltip.x > W * 0.65 ? 'auto' : `calc(${(tooltip.x / W) * 100}% + 10px)`,
-            right: tooltip.x > W * 0.65 ? `calc(${100 - (tooltip.x / W) * 100}% + 10px)` : 'auto',
-            top: 4,
-          }}>
+        <div className="graph-tooltip" style={{
+          left:  tooltip.x > W*0.65 ? 'auto' : `calc(${(tooltip.x/W)*100}% + 10px)`,
+          right: tooltip.x > W*0.65 ? `calc(${100-(tooltip.x/W)*100}% + 10px)` : 'auto',
+          top: 4,
+        }}>
           <div className="graph-tooltip__row">
-            <span className="graph-tooltip__dot" style={{ background:'#06d6a0' }} />
+            <span className="graph-tooltip__dot" style={{background:'#06d6a0'}}/>
             <span className="graph-tooltip__label">Open</span>
             <span className="graph-tooltip__val">{tooltip.open}</span>
           </div>
           <div className="graph-tooltip__row">
-            <span className="graph-tooltip__dot" style={{ background:'#ef4444' }} />
+            <span className="graph-tooltip__dot" style={{background:'#ef4444'}}/>
             <span className="graph-tooltip__label">Closed</span>
             <span className="graph-tooltip__val">{tooltip.closed}</span>
           </div>
@@ -333,20 +294,32 @@ export default function SystemDashboard() {
           </div>
 
           <div className="sd__stats">
-            <div className="sd__stat sd__stat--purple">
-              <div className="sd__stat-icon"><i className="fa-solid fa-triangle-exclamation" /></div>
-              <div className="sd__stat-val">13124</div>
-              <div className="sd__stat-lbl">Open Exceptions</div>
+            <div className="sd__stat sd__stat--1">
+              <div className="sd__stat-icon-wrap sd__stat-icon-wrap--1">
+                <i className="fa-regular fa-calendar-days" />
+              </div>
+              <div>
+                <div className="sd__stat-val">13124</div>
+                <div className="sd__stat-lbl">Open Exceptions</div>
+              </div>
             </div>
-            <div className="sd__stat sd__stat--green">
-              <div className="sd__stat-icon"><i className="fa-solid fa-clock" /></div>
-              <div className="sd__stat-val">898</div>
-              <div className="sd__stat-lbl">Pending more than 10 days</div>
+            <div className="sd__stat sd__stat--2">
+              <div className="sd__stat-icon-wrap sd__stat-icon-wrap--2">
+                <i className="fa-regular fa-calendar-days" />
+              </div>
+              <div>
+                <div className="sd__stat-val">898</div>
+                <div className="sd__stat-lbl">Pending more than 10 days</div>
+              </div>
             </div>
-            <div className="sd__stat sd__stat--blue">
-              <div className="sd__stat-icon"><i className="fa-solid fa-circle-check" /></div>
-              <div className="sd__stat-val">67</div>
-              <div className="sd__stat-lbl">New Checkpoints Identified</div>
+            <div className="sd__stat sd__stat--3">
+              <div className="sd__stat-icon-wrap sd__stat-icon-wrap--3">
+                <i className="fa-regular fa-calendar-days" />
+              </div>
+              <div>
+                <div className="sd__stat-val">67</div>
+                <div className="sd__stat-lbl">New Checkpoints Identified</div>
+              </div>
             </div>
           </div>
 
@@ -362,7 +335,7 @@ export default function SystemDashboard() {
           <div className="sd__panels">
             <div className="sd__panel">
               <div className="sd__panel-title">Date</div>
-              <DonutChart />
+              <BubbleChart />
             </div>
             <div className="sd__panel">
               <div className="sd__panel-title">Exception Trend</div>
