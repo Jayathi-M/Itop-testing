@@ -4,6 +4,20 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ── 0. Railway DB Connection Override ────────────────────
+var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+var dbPort = Environment.GetEnvironmentVariable("DB_PORT") ?? "3306";
+var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+var dbUser = Environment.GetEnvironmentVariable("DB_USER");
+var dbPass = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+var connectionString = (dbHost != null)
+    ? $"Server={dbHost};Port={dbPort};Database={dbName};User={dbUser};Password={dbPass};"
+    : builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Store it so controllers/services can access it
+builder.Services.AddSingleton<string>(connectionString!);
+
 // ── 1. Controllers ────────────────────────────────────────
 builder.Services.AddControllers();
 
@@ -25,7 +39,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// ── 3. CORS (allows React frontend to call this API) ──────
+// ── 3. CORS ───────────────────────────────────────────────
 var allowedOrigins = builder.Configuration["CorsOrigins"]?.Split(",")
     ?? new[] { "http://localhost:5173" };
 
@@ -39,13 +53,17 @@ builder.Services.AddCors(options =>
     });
 });
 
-// ── 4. Swagger (for testing API in browser) ───────────────
+// ── 4. Swagger ────────────────────────────────────────────
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// ── 5. Railway Port Config ────────────────────────────────
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://+:{port}");
+
 var app = builder.Build();
 
-// ── 5. Middleware Pipeline ────────────────────────────────
+// ── 6. Middleware Pipeline ────────────────────────────────
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

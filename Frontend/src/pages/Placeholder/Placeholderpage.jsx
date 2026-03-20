@@ -1,6 +1,6 @@
 
 import Topbar from "../../layouts/Mainlayout.jsx";
-import './PlaceholderPage.css';
+import './Placeholderpage.css';
 
 export default function PlaceholderPage({ title }) {
   return (
