@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import "./ChecklistConfig.css";
+import "./Checklistconfig.css";
 
 const STAGE_OPTIONS  = ["Initial", "Pending", "Approved"];
 const STATUS_OPTIONS = ["Active", "Inactive"];

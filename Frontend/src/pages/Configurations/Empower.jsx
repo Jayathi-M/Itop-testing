@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ChecklistConfig from "./ChecklistConfig";
+import ChecklistConfig from "./Checklistconfig";
 import ClientConfig from "./Clientconfiguration";
 import Scheduler from "./Scheduler";
 import Workflow from "./Workflowconfig";
