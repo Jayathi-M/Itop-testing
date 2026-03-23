@@ -23,7 +23,7 @@ export default function Login() {
 
     setLoading(true);
     try {
-      const response = await fetch(`https://nexis-truezenix-app-production.up.railway.app/api/Login`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/Login`, {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({

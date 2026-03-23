@@ -15,54 +15,13 @@
   border-bottom: 1px solid var(--border, #e2e8f0);
 }
 
-/* ── Breadcrumb inside header block ── */
-.empower-breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 24px 10px;
-  background: var(--bg2, #fff);
-  border-bottom: 1px solid var(--border, #e2e8f0);
+/* ── Breadcrumb ── */
+.empower-breadcrumb-indent {
+  padding-left: 24px;
+  margin-top: 10px;
 }
 
-.empower-back {
-  width: 28px; 
-  height: 28px;
-  border-radius: 6px;
-  background: none;
-  border: 1px solid var(--border, #e2e8f0);
-  color: var(--text3, #8291a5);
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px;
-  transition: border-color 0.15s, color 0.15s;
-  flex-shrink: 0;
-}
-.empower-back:hover {
-  border-color: #3b82f6;
-  color: #3b82f6;
-}
-
-.empower-bc-link {
-  font-size: 13px;
-  color: #3b82f6;
-  cursor: pointer;
-  font-weight: 500;
-}
-.empower-bc-link:hover { text-decoration: underline; }
-
-.empower-bc-sep {
-  font-size: 14px;
-  color: var(--text3, #94a3b8);
-}
-
-.empower-bc-active {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text, #0f172a);
-}
-
-/* ── Title + stats row (inside header block) ── */
+/* ── Title + pill strip row ── */
 .empower-header {
   display: flex;
   align-items: center;
@@ -93,36 +52,85 @@
   border-radius: 20px;
   font-size: 12px;
   font-weight: 500;
-  background: rgba(59,130,246,0.1);
+  background: rgba(59, 130, 246, 0.1);
   color: #3b82f6;
-  border: 1px solid rgba(59,130,246,0.2);
+  border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
-.empower-stats {
+/* ══════════════════════════════════════
+   OPTION A — Compact pill strip
+   Lives in .empower-header, right side
+══════════════════════════════════════ */
+.empower-statbar {
   display: flex;
-  gap: 28px;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
-.empower-stat {
-  text-align: center;
+/* Each pill */
+.emp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: default;
+  user-select: none;
 }
 
-.empower-stat__val {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--text, #0f172a);
-  font-family: var(--font-heading, 'Rajdhani', sans-serif);
+/* Coloured indicator dot */
+.emp-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
-.empower-stat__val--warn    { color: #ef4444; }
-.empower-stat__val--success { color: #10b981; font-size: 16px; font-weight: 600; }
+.emp-pill-val { font-weight: 600; }
+.emp-pill-lbl { font-weight: 400; }
 
-.empower-stat__lbl {
-  font-size: 11px;
-  color: var(--text3, #8291a5);
-  margin-top: 2px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+/* ── Pill colour variants ── */
+.emp-pill--high               { background: #fee2e2; }
+.emp-pill--high .emp-pill-dot { background: #dc2626; }
+.emp-pill--high .emp-pill-val { color: #b91c1c; }
+.emp-pill--high .emp-pill-lbl { color: #b91c1c; }
+
+.emp-pill--medium               { background: #fef3c7; }
+.emp-pill--medium .emp-pill-dot { background: #d97706; }
+.emp-pill--medium .emp-pill-val { color: #92400e; }
+.emp-pill--medium .emp-pill-lbl { color: #92400e; }
+
+.emp-pill--low               { background: #dcfce7; }
+.emp-pill--low .emp-pill-dot { background: #16a34a; }
+.emp-pill--low .emp-pill-val { color: #15803d; }
+.emp-pill--low .emp-pill-lbl { color: #15803d; }
+
+.emp-pill--neutral               { background: #f3f4f6; }
+.emp-pill--neutral .emp-pill-val { color: #111827; }
+.emp-pill--neutral .emp-pill-lbl { color: #6b7280; }
+
+.emp-pill--active               { background: #d1fae5; }
+.emp-pill--active .emp-pill-dot { background: #059669; }
+.emp-pill--active .emp-pill-val { color: #065f46; }
+.emp-pill--active .emp-pill-lbl { color: #065f46; }
+
+.emp-pill--inactive               { background: #f3f4f6; }
+.emp-pill--inactive .emp-pill-dot { background: #9ca3af; }
+.emp-pill--inactive .emp-pill-val { color: #374151; }
+.emp-pill--inactive .emp-pill-lbl { color: #6b7280; }
+
+/* Vertical divider between pill groups */
+.emp-pill-sep {
+  width: 1px;
+  height: 22px;
+  background: #e5e7eb;
+  flex-shrink: 0;
+  margin: 0 2px;
 }
 
 /* ── Tabs row ── */
@@ -148,9 +156,7 @@
   font-family: var(--font-body, sans-serif);
 }
 
-.empower-tab:hover {
-  color: var(--text, #0f172a);
-}
+.empower-tab:hover { color: var(--text, #0f172a); }
 
 .empower-tab--active {
   color: #3b82f6;
@@ -197,9 +203,3 @@
 
 .empower-empty__icon { font-size: 40px; opacity: 0.3; }
 .empower-empty__text { font-size: 14px; }
-
-/* ── Breadcrumb indent (shift right) ── */
-.empower-breadcrumb-indent {
-  padding-left: 24px;
-  margin-top: 10px;
-}

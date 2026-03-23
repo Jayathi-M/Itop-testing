@@ -41,7 +41,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 // ── 3. CORS ───────────────────────────────────────────────
 var allowedOrigins = builder.Configuration["CorsOrigins"]?.Split(",")
-    ?? new[] { "http://localhost:5174" };
+    ?? new[] { "http://localhost:5173" };
 
 builder.Services.AddCors(options =>
 {
