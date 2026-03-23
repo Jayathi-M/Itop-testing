@@ -797,8 +797,8 @@
   stroke-dashoffset: 1600;
   animation: lgDraw 5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-.lg-line--open   { animation-duration: 6s; animation-delay: 0s; }
-.lg-line--closed { animation-duration: 7.5s; animation-delay: 1s; }
+.lg-line--open   { animation-duration: 9s; animation-delay: 1.5s; }
+.lg-line--closed { animation-duration: 10s; animation-delay: 1.5s; }
 
 @keyframes lgDraw {
   to { stroke-dashoffset: 0; }
@@ -809,8 +809,8 @@
   opacity: 0;
   animation: lgFade 2s ease forwards;
 }
-.lg-area--open   { animation-delay: 4.5s; }
-.lg-area--closed { animation-delay: 5.5s; }
+.lg-area--open   { animation-delay: 7s; }
+.lg-area--closed { animation-delay: 9s; }
 
 @keyframes lgFade {
   to { opacity: 1; }
@@ -823,8 +823,8 @@
   transform-origin: 50% 50%;
   animation: lgDotPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
-.lg-dot--open   { animation-delay: 4.8s; }
-.lg-dot--closed { animation-delay: 6.2s; }
+.lg-dot--open   { animation-delay: 7.8s; }
+.lg-dot--closed { animation-delay: 11s; }
 
 @keyframes lgDotPop {
   0%   { opacity: 0; transform: scale(0); }
