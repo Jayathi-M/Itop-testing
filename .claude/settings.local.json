@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(find \"C:/Users/Venkata Abhishek V/Desktop/Nexis-App/Xception_AI/Frontend/src\" \\\\\\( -name \"*.jsx\" -o -name \"*.js\" \\\\\\) -delete)"
+    ]
+  }
+}

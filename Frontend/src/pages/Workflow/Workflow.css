@@ -81,7 +81,7 @@
   background: #f8fafc;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
-  padding: 18px 32px;
+  padding: 12px 12px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
@@ -1032,8 +1032,12 @@
   overflow-wrap: break-word;
 }
 .s3-tr td { vertical-align: middle; padding: 8px 6px; text-align: center; }
-.s3-tr td.s3-desc-cell { text-align: center; }
+.s3-tr td.s3-desc-cell { text-align: left; }
 .s3-tr td.s3-justification-cell { text-align: left; }
+
+/* Colored left border based on exception value */
+.s3-tr--exception-yes { border-left: 4px solid #E24B4A; }
+.s3-tr--exception-no  { border-left: 4px solid #639922; }
 
 .s3-radio-group { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
 .s3-radio { display: flex; align-items: center; gap: 3px; font-size: 12px; color: #374151; cursor: pointer; white-space: nowrap; }
@@ -1041,45 +1045,46 @@
 /* ── Exception toggle button group ── */
 .s3-toggle-group {
   display: inline-flex;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+  border-radius: 20px;
   overflow: hidden;
-  background: #f9fafb;
+  border: 0.5px solid #d1d5db;
 }
 .s3-toggle-btn {
   padding: 5px 14px;
   font-size: 12px;
   font-weight: 500;
   border: none;
-  background: transparent;
-  color: #6b7280;
+  background: #f3f4f6;
+  color: #9ca3af;
   cursor: pointer;
   font-family: inherit;
+  line-height: 1;
   transition: background 0.15s, color 0.15s;
   white-space: nowrap;
 }
 .s3-toggle-btn:not(:last-child) {
-  border-right: 1px solid #d1d5db;
+  border-right: 0.5px solid #d1d5db;
 }
 .s3-toggle-btn:hover:not(.s3-toggle-btn--yes):not(.s3-toggle-btn--no) {
-  background: #f1f5f9;
+  background: #e5e7eb;
   color: #374151;
 }
 .s3-toggle-btn--yes {
-  background: #ef4444;
+  background: #c78282;
   color: #fff;
-  font-weight: 600;
 }
 .s3-toggle-btn--no {
-  background: #16a34a;
+  background: #9eb97d;
   color: #fff;
-  font-weight: 600;
+}
+.s3-toggle-btn:disabled {
+  cursor: not-allowed;
 }
 
 .s3-needed-badge {
   display: inline-flex; align-items: center; gap: 4px;
   padding: 2px 8px; border-radius: 5px;
-  background: #fee2e2; color: #dc2626;
+  background: #fee2e2; color: #d15f5f;
   font-size: 11px; font-weight: 600; margin-bottom: 5px;
 }
 
@@ -1122,7 +1127,7 @@
   color: #111827;
   white-space: normal;
   word-break: break-word;
-  text-align: center;
+  text-align: left;
   overflow-wrap: break-word;
 }
 
@@ -1202,4 +1207,74 @@
   transition: background 0.15s, transform 0.1s;
 }
 .s3-submit-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
+
+/* ══ PDF Preview Modal ══ */
+.pdf-preview-modal {
+  background: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  max-width: 1100px;
+  height: 88vh;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+}
+.pdf-preview-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+  flex-shrink: 0;
+}
+.pdf-preview-modal__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+.pdf-preview-modal__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pdf-preview-modal__download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.pdf-preview-modal__download-btn:hover { background: #1d4ed8; }
+.pdf-preview-modal__close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 2px 6px;
+  line-height: 1;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+.pdf-preview-modal__close:hover { background: #f3f4f6; color: #111827; }
+.pdf-preview-modal__body {
+  flex: 1;
+  overflow: hidden;
+}
+.pdf-preview-modal__iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
 .s3-submit-btn:active { transform: translateY(0); }
