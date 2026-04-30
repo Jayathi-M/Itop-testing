@@ -37,7 +37,8 @@ const TOP_NAV: NavItem[] = [
   { id: 'gear',     icon: 'fa-solid fa-gear',            path: null         },
   { id: 'workflow', icon: 'fa-solid fa-chart-diagram',   path: '/workflow'  },
   { id: 'user',     icon: 'fa-solid fa-user',            path: '/users'     },
-  { id: 'UMS',     icon: 'fa-solid fa-users ',            path: null     },
+  { id: 'UMS',      icon: 'fa-solid fa-users ',           path: null         },
+  { id: 'audit',    icon: '',                             path: null         },
 ]
 
 const BTM_NAV: BtmItem[] = [
@@ -119,6 +120,64 @@ const UMSIcon = () => (
   </svg>
 )
 
+const AuditIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <line x1="8" y1="13" x2="16" y2="13"/>
+    <line x1="8" y1="17" x2="16" y2="17"/>
+  </svg>
+)
+
+const DashboardSubIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="7" height="7" rx="1"/>
+    <rect x="14" y="3" width="7" height="7" rx="1"/>
+    <rect x="14" y="14" width="7" height="7" rx="1"/>
+    <rect x="3" y="14" width="7" height="7" rx="1"/>
+  </svg>
+)
+const QueueSubIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="9"  y1="6"  x2="20" y2="6"/>
+    <line x1="9"  y1="12" x2="20" y2="12"/>
+    <line x1="9"  y1="18" x2="20" y2="18"/>
+    <line x1="4"  y1="6"  x2="4.01" y2="6"/>
+    <line x1="4"  y1="12" x2="4.01" y2="12"/>
+    <line x1="4"  y1="18" x2="4.01" y2="18"/>
+  </svg>
+)
+const RecordReviewIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="20" x2="18" y2="10"/>
+    <line x1="12" y1="20" x2="12" y2="4"/>
+    <line x1="6"  y1="20" x2="6"  y2="14"/>
+    <line x1="2"  y1="20" x2="22" y2="20"/>
+  </svg>
+)
+const ReportSubIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <line x1="8" y1="13" x2="16" y2="13"/>
+    <line x1="8" y1="17" x2="16" y2="17"/>
+  </svg>
+)
+const CircleIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+  </svg>
+)
+
+const AUDIT_NAV = [
+  { id: 'dashboard',     label: 'Dashboard',    path: '/dashboard',           Icon: DashboardSubIcon, circle: false },
+  { id: 'queue',         label: 'Queue',         path: '/audit/queue',         Icon: QueueSubIcon,     circle: false },
+  { id: 'record-review', label: 'Record Review', path: '/audit/record-review', Icon: RecordReviewIcon, circle: false },
+  { id: 'report',        label: 'Report',        path: '/audit/report',        Icon: ReportSubIcon,    circle: false },
+  { id: 'agent-logs',    label: 'Agent Logs',    path: '/audit/agent-logs',    Icon: CircleIcon,       circle: true  },
+  { id: 'audit-trail',   label: 'Audit Trail',   path: '/audit/audit-trail',   Icon: CircleIcon,       circle: true  },
+]
+
 const CONFIG_GROUPS: ConfigGroup[] = [
   {
     label: 'Core Settings',
@@ -163,14 +222,16 @@ export default function Sidebar() {
   const location = useLocation()
   const [cfgOpen, setCfgOpen] = useState(false)
   const [usmOpen, setUsmOpen] = useState(false)
+  const [auditOpen, setAuditOpen] = useState(false)
 
   const isUMSRoute = ['/userslist', '/role', '/approvals'].some(p =>
     location.pathname.startsWith(p)
   )
+  const isAuditRoute = location.pathname.startsWith('/audit')
 
   function isActive(path: string | null): boolean {
     if (!path) return false
-    if (isUMSRoute) return false   // ← add this line
+    if (isUMSRoute) return false
     if (path === '/') return location.pathname === '/'
     return location.pathname.startsWith(path)
   }
@@ -180,6 +241,7 @@ export default function Sidebar() {
     navigate(path)
     setCfgOpen(false)
     setUsmOpen(false)
+    setAuditOpen(false)
   }
 
   return (
@@ -194,6 +256,8 @@ export default function Sidebar() {
                 ? (location.pathname.startsWith('/configurations') || cfgOpen)
                 : id === 'UMS'
                 ? (usmOpen || isUMSRoute)
+                : id === 'audit'
+                ? (auditOpen || isAuditRoute)
                 : isActive(path)
             return (
               <button
@@ -203,15 +267,21 @@ export default function Sidebar() {
                   if (id === 'gear') {
                     setCfgOpen(p => !p)
                     setUsmOpen(false)
+                    setAuditOpen(false)
                   } else if (id === 'UMS') {
                     setUsmOpen(p => !p)
                     setCfgOpen(false)
+                    setAuditOpen(false)
+                  } else if (id === 'audit') {
+                    setAuditOpen(p => !p)
+                    setCfgOpen(false)
+                    setUsmOpen(false)
                   } else {
                     handleNav(path)
-                  } 
+                  }
                 }}
               >
-                <i className={icon} />
+                {id === 'audit' ? <AuditIcon /> : <i className={icon} />}
               </button>
             )
           })}
@@ -322,9 +392,36 @@ export default function Sidebar() {
         </div>
       )}
 
-      
-    </div>
+      {/* ── Audit panel ── */}
+      {auditOpen && (
+        <aside className="sb-panel">
+          <div className="sb-panel__head">
+            <span className="sb-panel__title">Audit</span>
+            <span className="sb-panel__title-bar" />
+          </div>
+          <nav className="sb-panel__body">
+            {AUDIT_NAV.map(({ id, label, path, Icon, circle }) => (
+              <NavLink
+                key={id}
+                to={path}
+                className={({ isActive }) =>
+                  `sb-panel__item${isActive ? ' sb-panel__item--active' : ''}${circle ? ' sb-panel__item--circle' : ''}`
+                }
+              >
+                {({ isActive: navActive }) => (
+                  <>
+                    <span className={`sb-panel__icon${navActive ? ' sb-panel__icon--active' : ''}`}>
+                      <Icon />
+                    </span>
+                    <span className="sb-panel__label">{label}</span>
+                  </>
+                )}
+              </NavLink>
+            ))}
+          </nav>
+        </aside>
+      )}
 
-    
+    </div>
   )
 }
