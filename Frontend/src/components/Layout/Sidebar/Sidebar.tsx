@@ -31,14 +31,14 @@ interface Config {
   items: ConfigItem[]
 }
 
-
+// ── Icon rail nav ──
 const TOP_NAV: NavItem[] = [
-  { id: 'chart',    icon: 'fa-solid fa-chart-column',   path: '/dashboard' },
-  { id: 'gear',     icon: 'fa-solid fa-gear',            path: null         },
-  { id: 'workflow', icon: 'fa-solid fa-chart-diagram',   path: '/workflow'  },
-  { id: 'user',     icon: 'fa-solid fa-user',            path: '/users'     },
-  { id: 'UMS',      icon: 'fa-solid fa-users ',           path: null         },
-  { id: 'audit',    icon: '',                             path: null         },
+  { id: 'chart',    icon: 'fa-solid fa-chart-column',  path: '/dashboard' },
+  { id: 'gear',     icon: 'fa-solid fa-gear',           path: null         },
+  { id: 'workflow', icon: 'fa-solid fa-chart-diagram',  path: '/workflow'  },
+  { id: 'user',     icon: 'fa-solid fa-user',           path: '/users'     },
+  { id: 'UMS',      icon: 'fa-solid fa-users',          path: null         },
+  { id: 'audit',    icon: '',                            path: null         },
 ]
 
 const BTM_NAV: BtmItem[] = [
@@ -46,6 +46,7 @@ const BTM_NAV: BtmItem[] = [
   { id: 'help', icon: 'fa-solid fa-circle-question', dot: false },
 ]
 
+// ── Config panel icons ──
 const SystemIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="3"/>
@@ -112,14 +113,13 @@ const UsersIcon = () => (
     <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
   </svg>
 )
-
-
 const UMSIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
     <path d="M320 16a104 104 0 1 1 0 208 104 104 0 1 1 0-208zM96 88a72 72 0 1 1 0 144 72 72 0 1 1 0-144zM0 416c0-70.7 57.3-128 128-128 12.8 0 25.2 1.9 36.9 5.4-32.9 36.8-52.9 85.4-52.9 138.6l0 16c0 11.4 2.4 22.2 6.7 32L32 480c-17.7 0-32-14.3-32-32l0-32zm521.3 64c4.3-9.8 6.7-20.6 6.7-32l0-16c0-53.2-20-101.8-52.9-138.6 11.7-3.5 24.1-5.4 36.9-5.4 70.7 0 128 57.3 128 128l0 32c0 17.7-14.3 32-32 32l-86.7 0zM472 160a72 72 0 1 1 144 0 72 72 0 1 1 -144 0zM160 432c0-88.4 71.6-160 160-160s160 71.6 160 160l0 16c0 17.7-14.3 32-32 32l-256 0c-17.7 0-32-14.3-32-32l0-16z"/>
   </svg>
 )
 
+// ── Audit icon (from Harshitha) ──
 const AuditIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -129,6 +129,7 @@ const AuditIcon = () => (
   </svg>
 )
 
+// ── Audit sub-panel icons ──
 const DashboardSubIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <rect x="3" y="3" width="7" height="7" rx="1"/>
@@ -169,6 +170,7 @@ const CircleIcon = () => (
   </svg>
 )
 
+// ── Audit sub-panel nav items ──
 const AUDIT_NAV = [
   { id: 'dashboard',     label: 'Dashboard',    path: '/dashboard',           Icon: DashboardSubIcon, circle: false },
   { id: 'queue',         label: 'Queue',         path: '/audit/queue',         Icon: QueueSubIcon,     circle: false },
@@ -178,21 +180,22 @@ const AUDIT_NAV = [
   { id: 'audit-trail',   label: 'Audit Trail',   path: '/audit/audit-trail',   Icon: CircleIcon,       circle: true  },
 ]
 
+// ── Config panel groups ──
 const CONFIG_GROUPS: ConfigGroup[] = [
   {
     label: 'Core Settings',
     items: [
-      { label: 'System',         path: '/configurations/system',     Icon: SystemIcon    },
-      { label: 'Plant',          path: '/configurations/plant',      Icon: PlantIcon     },
-      { label: 'Asset',          path: '/configurations/asset',      Icon: AssetIcon     },
+      { label: 'System',         path: '/configurations/system',     Icon: SystemIcon     },
+      { label: 'Plant',          path: '/configurations/plant',      Icon: PlantIcon      },
+      { label: 'Asset',          path: '/configurations/asset',      Icon: AssetIcon      },
     ],
   },
   {
     label: 'Business Logic',
     items: [
-      { label: 'Business Rules', path: '/configurations/rules',      Icon: BizRulesIcon  },
-      { label: 'Templates',      path: '/configurations/templates',  Icon: TemplatesIcon },
-      { label: 'Workflows',      path: '/configurations/workflow',   Icon: WorkflowsIcon },
+      { label: 'Business Rules', path: '/configurations/rules',      Icon: BizRulesIcon   },
+      { label: 'Templates',      path: '/configurations/templates',  Icon: TemplatesIcon  },
+      { label: 'Workflows',      path: '/configurations/workflow',   Icon: WorkflowsIcon  },
     ],
   },
   {
@@ -201,17 +204,17 @@ const CONFIG_GROUPS: ConfigGroup[] = [
       { label: 'Dashboards',     path: '/configurations/dashboards', Icon: DashboardsIcon },
       { label: 'Reports',        path: '/configurations/reports',    Icon: ReportsIcon    },
       { label: 'Users',          path: '/users',                     Icon: UsersIcon      },
-      // { label: 'UMS',          path: '/userslist',                     Icon: UMSIcon      },
     ],
-  }, 
+  },
 ]
 
+// ── UMS panel groups ──
 const CONFIG_USERS: Config[] = [
   {
     label: 'User Management',
     items: [
       { label: 'UsersList', path: '/userslist', Icon: () => <i className="fa-solid fa-users" /> },
-      { label: 'Role',      path: '/role',     Icon: () => <i className="fa-solid fa-user-gear" /> },
+      { label: 'Role',      path: '/role',      Icon: () => <i className="fa-solid fa-user-gear" /> },
       { label: 'Approvals', path: '/approvals', Icon: () => <i className="fa-solid fa-circle-check" /> },
     ],
   },
@@ -220,13 +223,11 @@ const CONFIG_USERS: Config[] = [
 export default function Sidebar() {
   const navigate = useNavigate()
   const location = useLocation()
-  const [cfgOpen, setCfgOpen] = useState(false)
-  const [usmOpen, setUsmOpen] = useState(false)
+  const [cfgOpen,   setCfgOpen]   = useState(false)
+  const [usmOpen,   setUsmOpen]   = useState(false)
   const [auditOpen, setAuditOpen] = useState(false)
 
-  const isUMSRoute = ['/userslist', '/role', '/approvals'].some(p =>
-    location.pathname.startsWith(p)
-  )
+  const isUMSRoute   = ['/userslist', '/role', '/approvals'].some(p => location.pathname.startsWith(p))
   const isAuditRoute = location.pathname.startsWith('/audit')
 
   function isActive(path: string | null): boolean {
@@ -265,17 +266,11 @@ export default function Sidebar() {
                 className={`sb__btn ${active ? 'sb__btn--active' : ''}`}
                 onClick={() => {
                   if (id === 'gear') {
-                    setCfgOpen(p => !p)
-                    setUsmOpen(false)
-                    setAuditOpen(false)
+                    setCfgOpen(p => !p); setUsmOpen(false); setAuditOpen(false)
                   } else if (id === 'UMS') {
-                    setUsmOpen(p => !p)
-                    setCfgOpen(false)
-                    setAuditOpen(false)
+                    setUsmOpen(p => !p); setCfgOpen(false); setAuditOpen(false)
                   } else if (id === 'audit') {
-                    setAuditOpen(p => !p)
-                    setCfgOpen(false)
-                    setUsmOpen(false)
+                    setAuditOpen(p => !p); setCfgOpen(false); setUsmOpen(false)
                   } else {
                     handleNav(path)
                   }
@@ -300,7 +295,6 @@ export default function Sidebar() {
       {/* ── Config panel ── */}
       {cfgOpen && (
         <div className="cfg-panel">
-
           <div className="cfg-panel__head">
             <div className="cfg-panel__title-wrap">
               <span className="cfg-panel__title">Configuration Center</span>
@@ -310,89 +304,69 @@ export default function Sidebar() {
               <i className="fa-solid fa-arrow-left" />
             </button>
           </div>
-
           <div className="cfg-panel__body">
             {CONFIG_GROUPS.map(group => (
               <div key={group.label} className="cfg-group">
-
                 <div className="cfg-group__label">{group.label}</div>
-
                 {group.items.map(({ label, path, Icon }) => (
                   <NavLink
                     key={path}
                     to={path}
-                    className={({ isActive }) =>
-                      `cfg-item${isActive ? ' cfg-item--active' : ''}`
-                    }
+                    className={({ isActive }) => `cfg-item${isActive ? ' cfg-item--active' : ''}`}
                     onClick={() => setCfgOpen(false)}
                   >
                     {({ isActive }) => (
                       <>
-                        <span className={`cfg-item__icon${isActive ? ' cfg-item__icon--active' : ''}`}>
-                          <Icon />
-                        </span>
+                        <span className={`cfg-item__icon${isActive ? ' cfg-item__icon--active' : ''}`}><Icon /></span>
                         <span className="cfg-item__text">{label}</span>
                       </>
                     )}
                   </NavLink>
                 ))}
-
               </div>
             ))}
           </div>
-
         </div>
       )}
 
+      {/* ── UMS panel ── */}
       {usmOpen && (
         <div className="cfg-panel">
-
           <div className="cfg-panel__head">
             <div className="cfg-panel__title-wrap">
               <span className="cfg-panel__title">User Management</span>
               <span className="cfg-panel__title-bar" />
             </div>
-            {/* ✅ FIX 2: correct setter */}
             <button className="cfg-panel__back" onClick={() => setUsmOpen(false)}>
               <i className="fa-solid fa-arrow-left" />
             </button>
           </div>
-
           <div className="cfg-panel__body">
-            {/* ✅ FIX 3: use CONFIG_USERS */}
             {CONFIG_USERS.map(group => (
               <div key={group.label} className="cfg-group">
-
                 <div className="cfg-group__label">{group.label}</div>
-
                 {group.items.map(({ label, path, Icon }) => (
                   <NavLink
                     key={path}
                     to={path}
-                    className={({ isActive }) =>
-                      `cfg-item${isActive ? ' cfg-item--active' : ''}`
-                    }
-                    onClick={() => setUsmOpen(false)}  // ✅ also fix here
+                    className={({ isActive }) => `cfg-item${isActive ? ' cfg-item--active' : ''}`}
+                    onClick={() => setUsmOpen(false)}
                   >
                     {({ isActive }) => (
                       <>
-                        <span className={`cfg-item__icon${isActive ? ' cfg-item__icon--active' : ''}`}>
-                          <Icon />
-                        </span>
+                        <span className={`cfg-item__icon${isActive ? ' cfg-item__icon--active' : ''}`}><Icon /></span>
                         <span className="cfg-item__text">{label}</span>
                       </>
                     )}
                   </NavLink>
                 ))}
-
               </div>
             ))}
           </div>
-
         </div>
       )}
 
-      {/* ── Audit panel ── */}
+      {/* ── Audit panel (from Harshitha) ── */}
       {auditOpen && (
         <aside className="sb-panel">
           <div className="sb-panel__head">
@@ -410,9 +384,7 @@ export default function Sidebar() {
               >
                 {({ isActive: navActive }) => (
                   <>
-                    <span className={`sb-panel__icon${navActive ? ' sb-panel__icon--active' : ''}`}>
-                      <Icon />
-                    </span>
+                    <span className={`sb-panel__icon${navActive ? ' sb-panel__icon--active' : ''}`}><Icon /></span>
                     <span className="sb-panel__label">{label}</span>
                   </>
                 )}
