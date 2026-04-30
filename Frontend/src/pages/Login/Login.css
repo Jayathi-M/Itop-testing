@@ -1,114 +1,137 @@
-/* ══════════════════════════════════════
-   LOGIN PAGE
-══════════════════════════════════════ */
+/* ── Root ── */
 .lg-root {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #3c5563 0%, #4486a0 40%, #7ca0b1 70%, #23538e 100%);
-  padding: 24px;
+  background: #1a2a4a;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* ── Card Frame ── */
+.lg-frame {
+  display: flex;
+  width: 900px;
+  max-width: 100%;
+  height: 480px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* ── Left image panel ── */
+.lg-left {
+  flex: 1.1;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  background: #0a1a3a;
+}
+
+.lg-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* ── Right form panel ── */
+.lg-form-side {
+  flex: 1;
+  background: #ddeeff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 44px 48px;
+  box-sizing: border-box;
+  min-width: 340px;
+}
+
+/* ── Logo area ── */
+.lg-logo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.lg-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Infinity SVG icon */
+.lg-logo-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.lg-logo-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0d2d6e;
+  letter-spacing: -0.3px;
   font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
-/* White card */
-.lg-frame {
-  width: 100%;
-  max-width: 960px;
-  background:#8a9eb3;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 10px 24px 80px rgba(109,40,217,0.3);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 560px;
-}
-
-/* ── Left illustration ── */
-.lg-illustration {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 32px 24px 32px 32px;
-  background: linear-gradient(160deg, #7ca4cc 10%, #ecedee 60%, #ecedee 30%);
-  border-right: 1px solid #f1f5f9;
-}
-
-.lg-svg { width: 100%; max-width: 420px; height: auto; }
-
-/* ── Right form side ── */
-.lg-form-side {
-  display: flex;
-  flex-direction: column;
-  padding: 40px 52px;
-}
-
-/* Logo */
-.lg-logo-wrap {
-  margin-bottom: 24px;
-}
-
-.lg-logo-img {
-  height: 44px;
-  width: auto;
-  object-fit: contain;
-}
-
-.lg-logo-fallback {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #7c3aed, #a855f7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: 800;
-  color: #fff;
-}
-
-/* tabs removed */
-
-/* ── Form ── */
-.lg-form-title {
-  font-size: 28px;
-  font-weight: 800;
-  color: #1e293b;
-  letter-spacing: 0.05em;
-  margin: 0 0 28px;
+.lg-logo-sub {
+  font-size: 12px;
+  color: #4a7cc4;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
   text-align: center;
 }
 
+/* ── Form ── */
 .lg-form {
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 14px;
-  animation: lgFadeIn 0.22s ease;
 }
 
-@keyframes lgFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+.lg-form-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a2a4a;
+  text-align: center;
+  letter-spacing: 0.08em;
+  margin: 0 0 6px 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
-/* Input field */
+/* ── Input fields ── */
 .lg-field {
   display: flex;
   align-items: center;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 8px;
+  background: #ffffff;
+  border: 1.5px solid #c8ddf2;
+  border-radius: 10px;
   padding: 0 14px;
-  height: 48px;
-  background: #fff;
+  height: 46px;
   gap: 10px;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
+
 .lg-field:focus-within {
-  border-color: #7c3aed;
-  box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+  border-color: #3a7bd5;
+  box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.12);
 }
 
-.lg-field__icon { font-size: 14px; color: #94a3b8; flex-shrink: 0; }
+.lg-field-icon {
+  color: #8aaed4;
+  font-size: 15px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
 
 .lg-input {
   flex: 1;
@@ -119,106 +142,220 @@
   background: transparent;
   font-family: inherit;
 }
-.lg-input::placeholder { color: #11161e; }
 
-.lg-eye-btn {
-  background: none; border: none; cursor: pointer;
-  color: #94a3b8; font-size: 14px; padding: 4px;
-  display: flex; align-items: center;
-  transition: color 0.15s;
-}
-.lg-eye-btn:hover { color: #7c3aed; }
-
-/* Error text */
-.lg-err {
-  font-size: 11.5px;
-  color: #ef4444;
-  margin-top: -8px;
-  padding-left: 2px;
+.lg-input::placeholder {
+  color: #9cb5d0;
 }
 
-/* Remember + forgot row */
+/* ── Forgot password ── */
 .lg-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: -2px;
+  justify-content: center;
+  margin-top: -4px;
 }
 
-.lg-remember {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 13px; color: #475569;
-  cursor: pointer; user-select: none;
-}
-
-.lg-check {
-  width: 18px; height: 18px;
-  border-radius: 50%;
-  border: 2px solid #7c3aed;
-  background: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 9px; color: #fff;
-  transition: background 0.15s;
-  flex-shrink: 0;
-}
-.lg-check--on { background: #7c3aed; }
-
-.lg-forgot {
-  font-size: 13px; color: #475569; text-decoration: none;
+.lg-forget {
+  font-size: 13px;
+  color: #3a7bd5;
+  text-decoration: none;
+  cursor: pointer;
   transition: color 0.15s;
 }
-.lg-forgot:hover { color: #7c3aed; text-decoration: underline; }
 
-/* Submit */
+.lg-forget:hover {
+  color: #1a5bbf;
+  text-decoration: underline;
+}
+
+/* ── Login button ── */
 .lg-submit {
-  display: flex; align-items: center; justify-content: center;
-  height: 46px; width: 140px;
-  background: linear-gradient(135deg, #727eb1, #33b3ea);
+  width: 100%;
+  height: 46px;
+  background: #2a6de0;
   color: #fff;
-  border: none; border-radius: 8px;
-  font-size: 14px; font-weight: 700;
-  letter-spacing: 0.1em;
-  cursor: pointer; font-family: inherit;
-  margin-top: 6px;
-  align-self: center;
-  transition: opacity 0.15s, transform 0.15s;
-  box-shadow: 0 4px 14px rgba(10, 3, 23, 0.4);
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  font-family: inherit;
+  margin-top: 2px;
+  transition: background 0.15s, transform 0.12s, box-shadow 0.15s;
+  box-shadow: 0 4px 16px rgba(42, 109, 224, 0.35);
 }
-.lg-submit:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
-.lg-submit:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
 
-/* Spinner */
-.lg-spinner {
-  width: 18px; height: 18px;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: lg-spin 0.7s linear infinite;
+.lg-submit:hover {
+  background: #1a5bbf;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(42, 109, 224, 0.45);
 }
-@keyframes lg-spin { to { transform: rotate(360deg); } }
+
+.lg-submit:active {
+  transform: translateY(0);
+}
+
+/* ── Sign up row ── */
+.lg-rows {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.lg-rows h5 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: #3d4f6a;
+}
+
+.lg-Signup {
+  font-size: 13px;
+  color: #3a7bd5;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.lg-Signup:hover {
+  color: #1a5bbf;
+  text-decoration: underline;
+}
+
+/* ── Modal overlay ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 50, 0.45);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-card {
+  width: 480px;
+  max-width: 95vw;
+  padding: 32px;
+  border-radius: 16px;
+  background: #f0f6ff;
+  border: 1px solid #c8ddf2;
+  box-shadow: 0 16px 48px rgba(10, 30, 80, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-card h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0d2d6e;
+}
+
+.modal-card h5 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a2a4a;
+}
+
+.modal-card input {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1.5px solid #c8ddf2;
+  outline: none;
+  background: #fff;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+
+.modal-card input:focus {
+  border-color: #3a7bd5;
+}
+
+.modal-card button {
+  height: 44px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 8px;
+  background: #2a6de0;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: inherit;
+}
+
+.modal-card button:hover {
+  background: #1a5bbf;
+}
+
+.ss-ss {
+  cursor: pointer;
+  color: #3a7bd5;
+  text-align: center;
+  font-size: 13px;
+  margin: 0;
+}
+
+.ss-ss:hover {
+  text-decoration: underline;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+}
+
+.field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.checkbox-group {
+  margin-top: 4px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #1a2a4a;
+}
+
+.checkbox-label input {
+  height: auto !important;
+  width: 15px;
+  margin-top: 2px;
+  cursor: pointer;
+}
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
-  .lg-frame { grid-template-columns: 1fr; }
-  .lg-illustration { display: none; }
-  .lg-form-side { padding: 36px 28px; }
-}
+  .lg-frame {
+    flex-direction: column;
+    height: auto;
+  }
 
-/* Error box */
-.lg-error {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(239,68,68,0.08);
-  border: 1px solid rgba(239,68,68,0.25);
-  border-radius: 7px;
-  padding: 9px 13px;
-  font-size: 12.5px;
-  color: #dc2626;
-  animation: lgShake 0.3s ease;
-}
-@keyframes lgShake {
-  0%,100% { transform: translateX(0); }
-  25%      { transform: translateX(-5px); }
-  75%      { transform: translateX(5px); }
+  .lg-left {
+    display: none;
+  }
+
+  .lg-form-side {
+    padding: 36px 28px;
+    min-width: unset;
+  }
 }
