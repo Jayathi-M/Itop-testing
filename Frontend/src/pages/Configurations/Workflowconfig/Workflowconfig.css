@@ -16,7 +16,17 @@
   border: 1px solid rgba(59, 130, 246, 0.2);
   color: #93c5fd;
 }
-
+.wf {
+  background: var(--card, #fff);
+  padding: 20px;
+  font-family: 'Nunito', Arial, sans-serif;
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 12px;
+  overflow: visible;
+  max-width: 100%;
+  max-height: 100%;
+  transition: background-color 0.2s;
+}
 /* ── Two-column grid ── */
 .wf-grid {
   display: grid;
@@ -29,7 +39,7 @@
 
 /* ── Card ── */
 .wf-card {
-  background: var(--card);
+  background: var(--card, #fff);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 22px;
@@ -99,7 +109,7 @@
   width: 100%;
   margin-top: 8px;
   padding: 7px 28px 7px 12px;
-  background: var(--bg3);
+  background: var(--card, #fff);
   border: 1px solid var(--border2);
   border-radius: 6px;
   color: var(--text);
@@ -109,8 +119,8 @@
   outline: none;
   appearance: none;
   cursor: pointer;
-  background-repeat: no-repeat;
-  background-position: right 10px center;
+  /* background-repeat: no-repeat;
+  background-position: right 10px center; */
 }
 .wf-step__select:focus {
   border-color: var(--accent);
@@ -121,7 +131,7 @@
   width: 26px;
   height: 26px;
   border-radius: 5px;
-  background: transparent;
+  background: var(--card, #fff);
   border: 1px solid transparent;
   color: var(--text3);
   cursor: pointer;
@@ -200,7 +210,7 @@
   transition: 0.2s;
 }
 .wf-toggle input:checked + .wf-toggle__slider {
-  background: rgba(6, 214, 160, 0.2);
+  background: var(--card, #fff);
   border-color: var(--accent);
 }
 .wf-toggle input:checked + .wf-toggle__slider::before {
@@ -275,4 +285,391 @@
   border: 1px solid var(--warn);
   color: var(--warn);
   box-shadow: 0 4px 24px rgba(245, 158, 11, 0.15);
+}
+
+/* AddedCSS */
+
+/* Table wrapper */
+.wf-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Table */
+.wf-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 700px;
+  background: var(--card, #fff);
+}
+
+.wf-table thead {
+  background: var(--card, #fff);
+}
+
+.wf-table th,
+.wf-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border, #e5e7eb);
+  text-align: center;
+}
+
+.wf-table th {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text3, #6b7280);
+}
+
+.wf-table tbody tr:hover {
+  background: var(--bg3, #f9fafb);
+}
+
+/* Delete */
+.wf-delete {
+  /* background: none; */
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+}
+
+/* Pagination (Checklist style) */
+.clc__pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.clc__page-size {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--border, #d1d5db);
+  border-radius: 6px;
+  font-size: 12px;
+  background: var(--bg3);
+}
+
+.clc__pg-center {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.clc__pg-nav {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.clc__pg-nav:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.clc__pg-pill {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  cursor: pointer;
+}
+
+.clc__pg-pill--active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.clc__pg-right {
+  font-size: 12px;
+  color: var(--text3);
+}
+/* ===== HEADER ===== */
+.wf__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border, #e5e7eb);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.wf__title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.wf__sub {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.wf__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===== SEARCH (Checklist style) ===== */
+.wf__search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.wf__search-icon {
+  position: absolute;
+  left: 9px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.wf__search {
+  height: 34px;
+  padding: 0 28px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  font-size: 13px;
+  width: 200px;
+}
+
+.wf__search:focus {
+  border-color: #2563eb;
+}
+
+.wf__search-clear {
+  position: absolute;
+  right: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.wf__search-clear:hover {
+  color: #ef4444;
+}
+
+/* ===== ADD BUTTON ===== */
+.wf__add-btn {
+  height: 34px;
+  padding: 0 16px;
+  background: #2563eb;
+  color: white;
+  border-radius: 7px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.wf__add-btn:hover {
+  background: #1d4ed8;
+}
+
+/* ===== TABLE ===== */
+.wf__table-wrap {
+  overflow-x: auto;
+}
+
+.wf__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.wf__table thead {
+  background: #f9fafb;
+}
+
+.wf__table th,
+.wf__table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #e5e7eb;
+    text-align: center;
+  vertical-align: middle;
+}
+
+.wf__table th {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+
+/* ===== DELETE ===== */
+.wf__delete {
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+}
+
+/* ===== EMPTY ===== */
+.wf__empty {
+  text-align: center;
+  padding: 20px;
+  color: #9ca3af;
+}
+/* ===== EDIT DIALOG DROPDOWN (SELECT) ===== */
+.clc__field select {
+  width: 100%;
+  height: 36px;
+  padding: 0 36px 0 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  font-size: 13px;
+  font-family: 'Nunito', sans-serif;
+  color: #111827;
+  outline: none;
+  cursor: pointer;
+
+  /* Remove default arrow */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /* Custom arrow */
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%236b7280' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5.5 7.5l4.5 4.5 4.5-4.5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+/* Hover */
+.clc__field select:hover {
+  border-color: #9ca3af;
+}
+
+/* Focus */
+.clc__field select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Disabled state (VERY IMPORTANT for edit toggle UX) */
+.clc__field select:disabled {
+  background: #f9fafb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  border-color: #e5e7eb;
+}
+
+/* ===== LABEL SPACING ===== */
+.clc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.clc__field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+.clc__modal-field--inline {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 12px;
+}
+
+/* label stays inline */
+.clc__modal-field--inline label {
+  margin: 0 !important;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* checkbox alignment fix */
+.clc__modal-field--inline input[type="checkbox"] {
+  margin: 0 !important;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.clc__field--inline {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 12px;
+}
+
+/* label alignment */
+.clc__field--inline label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* checkbox alignment */
+.clc__field--inline input[type="checkbox"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+/* Inline label + checkbox */
+.clc__field--inline {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 10px;
+}
+
+/* label styling */
+.clc__field--inline label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* checkbox styling */
+.clc__field--inline input[type="checkbox"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.clc__field--inline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+
+/* IMPORTANT: prevent label from forcing line break */
+.clc__field--inline label {
+  margin: 0;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* checkbox */
+.clc__field--inline input[type="checkbox"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }

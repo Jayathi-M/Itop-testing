@@ -51,11 +51,14 @@
 .scheduler-container {
   padding: 20px;
   font-family: 'Nunito', Arial, sans-serif;
-  background-color: var(--sch-bg);
-  min-height: 100%;
+  background: var(--card, #fff);
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 12px;
+  overflow: visible;
+  max-width: 100%;
+  max-height: 100%;
   transition: background-color 0.2s;
 }
-
 /* ══════════════════════════════════════════
    Header
 ══════════════════════════════════════════ */
@@ -327,16 +330,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 .sch-modal {
   background: var(--sch-modal-bg);
-  width: 420px;
-  border-radius: 10px;
+  width: 820px;
+  height: 700px;
+  border-radius: 5px;
   border: 1px solid var(--sch-card-border);
   box-shadow: 0 12px 40px var(--sch-card-shadow);
-  overflow: hidden;
+  overflow: scroll;
   transition: background 0.2s, border-color 0.2s;
 }
 
@@ -444,3 +448,41 @@
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
+/* d *//* reuse checklist styles */
+@import "../Checklistconfig/Checklistconfig.css";
+
+/* optional override */
+.clc__status--active {
+  background: #e6f4ea;
+  color: #16a34a;
+}
+
+.clc__status--inactive {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.clc__status--paused {
+  background: #fef3c7;
+  color: #d97706;
+}
+.sch-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.sch-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+/* k */
+
