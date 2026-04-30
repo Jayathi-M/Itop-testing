@@ -8,9 +8,13 @@ import UserManagement  from '../pages/UserManagement/UserManagement'
 import AuditTrail      from '../pages/AuditTrail/AuditTrail'
 import Workflow        from '../pages/Workflow/Workflow'
 import Reports         from '../pages/Reports/Reports'
+import UsersList       from '../pages/UsersList/UsersList'
+import Role            from '../pages/Role/Role';
 
 import Systemconfiguration from '../pages/Configurations/Systemconfig/Systemconfiguration'
 import Empower             from '../pages/Configurations/Empower/Empower'
+import NewUser             from '../pages/UsersList/NewUser/NewUser'
+import EditUser            from '../pages/UsersList/EditUser/EditUser'
 
 export default function Approuter() {
   return (
@@ -27,6 +31,8 @@ export default function Approuter() {
         <Route path="/reports"    element={<Reports />} />
         <Route path="/users"      element={<UserManagement />} />
         <Route path="/audit"      element={<AuditTrail />} />
+        <Route path="/userslist"  element={<UsersList />} />
+        <Route path="/role"       element={<Role />} />
 
         <Route path="/configurations/system"         element={<Systemconfiguration />} />
         <Route path="/configurations/system/empower" element={<Empower />} />
@@ -35,6 +41,9 @@ export default function Approuter() {
         <Route path="/configurations/templates"      element={<Placeholderpage title="Templates" />} />
         <Route path="/configurations/workflow"       element={<Placeholderpage title="Workflow Config" />} />
         <Route path="/configurations/rules"          element={<Placeholderpage title="Business Rules" />} />
+
+        <Route path="/userslist/new" element={<NewUser />} />
+        <Route path="/userslist/edit/:id" element={<EditUser />} />
 
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Route>

@@ -1,0 +1,336 @@
+/* ── Role Dashboard Page ─────────────────────────────────────────────────── */
+.role-page {
+  padding: 20px 24px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f0f2f5;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* ── Toolbar ─────────────────────────────────────────────────────────────── */
+.role-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0;
+  padding: 16px 20px;
+  background: #fff;
+  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid #eef0f4;
+}
+
+.role-search-wrap {
+  position: relative;
+  width: 200px;
+}
+
+.role-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.role-search {
+  width: 100%;
+  padding: 8px 12px 8px 32px;
+  border: 1.5px solid #e2e6ef;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+  background: #fff;
+  color: #333;
+  box-sizing: border-box;
+  height: 36px;
+  font-family: inherit;
+}
+
+.role-search::placeholder { color: #b0b7c3; }
+.role-search:focus { border-color: #4361ee; }
+
+.role-new-btn {
+  background: #4361ee;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 20px;
+  height: 36px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.role-new-btn:hover { background: #3451d1; }
+
+/* ── Table wrapper ───────────────────────────────────────────────────────── */
+.role-table-wrap {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  overflow: hidden;
+}
+
+/* ── Table ───────────────────────────────────────────────────────────────── */
+.role-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.role-table thead tr {
+  background: #fff;
+  border-bottom: 1.5px solid #eef0f4;
+}
+
+.role-table th {
+  text-align: left;
+  padding: 12px 20px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #9aa0ad;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.role-table tbody tr {
+  border-bottom: 1px solid #f2f4f7;
+  transition: background 0.1s;
+}
+
+.role-table tbody tr:last-child { border-bottom: none; }
+.role-table tbody tr:hover { background: #fafbff; }
+
+.role-table td {
+  padding: 18px 20px;
+  color: #3a3f4b;
+  vertical-align: middle;
+}
+
+/* S NO column */
+.role-table td:first-child,
+.role-table th:first-child {
+  width: 60px;
+  color: #9aa0ad;
+  font-size: 12.5px;
+}
+
+.role-name {
+  font-weight: 600;
+  color: #1a1f2e;
+  font-size: 13.5px;
+  margin-bottom: 3px;
+}
+
+.role-desc {
+  font-size: 12px;
+  color: #b0b7c3;
+  margin-top: 0;
+}
+
+/* ── Status badges ───────────────────────────────────────────────────────── */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.role-badge::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.role-badge-active            { background: #eafaf1; color: #16a34a; }
+.role-badge-active::before    { background: #16a34a; }
+
+.role-badge-pending           { background: #fff7ed; color: #d97706; }
+.role-badge-pending::before   { background: #f59e0b; }
+
+.role-badge-inactive          { background: #f3f4f6; color: #9ca3af; }
+.role-badge-inactive::before  { background: #d1d5db; }
+
+/* ── Action buttons ──────────────────────────────────────────────────────── */
+.role-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.role-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  color: #9aa0ad;
+}
+
+.role-action-btn:hover { background: #f0f2f5; color: #555; }
+.role-action-btn svg   { width: 16px; height: 16px; display: block; }
+
+/* ── Pagination ──────────────────────────────────────────────────────────── */
+.role-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-top: 1px solid #eef0f4;
+  background: #fff;
+  border-radius: 0 0 12px 12px;
+}
+
+.role-pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.role-page-btn {
+  min-width: 34px;
+  height: 34px;
+  border: none;
+  background: none;
+  border-radius: 7px;
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  transition: background 0.12s, color 0.12s;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.role-page-btn:hover         { background: #f0f2f5; }
+.role-page-btn.active        { background: #4361ee; color: #fff; font-weight: 600; }
+.role-page-btn.dots          { cursor: default; color: #aaa; }
+.role-page-btn.dots:hover    { background: none; }
+
+.role-prev-btn,
+.role-next-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  border: 1.5px solid #e2e6ef;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  color: #444;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+  font-family: inherit;
+}
+
+.role-prev-btn:hover,
+.role-next-btn:hover {
+  border-color: #4361ee;
+  background: #f4f6ff;
+  color: #4361ee;
+}
+
+.role-prev-btn:disabled,
+.role-next-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Modal overlay ───────────────────────────────────────────────────────── */
+.role-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+/* ── Success popup ───────────────────────────────────────────────────────── */
+.role-success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+}
+
+.role-success-box {
+  background: #fff;
+  border-radius: 14px;
+  padding: 36px 32px;
+  text-align: center;
+  width: 320px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+
+.role-success-icon svg {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 16px;
+}
+
+.role-success-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 8px;
+}
+
+.role-success-msg {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 24px;
+}
+
+.role-success-btn {
+  background: #4361ee;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 36px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.role-success-btn:hover { background: #3451d1; }
+
+/* ── NewRole modal card ──────────────────────────────────────────────────── */
+.role-modal-overlay .nr-card {
+  width: 100%;
+  max-width: 860px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 14px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+}
