@@ -22,8 +22,7 @@ Frontend/src/
       UsersList.tsx / .css  — Users table with Existing/Pending tabs
       NewUser/NewUser.tsx / .css
       EditUser/EditUser.tsx / .css
-    Masters/
-      MastersPage.tsx / .css — Reusable master table page
+    Masters/                — (empty — pages to be built)
   router/Approuter.tsx
 ```
 
@@ -49,9 +48,10 @@ Clicking a nav icon toggles one panel; all others close.
 | Masters | Masters | `mastersOpen` |
 
 ### Panel structure (cfg-panel)
+**Note: `cfg-panel__head` is currently commented out in all panels — no title/back button is rendered.**
 ```
 .cfg-panel
-  .cfg-panel__head  — title + back (← arrow) button
+  <!-- cfg-panel__head commented out -->
   .cfg-panel__body
     .cfg-group       — one per section
       .cfg-group__label
@@ -60,27 +60,17 @@ Clicking a nav icon toggles one panel; all others close.
         .cfg-item__text
 ```
 
-### Masters panel — two-level (sb-panel + sb-panel--tables)
+### Masters panel items (MASTERS_GROUPS)
 ```
-Level 1 (sb-panel, 190px):
-  Master List → /masters/list
-  Table Master → toggles Level 2
-  Groups → /masters/groups
-  Dashboard Builder → /masters/builder
-  Report builder → /masters/reports
-  Audit Trail → /masters/trail
-
-Level 2 (sb-panel--tables, shown when Table Master active or on /masters/table/* route):
-  Plant (7)           → /masters/table/plant
-  Employee_Master (7) → /masters/table/employee
-  Role (7)            → /masters/table/role
-  Report_Template (7) → /masters/table/report-template
-  Workflow (7)        → /masters/table/workflow
-  List_Master (7)     → /masters/table/list-master
-  Dashboard (7)       → /masters/table/dashboard
-  Service (7)         → /masters/table/service
+Group label: Master Tables
+  Master List       → /masters/table/plant
+  Table master      → /masters/table/employee
+  Groups            → /masters/table/role
+  Dashboard Builder → /masters/table/report-template
+  Report Builder    → /masters/table/workflow
+  Audit Trail       → /masters/table/list-master
 ```
-State vars: mastersOpen (Level 1), tableMasterOpen (Level 2 toggle)
+Single-level cfg-panel, no sub-panel. All routes render `<Placeholderpage>`.
 
 ### UMS panel groups
 ```
@@ -160,20 +150,11 @@ Saves to `localStorage('users')`, sets `localStorage('nu_success')` flag, naviga
 
 ---
 
-## Masters Pages (`/masters/table/:id`)
+## Masters Pages (`/masters/table/*`)
 
-### Individual page files (wrappers)
-Each master table has its own file that wraps `MastersPage` with the correct `title` prop:
-- `Masters/Plant/PlantMaster.tsx`, `Masters/Employee/EmployeeMaster.tsx`
-- `Masters/Role/RoleMaster.tsx`, `Masters/ReportTemplate/ReportTemplateMaster.tsx`
-- `Masters/Workflow/WorkflowMaster.tsx`, `Masters/ListMaster/ListMasterPage.tsx`
-- `Masters/Dashboard/DashboardMaster.tsx`, `Masters/Service/ServiceMaster.tsx`
+All 8 masters routes currently render `<Placeholderpage title="..." />`. Pages are yet to be built.
 
-### Shared base component
-`MastersPage.tsx` takes `title` prop — drives mock data and page context.
-
-### Available routes
-| Route | Title |
+| Route | Placeholder title |
 |---|---|
 | `/masters/table/plant` | Plant |
 | `/masters/table/employee` | Employee_Master |
@@ -184,19 +165,13 @@ Each master table has its own file that wraps `MastersPage` with the correct `ti
 | `/masters/table/dashboard` | Dashboard |
 | `/masters/table/service` | Service |
 
-### Layout
-- Top-right only: green dot + All button
-- Toolbar: Search (260px) left | Filters + Add Field (blue) + three-dot icon right
-- Table columns: S.NO. (01, 02...), Field Name, Label Name, Field type, Field length, Default Value, Created by, Created date, Actions
-- Actions = pencil icon only
-- Field lengths: 10, 50, 250, 140, 160, 200, 180 (actual numbers, not badges)
-- Date format: DD/MM/YYYY
-- Pagination: same sticky pattern as UsersList
+Figma reference node: **484-55715**
+Design shows: table with S.NO., Field Name, Label Name, Field type, Field length, Default Value, Created by, Created date, Actions columns.
 
 ---
 
 ## CSS Naming Conventions
-- Page shells: `ul-` (UsersList), `nu-` (NewUser), `mp-` (MastersPage)
+- Page shells: `ul-` (UsersList), `nu-` (NewUser)
 - Sidebar: `sb__` (icon rail), `cfg-` (fly-out panels)
 - All CSS is kebab-case
 
@@ -242,7 +217,7 @@ thead th { position:sticky; top:0; z-index:1; }
 /audit/agent-logs        AgentLogs
 /audit/audit-trail       WorkflowAuditTrail
 /configurations/system   Systemconfiguration
-/masters/table/*         MastersPage (8 routes)
+/masters/table/*         Placeholderpage (8 routes, pages TBD)
 ```
 
 ---
@@ -263,6 +238,7 @@ thead th { position:sticky; top:0; z-index:1; }
 - No component libraries — all SVG icons inline
 - `React.ReactElement` not `JSX.Element` (avoids namespace error)
 - Rows per page is a `<select>` dropdown (not segmented tabs)
-- Masters panel uses `cfg-panel` (same as Config/UMS/Audit) — no second sub-panel
+- Masters panel uses `cfg-panel` (same as Config/UMS/Audit) — single level, no sub-panel
+- All `cfg-panel__head` blocks are commented out — panels have no visible title/back button
 - Eye button in Pending tab has `border:none` (no visible border)
 - Search covers ALL columns in both tabs
