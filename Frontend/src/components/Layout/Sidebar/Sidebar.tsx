@@ -1,24 +1,20 @@
-import { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate, useLocation, NavLink } from 'react-router-dom'
+import logoImg from '../../../assets/Logo.svg'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import './Sidebar.css'
 
 interface NavItem {
   id: string
-  icon: string
+  label: string
   path: string | null
-}
-
-interface BtmItem {
-  id: string
-  icon: string
-  dot: boolean
+  panel?: 'config' | 'ums' | 'audit' | 'masters'
 }
 
 interface ConfigItem {
   label: string
   path: string
-  Icon: () => JSX.Element
+  Icon: () => React.ReactElement
 }
 
 interface ConfigGroup {
@@ -26,27 +22,69 @@ interface ConfigGroup {
   items: ConfigItem[]
 }
 
-interface Config {
-  label: string
-  items: ConfigItem[]
-}
+// ── Nav icons (outline 24px, matching Figma style) ──
+const HomeIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+    <path d="M9 21V12h6v9"/>
+  </svg>
+)
+const ExceptionsIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <line x1="8" y1="13" x2="16" y2="13"/>
+    <line x1="8" y1="17" x2="16" y2="17"/>
+  </svg>
+)
+const ConfigNavIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+  </svg>
+)
+const MastersIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="4" y1="6" x2="20" y2="6"/>
+    <line x1="4" y1="12" x2="20" y2="12"/>
+    <line x1="4" y1="18" x2="20" y2="18"/>
+    <circle cx="8" cy="6" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="16" cy="12" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="10" cy="18" r="2" fill="currentColor" stroke="none"/>
+  </svg>
+)
+const UsersNavIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+    <circle cx="9" cy="7" r="4"/>
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+  </svg>
+)
+const PoliciesIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="7" width="20" height="14" rx="2"/>
+    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+  </svg>
+)
+const BellIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+  </svg>
+)
+const HelpIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <circle cx="12" cy="12" r="4"/>
+    <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/>
+    <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/>
+    <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/>
+    <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/>
+  </svg>
+)
 
-// ── Icon rail nav ──
-const TOP_NAV: NavItem[] = [
-  { id: 'chart',    icon: 'fa-solid fa-chart-column',  path: '/dashboard' },
-  { id: 'gear',     icon: 'fa-solid fa-gear',           path: null         },
-  { id: 'workflow', icon: 'fa-solid fa-chart-diagram',  path: '/workflow'  },
-  { id: 'user',     icon: 'fa-solid fa-user',           path: '/users'     },
-  { id: 'UMS',      icon: 'fa-solid fa-users',          path: null         },
-  { id: 'audit',    icon: '',                            path: null         },
-]
-
-const BTM_NAV: BtmItem[] = [
-  { id: 'bell', icon: 'fa-solid fa-bell',            dot: true  },
-  { id: 'help', icon: 'fa-solid fa-circle-question', dot: false },
-]
-
-// ── Config panel icons ──
+// ── Config panel sub-icons ──
 const SystemIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="3"/>
@@ -105,27 +143,12 @@ const ReportsIcon = () => (
     <line x1="8" y1="17" x2="16" y2="17"/>
   </svg>
 )
-const UsersIcon = () => (
+const UsersSubIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
     <circle cx="9" cy="7" r="4"/>
     <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
     <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-  </svg>
-)
-const UMSIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
-    <path d="M320 16a104 104 0 1 1 0 208 104 104 0 1 1 0-208zM96 88a72 72 0 1 1 0 144 72 72 0 1 1 0-144zM0 416c0-70.7 57.3-128 128-128 12.8 0 25.2 1.9 36.9 5.4-32.9 36.8-52.9 85.4-52.9 138.6l0 16c0 11.4 2.4 22.2 6.7 32L32 480c-17.7 0-32-14.3-32-32l0-32zm521.3 64c4.3-9.8 6.7-20.6 6.7-32l0-16c0-53.2-20-101.8-52.9-138.6 11.7-3.5 24.1-5.4 36.9-5.4 70.7 0 128 57.3 128 128l0 32c0 17.7-14.3 32-32 32l-86.7 0zM472 160a72 72 0 1 1 144 0 72 72 0 1 1 -144 0zM160 432c0-88.4 71.6-160 160-160s160 71.6 160 160l0 16c0 17.7-14.3 32-32 32l-256 0c-17.7 0-32-14.3-32-32l0-16z"/>
-  </svg>
-)
-
-// ── Audit icon (from Harshitha) ──
-const AuditIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-    <polyline points="14 2 14 8 20 8"/>
-    <line x1="8" y1="13" x2="16" y2="13"/>
-    <line x1="8" y1="17" x2="16" y2="17"/>
   </svg>
 )
 
@@ -170,15 +193,24 @@ const CircleIcon = () => (
   </svg>
 )
 
-// ── Audit sub-panel nav items ──
-const AUDIT_NAV = [
-  { id: 'dashboard',     label: 'Dashboard',    path: '/dashboard',           Icon: DashboardSubIcon, circle: false },
-  { id: 'queue',         label: 'Queue',         path: '/audit/queue',         Icon: QueueSubIcon,     circle: false },
-  { id: 'record-review', label: 'Record Review', path: '/audit/record-review', Icon: RecordReviewIcon, circle: false },
-  { id: 'report',        label: 'Report',        path: '/audit/report',        Icon: ReportSubIcon,    circle: false },
-  { id: 'agent-logs',    label: 'Agent Logs',    path: '/audit/agent-logs',    Icon: CircleIcon,       circle: true  },
-  { id: 'audit-trail',   label: 'Audit Trail',   path: '/audit/audit-trail',   Icon: CircleIcon,       circle: true  },
+// ── Top nav items ──
+const TOP_NAV: NavItem[] = [
+  { id: 'home',       label: 'Home',       path: '/dashboard'  },
+  { id: 'exceptions', label: 'Exceptions', path: null,          panel: 'audit'  },
+  { id: 'config',     label: 'Config',     path: null,          panel: 'config' },
+  { id: 'masters',    label: 'Masters',    path: null,          panel: 'masters' },
+  { id: 'users',      label: 'Users',      path: null,          panel: 'ums'    },
+  { id: 'policies',   label: 'Policies',   path: '/approvals'  },
 ]
+
+const NAV_ICONS: Record<string, () => React.ReactElement> = {
+  home:       HomeIcon,
+  exceptions: ExceptionsIcon,
+  config:     ConfigNavIcon,
+  masters:    MastersIcon,
+  users:      UsersNavIcon,
+  policies:   PoliciesIcon,
+}
 
 // ── Config panel groups ──
 const CONFIG_GROUPS: ConfigGroup[] = [
@@ -203,13 +235,13 @@ const CONFIG_GROUPS: ConfigGroup[] = [
     items: [
       { label: 'Dashboards',     path: '/configurations/dashboards', Icon: DashboardsIcon },
       { label: 'Reports',        path: '/configurations/reports',    Icon: ReportsIcon    },
-      { label: 'Users',          path: '/users',                     Icon: UsersIcon      },
+      { label: 'Users',          path: '/users',                     Icon: UsersSubIcon   },
     ],
   },
 ]
 
 // ── UMS panel groups ──
-const CONFIG_USERS: Config[] = [
+const CONFIG_USERS: ConfigGroup[] = [
   {
     label: 'User Management',
     items: [
@@ -220,29 +252,96 @@ const CONFIG_USERS: Config[] = [
   },
 ]
 
+// ── Masters panel groups (same pattern as Config/UMS/Audit) ──
+const MASTERS_GROUPS: ConfigGroup[] = [
+  {
+    label: 'Master Tables',
+    items: [
+      { label: 'Master List',      path: '/masters/table/plant',           Icon: CircleIcon       },
+      { label: 'Table master',     path: '/masters/table/employee',        Icon: CircleIcon       },
+      { label: 'Groups',           path: '/masters/table/role',            Icon: ReportsIcon      },
+      { label: 'Dashboard Builder',  path: '/masters/table/report-template', Icon: ReportsIcon    },
+      { label: 'Report Builder',    path: '/masters/table/workflow',        Icon: CircleIcon      },
+      { label: 'Audit Trail',      path: '/masters/table/list-master',     Icon: CircleIcon       },
+    ],
+  },
+]
+
+// ── Audit sub-panel nav ──
+const AUDIT_NAV = [
+  { id: 'dashboard',     label: 'Dashboard',    path: '/dashboard',           Icon: DashboardSubIcon, circle: false },
+  { id: 'queue',         label: 'Queue',         path: '/audit/queue',         Icon: QueueSubIcon,     circle: false },
+  { id: 'record-review', label: 'Record Review', path: '/audit/record-review', Icon: RecordReviewIcon, circle: false },
+  { id: 'report',        label: 'Report',        path: '/audit/report',        Icon: ReportSubIcon,    circle: false },
+  { id: 'agent-logs',    label: 'Agent Logs',    path: '/audit/agent-logs',    Icon: CircleIcon,       circle: true  },
+  { id: 'audit-trail',   label: 'Audit Trail',   path: '/audit/audit-trail',   Icon: CircleIcon,       circle: true  },
+]
+
 export default function Sidebar() {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const [cfgOpen,   setCfgOpen]   = useState(false)
-  const [usmOpen,   setUsmOpen]   = useState(false)
-  const [auditOpen, setAuditOpen] = useState(false)
+  const navigate   = useNavigate()
+  const location   = useLocation()
+  const [cfgOpen,     setCfgOpen]     = useState(false)
+  const [usmOpen,     setUsmOpen]     = useState(false)
+  const [auditOpen,   setAuditOpen]   = useState(false)
+  const [mastersOpen, setMastersOpen] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
+  const profileRef = useRef<HTMLDivElement>(null)
 
-  const isUMSRoute   = ['/userslist', '/role', '/approvals'].some(p => location.pathname.startsWith(p))
-  const isAuditRoute = location.pathname.startsWith('/audit')
+  const username = sessionStorage.getItem('username') || 'Unknown User'
+  const role     = sessionStorage.getItem('role')     || 'User'
+  const userId   = 'USR-' + username.slice(0, 3).toUpperCase().padEnd(3, 'X') + '001'
+  const initials = username.slice(0, 1).toUpperCase()
 
-  function isActive(path: string | null): boolean {
-    if (!path) return false
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
+        setProfileOpen(false)
+      }
+    }
+    if (profileOpen) document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [profileOpen])
+
+  const isUMSRoute     = ['/userslist', '/role', '/approvals'].some(p => location.pathname.startsWith(p))
+  const isAuditRoute   = location.pathname.startsWith('/audit')
+  const isMastersRoute = location.pathname.startsWith('/masters/table') || location.pathname.startsWith('/masters/list') || location.pathname.startsWith('/masters/groups')
+
+  function isActive(item: NavItem): boolean {
+    if (item.panel === 'config')  return location.pathname.startsWith('/configurations') || cfgOpen
+    if (item.panel === 'ums')     return usmOpen || isUMSRoute
+    if (item.panel === 'audit')   return auditOpen || isAuditRoute
+    if (item.panel === 'masters') return mastersOpen || isMastersRoute
+    if (!item.path) return false
     if (isUMSRoute) return false
-    if (path === '/') return location.pathname === '/'
-    return location.pathname.startsWith(path)
+    if (item.path === '/') return location.pathname === '/'
+    return location.pathname.startsWith(item.path)
   }
 
-  function handleNav(path: string | null) {
-    if (!path) return
-    navigate(path)
-    setCfgOpen(false)
-    setUsmOpen(false)
-    setAuditOpen(false)
+  function closeAllPanels() {
+    setCfgOpen(false); setUsmOpen(false); setAuditOpen(false); setMastersOpen(false)
+  }
+
+  function handleNav(item: NavItem) {
+    if (item.panel === 'config') {
+      setCfgOpen(p => !p); setUsmOpen(false); setAuditOpen(false); setMastersOpen(false)
+    } else if (item.panel === 'ums') {
+      setUsmOpen(p => !p); setCfgOpen(false); setAuditOpen(false); setMastersOpen(false)
+    } else if (item.panel === 'audit') {
+      setAuditOpen(p => !p); setCfgOpen(false); setUsmOpen(false); setMastersOpen(false)
+    } else if (item.panel === 'masters') {
+      setMastersOpen(p => !p); setCfgOpen(false); setUsmOpen(false); setAuditOpen(false)
+    } else if (item.path) {
+      navigate(item.path)
+      closeAllPanels()
+    }
+  }
+
+  function handleLogout() {
+    sessionStorage.removeItem('token')
+    sessionStorage.removeItem('username')
+    sessionStorage.removeItem('role')
+    setProfileOpen(false)
+    navigate('/', { replace: true })
   }
 
   return (
@@ -250,52 +349,79 @@ export default function Sidebar() {
 
       {/* ── Icon rail ── */}
       <nav className="sb">
+
+        {/* Logo */}
+        <div className="sb__logo">
+          <img src={logoImg} alt="Logo" className="sb__logo-img" />
+        </div>
+
+        {/* Main nav items */}
         <div className="sb__top">
-          {TOP_NAV.map(({ id, icon, path }) => {
-            const active =
-              id === 'gear'
-                ? (location.pathname.startsWith('/configurations') || cfgOpen)
-                : id === 'UMS'
-                ? (usmOpen || isUMSRoute)
-                : id === 'audit'
-                ? (auditOpen || isAuditRoute)
-                : isActive(path)
+          {TOP_NAV.map(item => {
+            const Icon   = NAV_ICONS[item.id]
+            const active = isActive(item)
             return (
               <button
-                key={id}
+                key={item.id}
                 className={`sb__btn ${active ? 'sb__btn--active' : ''}`}
-                onClick={() => {
-                  if (id === 'gear') {
-                    setCfgOpen(p => !p); setUsmOpen(false); setAuditOpen(false)
-                  } else if (id === 'UMS') {
-                    setUsmOpen(p => !p); setCfgOpen(false); setAuditOpen(false)
-                  } else if (id === 'audit') {
-                    setAuditOpen(p => !p); setCfgOpen(false); setUsmOpen(false)
-                  } else {
-                    handleNav(path)
-                  }
-                }}
+                onClick={() => handleNav(item)}
               >
-                {id === 'audit' ? <AuditIcon /> : <i className={icon} />}
+                <span className="sb__btn-icon"><Icon /></span>
+                <span className="sb__btn-label">{item.label}</span>
               </button>
             )
           })}
         </div>
 
+        {/* Footer */}
         <div className="sb__btm">
-          {BTM_NAV.map(({ id, icon, dot }) => (
-            <button key={id} className="sb__btn">
-              <i className={icon} />
-              {dot && <span className="sb__dot" />}
+          <button className="sb__icon-btn">
+            <ConfigNavIcon />
+          </button>
+          <button className="sb__icon-btn sb__icon-btn--notify">
+            <BellIcon />
+            <span className="sb__dot" />
+          </button>
+          <button className="sb__icon-btn">
+            <HelpIcon />
+          </button>
+
+          {/* Avatar + profile dropdown */}
+          <div className="sb__avatar-wrap" ref={profileRef}>
+            <button
+              className={`sb__avatar ${profileOpen ? 'sb__avatar--open' : ''}`}
+              onClick={() => setProfileOpen(p => !p)}
+              title={username}
+            >
+              {initials}
             </button>
-          ))}
+
+            {profileOpen && (
+              <div className="sb__profile-menu">
+                <div className="sb__profile-menu-arrow" />
+                <div className="sb__profile-user">
+                  <div className="sb__profile-avatar-lg">{initials}</div>
+                  <div className="sb__profile-info">
+                    <span className="sb__profile-name">{username}</span>
+                    <span className="sb__profile-id">{userId}</span>
+                    <span className="sb__profile-role">{role}</span>
+                  </div>
+                </div>
+                <div className="sb__profile-divider" />
+                <button className="sb__profile-logout" onClick={handleLogout}>
+                  <i className="fa-solid fa-right-from-bracket" />
+                  <span>Logout</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </nav>
 
       {/* ── Config panel ── */}
       {cfgOpen && (
         <div className="cfg-panel">
-          <div className="cfg-panel__head">
+          {/* <div className="cfg-panel__head">
             <div className="cfg-panel__title-wrap">
               <span className="cfg-panel__title">Configuration Center</span>
               <span className="cfg-panel__title-bar" />
@@ -303,7 +429,7 @@ export default function Sidebar() {
             <button className="cfg-panel__back" onClick={() => setCfgOpen(false)}>
               <i className="fa-solid fa-arrow-left" />
             </button>
-          </div>
+          </div> */}
           <div className="cfg-panel__body">
             {CONFIG_GROUPS.map(group => (
               <div key={group.label} className="cfg-group">
@@ -332,7 +458,7 @@ export default function Sidebar() {
       {/* ── UMS panel ── */}
       {usmOpen && (
         <div className="cfg-panel">
-          <div className="cfg-panel__head">
+          {/* <div className="cfg-panel__head">
             <div className="cfg-panel__title-wrap">
               <span className="cfg-panel__title">User Management</span>
               <span className="cfg-panel__title-bar" />
@@ -340,7 +466,7 @@ export default function Sidebar() {
             <button className="cfg-panel__back" onClick={() => setUsmOpen(false)}>
               <i className="fa-solid fa-arrow-left" />
             </button>
-          </div>
+          </div> */}
           <div className="cfg-panel__body">
             {CONFIG_USERS.map(group => (
               <div key={group.label} className="cfg-group">
@@ -366,32 +492,76 @@ export default function Sidebar() {
         </div>
       )}
 
-      {/* ── Audit panel (from Harshitha) ── */}
+      {/* ── Audit panel ── */}
       {auditOpen && (
-        <aside className="sb-panel">
-          <div className="sb-panel__head">
-            <span className="sb-panel__title">Audit</span>
-            <span className="sb-panel__title-bar" />
+        <div className="cfg-panel">
+          {/* <div className="cfg-panel__head">
+            <div className="cfg-panel__title-wrap">
+              <span className="cfg-panel__title">Exceptions</span>
+              <span className="cfg-panel__title-bar" />
+            </div>
+            <button className="cfg-panel__back" onClick={() => setAuditOpen(false)}>
+              <i className="fa-solid fa-arrow-left" />
+            </button>
+          </div> */}
+          <div className="cfg-panel__body">
+            <div className="cfg-group">
+              <div className="cfg-group__label">Audit</div>
+              {AUDIT_NAV.map(({ id, label, path, Icon }) => (
+                <NavLink
+                  key={id}
+                  to={path}
+                  className={({ isActive }) => `cfg-item${isActive ? ' cfg-item--active' : ''}`}
+                  onClick={() => setAuditOpen(false)}
+                >
+                  {({ isActive }) => (
+                    <>
+                      <span className={`cfg-item__icon${isActive ? ' cfg-item__icon--active' : ''}`}><Icon /></span>
+                      <span className="cfg-item__text">{label}</span>
+                    </>
+                  )}
+                </NavLink>
+              ))}
+            </div>
           </div>
-          <nav className="sb-panel__body">
-            {AUDIT_NAV.map(({ id, label, path, Icon, circle }) => (
-              <NavLink
-                key={id}
-                to={path}
-                className={({ isActive }) =>
-                  `sb-panel__item${isActive ? ' sb-panel__item--active' : ''}${circle ? ' sb-panel__item--circle' : ''}`
-                }
-              >
-                {({ isActive: navActive }) => (
-                  <>
-                    <span className={`sb-panel__icon${navActive ? ' sb-panel__icon--active' : ''}`}><Icon /></span>
-                    <span className="sb-panel__label">{label}</span>
-                  </>
-                )}
-              </NavLink>
+        </div>
+      )}
+
+      {/* ── Masters panel ── */}
+      {mastersOpen && (
+        <div className="cfg-panel">
+          {/* <div className="cfg-panel__head">
+            <div className="cfg-panel__title-wrap">
+              <span className="cfg-panel__title">Masters</span>
+              <span className="cfg-panel__title-bar" />
+            </div>
+            <button className="cfg-panel__back" onClick={() => setMastersOpen(false)}>
+              <i className="fa-solid fa-arrow-left" />
+            </button>
+          </div> */}
+          <div className="cfg-panel__body">
+            {MASTERS_GROUPS.map(group => (
+              <div key={group.label} className="cfg-group">
+                <div className="cfg-group__label">{group.label}</div>
+                {group.items.map(({ label, path, Icon }) => (
+                  <NavLink
+                    key={path}
+                    to={path}
+                    className={({ isActive }) => `cfg-item${isActive ? ' cfg-item--active' : ''}`}
+                    onClick={() => setMastersOpen(false)}
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span className={`cfg-item__icon${isActive ? ' cfg-item__icon--active' : ''}`}><Icon /></span>
+                        <span className="cfg-item__text">{label}</span>
+                      </>
+                    )}
+                  </NavLink>
+                ))}
+              </div>
             ))}
-          </nav>
-        </aside>
+          </div>
+        </div>
       )}
 
     </div>

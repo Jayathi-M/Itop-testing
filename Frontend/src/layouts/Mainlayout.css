@@ -13,12 +13,9 @@
   overflow: hidden;
 }
 
-/* ── Header row: full width ── */
+/* ── Header row: hidden (logo and profile moved to sidebar) ── */
 .layout__header {
-  width: 100%;
-  height: 60px;
-  flex-shrink: 0;
-  z-index: 100;
+  display: none;
 }
 
 /* ── Body row: sidebar + content side by side ── */

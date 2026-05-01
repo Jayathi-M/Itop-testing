@@ -1,157 +1,250 @@
-/* Page */
-.nu-container {
+/* ── Page shell ── */
+.nu-page {
   padding: 24px;
   background: #f5f7fb;
   min-height: 100%;
-  font-family: Inter, sans-serif;
-}
-
-/* Header */
-.nu-header h2 {
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.nu-header p {
-  font-size: 13px;
-  color: #6b7280;
-  margin-bottom: 20px;
-}
-
-/* Card */
-.nu-card {
-  background: #fff;
-  border: 1px solid #e6e8ec;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 16px;
-}
-
-/* Title */
-.nu-title h3 {
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.nu-title span {
-  font-size: 12px;
-  color: #9ca3af;
-}
-
-/* Grid */
-.nu-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px 20px;
-  margin-top: 16px;
-}
-
-.full-width {
-  grid-column: span 2;
-}
-
-/* Fields */
-.nu-container label:not(.nu-plant-item):not(.nu-cb-label) {
-  font-size: 12px;
-  margin-bottom: 5px;
-  display: block;
-}
-
-/* ✅ exclude checkboxes from global input style */
-.nu-container input:not([type="checkbox"]),
-.nu-container select {
-  width: 100%;
-  padding: 9px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-}
-
-.nu-container small {
-  font-size: 11px;
-  color: #9ca3af;
-}
-
-/* ================= GROUP SECTION ================= */
-
-.nu-group {
-  margin-top: 20px;
-}
-
-.nu-group-hint {
-  margin-left: 22px;
-  font-size: 12px;
-  color: #9ca3af;
-  margin-bottom: 10px;
-}
-
-/* ================= HIERARCHY ================= */
-
-.nu-location {
-  margin-left: 8px;
-  margin-bottom: 10px;
-  padding-left: 10px;
-  border-left: 2px solid #eef0f4;
-}
-
-.nu-location-row {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 6px 6px;
-  border-radius: 6px;
+  flex-direction: column;
 }
 
-.nu-location-row:hover {
-  background: #f9fafb;
-}
-
-.nu-arrow {
-  font-size: 10px;
-  width: 18px;
-  text-align: center;
-  color: #6b7280;
-}
-
-.nu-location-name {
+/* ── Outer card ── */
+.nu-card {
+  background: #ffffff;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.10), 0 1px 2px rgba(16, 24, 40, 0.06);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   flex: 1;
 }
 
-.nu-plant-list {
-  margin-left: 28px;
-  margin-top: 6px;
+/* ── Sticky header ── */
+.nu-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 24px 32px 16px;
+  border-bottom: 1px solid #eaecf0;
+  background: #ffffff;
+  flex-shrink: 0;
+  gap: 20px;
+}
+
+.nu-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nu-header-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #101828;
+  line-height: 28px;
+  margin: 0;
+}
+
+.nu-header-sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: #475467;
+  line-height: 18px;
+  margin: 0;
+}
+
+.nu-close-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #667085;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.nu-close-btn:hover { background: #f2f4f7; color: #344054; }
+
+/* ── Scrollable body ── */
+.nu-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  background: #ffffff;
+}
+
+.nu-body::-webkit-scrollbar { width: 4px; }
+.nu-body::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 2px; }
+
+/* ── Inner card ── */
+.nu-inner-card {
+  background: #ffffff;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.10), 0 1px 2px rgba(16, 24, 40, 0.06);
+  overflow: hidden;
+}
+
+/* ── Section header row ── */
+.nu-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: #f9fafb;
+  border-bottom: 1px solid #eaecf0;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.12s;
+}
+.nu-section-head:hover { background: #f2f4f7; }
+
+.nu-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #101828;
+  line-height: 20px;
+}
+
+.nu-section-chevron {
+  color: #667085;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s;
+}
+.nu-section-chevron--open { transform: rotate(180deg); }
+
+/* ── Section body ── */
+.nu-section-body {
+  padding: 16px;
+  border-bottom: 1px solid #eaecf0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Grid rows ── */
+.nu-row {
+  display: grid;
+  gap: 16px;
+}
+.nu-row--2 { grid-template-columns: 1fr 1fr; }
+.nu-row--3 { grid-template-columns: 1fr 1fr 1fr; }
+
+.nu-field-full {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.nu-plant-item {
+.nu-field {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  padding: 4px 6px;
-  border-radius: 5px;
-  cursor: pointer;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.nu-plant-item:hover {
-  background: #f9fafb;
+/* ── Labels ── */
+.nu-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #344054;
+  line-height: 20px;
 }
 
-/* ================= CUSTOM CHECKBOXES ================= */
+/* ── Text input ── */
+.nu-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 16px;
+  font-weight: 400;
+  color: #101828;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: inherit;
+}
+.nu-input::placeholder { color: #667085; }
+.nu-input:focus { border-color: #84adff; box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.12); }
 
-.nu-cb-label {
+/* ── Select wrapper ── */
+.nu-select-wrap {
+  position: relative;
   display: flex;
   align-items: center;
-  cursor: pointer;
+  width: 100%;
 }
 
-.nu-cb-label input[type="checkbox"],
-.nu-plant-item input[type="checkbox"] {
+.nu-select {
+  width: 100%;
+  padding: 10px 36px 10px 14px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 16px;
+  font-weight: 400;
+  color: #667085;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  font-family: inherit;
+}
+.nu-select:focus { border-color: #84adff; }
+
+/* chevron overlay */
+.nu-select-icon {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  color: #667085;
+  pointer-events: none;
+}
+
+/* selects with left prefix icon */
+.nu-select-wrap--icon { position: relative; }
+
+.nu-input-prefix-icon {
+  position: absolute;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  color: #667085;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.nu-select--has-prefix {
+  padding-left: 36px;
+}
+
+/* ── Group checkbox list ── */
+.nu-group-list {
+  border-bottom: 1px solid #eaecf0;
+}
+
+.nu-check-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 32px;
+  border-bottom: 1px solid #eaecf0;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.nu-check-row:last-child { border-bottom: none; }
+.nu-check-row:hover { background: #f9fafb; }
+
+.nu-check-input {
   position: absolute;
   opacity: 0;
   pointer-events: none;
@@ -159,12 +252,12 @@
   height: 0;
 }
 
-.nu-cb-box {
+.nu-checkbox {
   width: 16px;
   height: 16px;
-  border: 1.5px solid #cbd5e1;
+  border: 1px solid #d0d5dd;
   border-radius: 4px;
-  background: #fff;
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -172,47 +265,54 @@
   transition: background 0.15s, border-color 0.15s;
 }
 
-.nu-cb-box svg {
-  width: 9px;
-  height: 9px;
-  display: none;
+.nu-checkbox--checked {
+  background: #4361ee;
+  border-color: #4361ee;
 }
 
-input[type="checkbox"]:checked + .nu-cb-box {
-  background: #4f46e5;
-  border-color: #4f46e5;
+.nu-check-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #101828;
+  line-height: 20px;
 }
 
-input[type="checkbox"]:checked + .nu-cb-box svg {
-  display: block;
-}
-
-/* ================= BUTTONS ================= */
-
+/* ── Action buttons ── */
 .nu-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 10px;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid #eaecf0;
+  background: #ffffff;
+  flex-shrink: 0;
 }
 
-.cancel {
-  background: #f3f4f6;
-  border: 1px solid #ddd;
-  padding: 8px 16px;
-  border-radius: 6px;
+.nu-btn-cancel {
+  padding: 9px 20px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  color: #344054;
   cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  font-family: inherit;
 }
+.nu-btn-cancel:hover { background: #f9fafb; border-color: #98a2b3; }
 
-.save {
-  background: #4f46e5;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 6px;
+.nu-btn-save {
+  padding: 9px 20px;
   border: none;
+  border-radius: 8px;
+  background: #4361ee;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
   cursor: pointer;
+  transition: background 0.15s;
+  font-family: inherit;
 }
-
-.save:hover {
-  background: #4338ca;
-}
+.nu-btn-save:hover { background: #3451d1; }

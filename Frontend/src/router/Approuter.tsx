@@ -55,6 +55,16 @@ export default function Approuter() {
         <Route path="/configurations/workflow"       element={<Placeholderpage title="Workflow Config" />} />
         <Route path="/configurations/rules"          element={<Placeholderpage title="Business Rules" />} />
 
+        {/* Masters routes */}
+        <Route path="/masters/table/plant"           element={<Placeholderpage title="Plant" />} />
+        <Route path="/masters/table/employee"        element={<Placeholderpage title="Employee_Master" />} />
+        <Route path="/masters/table/role"            element={<Placeholderpage title="Role" />} />
+        <Route path="/masters/table/report-template" element={<Placeholderpage title="Report_Template" />} />
+        <Route path="/masters/table/workflow"        element={<Placeholderpage title="Workflow" />} />
+        <Route path="/masters/table/list-master"     element={<Placeholderpage title="List_Master" />} />
+        <Route path="/masters/table/dashboard"       element={<Placeholderpage title="Dashboard" />} />
+        <Route path="/masters/table/service"         element={<Placeholderpage title="Service" />} />
+
         <Route path="/userslist/new"       element={<NewUser />} />
         <Route path="/userslist/edit/:id"  element={<EditUser />} />
 
