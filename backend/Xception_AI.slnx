@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Src/" />
+  <Folder Name="/Src/Modules/" />
+  <Folder Name="/Src/Modules/Xception.AI.Modules.DynamicPlatform/">
+    <Project Path="Xception.AI.Modules.DynamicPlatform.API/Xception.AI.Modules.DynamicPlatform.API.csproj" />
+    <Project Path="Xception.AI.Modules.DynamicPlatform.Application/Xception.AI.Modules.DynamicPlatform.Application.csproj" />
+    <Project Path="Xception.AI.Modules.DynamicPlatform.Domain/Xception.AI.Modules.DynamicPlatform.Domain.csproj" />
+    <Project Path="Xception.AI.Modules.DynamicPlatform.Infrastructure/Xception.AI.Modules.DynamicPlatform.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Src/Modules/Xception.AI.Modules.UserManagement/" />
+</Solution>

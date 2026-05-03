@@ -1,1 +1,17 @@
 backend/.vs/
+
+# Build output
+**/bin/
+**/obj/
+
+# User-specific files
+*.user
+*.suo
+.vs/
+
+# Node modules
+node_modules/
+
+# Environment files
+.env
+.env.local

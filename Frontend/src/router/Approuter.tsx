@@ -17,6 +17,9 @@ import Report             from '../pages/Workflow/Report'
 import AgentLogs          from '../pages/Workflow/AgentLogs'
 import WorkflowAuditTrail from '../pages/Workflow/AuditTrail'
 
+import MastersPage         from '../pages/Masters/MastersPage'
+import TableMaster         from '../pages/Masters/Table_masters/TableMaster'
+import AddField            from '../pages/Masters/Table_masters/AddField'
 import Systemconfiguration from '../pages/Configurations/Systemconfig/Systemconfiguration'
 import Empower             from '../pages/Configurations/Empower/Empower'
 import NewUser             from '../pages/UsersList/NewUser/NewUser'
@@ -56,8 +59,10 @@ export default function Approuter() {
         <Route path="/configurations/rules"          element={<Placeholderpage title="Business Rules" />} />
 
         {/* Masters routes */}
+        <Route path="/masters"                       element={<MastersPage />} />
         <Route path="/masters/table/plant"           element={<Placeholderpage title="Plant" />} />
-        <Route path="/masters/table/employee"        element={<Placeholderpage title="Employee_Master" />} />
+        <Route path="/masters/table/employee"           element={<TableMaster />} />
+        <Route path="/masters/table/employee/add-field" element={<AddField />} />
         <Route path="/masters/table/role"            element={<Placeholderpage title="Role" />} />
         <Route path="/masters/table/report-template" element={<Placeholderpage title="Report_Template" />} />
         <Route path="/masters/table/workflow"        element={<Placeholderpage title="Workflow" />} />
