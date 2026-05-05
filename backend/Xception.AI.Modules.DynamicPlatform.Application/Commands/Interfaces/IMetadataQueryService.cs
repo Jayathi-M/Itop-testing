@@ -8,6 +8,6 @@ namespace Xception.AI.Modules.DynamicPlatform.Application.Commands.Interfaces
     public interface IMetadataQueryService
     {
         Task<List<TableInfoDto>> GetTablesAsync();
+        Task<bool> CreateTableAsync(string tableName, string tableSchema, List<CreateTableColumnDto> columns); 
     }
 }
-

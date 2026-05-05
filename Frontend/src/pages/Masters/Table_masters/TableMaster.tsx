@@ -1,6 +1,7 @@
 import './TableMaster.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import CreateTable from './CreateTable.tsx'
 
 interface TableInfo {
   tableSchema: string
@@ -78,13 +79,21 @@ export default function TableMaster() {
   const [search, setSearch]               = useState('')
   const [page, setPage]                   = useState(1)
   const [pageSize, setPageSize]           = useState(10)
+  const [showCreateModal, setShowCreateModal] = useState(false)
 
-  useEffect(() => {
+  // CHANGE 1: fetchTables accepts optional selectTableName
+  const fetchTables = useCallback((selectTableName?: string) => {
+    setLoading(true)
     fetch('http://localhost:5134/api/TableMaster/tables')
       .then(res => res.json())
       .then((data: TableInfo[]) => {
         setTables(data)
-        setSelectedTable(data[0] ?? null)
+        if (selectTableName) {
+          const newTable = data.find(t => t.tableName === selectTableName)
+          if (newTable) setSelectedTable(newTable)
+        } else {
+          setSelectedTable(prev => prev ?? data[0] ?? null)
+        }
         setLoading(false)
       })
       .catch(() => {
@@ -92,6 +101,10 @@ export default function TableMaster() {
         setLoading(false)
       })
   }, [])
+
+  useEffect(() => {
+    fetchTables()
+  }, [fetchTables])
 
   useEffect(() => {
     if (!selectedTable) return
@@ -106,7 +119,7 @@ export default function TableMaster() {
 
   useEffect(() => { setPage(1) }, [search, pageSize])
 
-  const filtered   = fields.filter(f => {
+  const filtered = fields.filter(f => {
     const q = search.toLowerCase()
     return (
       f.column_name.toLowerCase().includes(q) ||
@@ -126,7 +139,6 @@ export default function TableMaster() {
   return (
     <div className="tm-page">
 
-      {/* Top bar */}
       <div className="tm-topbar">
         <div className="tm-topbar-right">
           <span className="tm-online-dot" />
@@ -140,7 +152,6 @@ export default function TableMaster() {
 
       <div className="tm-body">
 
-        {/* Left Panel */}
         <div className="tm-left">
           <ul className="tm-left__list">
             {loading && <li className="tm-left__item tm-left__item--info">Loading...</li>}
@@ -165,17 +176,18 @@ export default function TableMaster() {
             })}
           </ul>
           <div className="tm-left__footer">
-            <button className="tm-left__create-btn">
+            <button
+              className="tm-left__create-btn"
+              onClick={() => setShowCreateModal(true)}
+            >
               <PlusIcon />
               Create
             </button>
           </div>
         </div>
 
-        {/* Right Content Area */}
         <div className="tm-right">
 
-          {/* Toolbar above card */}
           <div className="tm-toolbar">
             <div className="tm-search-wrap">
               <SearchIcon />
@@ -206,9 +218,7 @@ export default function TableMaster() {
             </div>
           </div>
 
-          {/* Table Card */}
           <div className="tm-table-card">
-
             <div className="tm-table-wrap">
               <table className="tm-table">
                 <thead>
@@ -251,7 +261,6 @@ export default function TableMaster() {
               </table>
             </div>
 
-            {/* Pagination */}
             <div className="tm-pagination">
               <button
                 className="tm-pg-btn"
@@ -296,10 +305,21 @@ export default function TableMaster() {
                 </select>
               </div>
             </div>
-
           </div>
         </div>
       </div>
+
+      {/* CHANGE 2 & 3: onTableCreated passes tableName, fetchTables receives it */}
+      {showCreateModal && (
+        <CreateTable
+          onClose={() => setShowCreateModal(false)}
+          onTableCreated={(tableName) => {
+            fetchTables(tableName)
+            setShowCreateModal(false)
+          }}
+        />
+      )}
+
     </div>
   )
 }

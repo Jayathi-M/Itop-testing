@@ -1293,23 +1293,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\AI000045\\.nuget\\packages\\": {},
+    "C:\\Users\\AI000023\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Venkata Abhishek V\\Desktop\\Xception_AI\\backend\\backend.csproj",
+      "projectUniqueName": "C:\\Xception\\Xception_AI-app\\backend\\backend.csproj",
       "projectName": "backend",
-      "projectPath": "C:\\Users\\Venkata Abhishek V\\Desktop\\Xception_AI\\backend\\backend.csproj",
-      "packagesPath": "C:\\Users\\AI000045\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Venkata Abhishek V\\Desktop\\Xception_AI\\backend\\obj\\",
+      "projectPath": "C:\\Xception\\Xception_AI-app\\backend\\backend.csproj",
+      "packagesPath": "C:\\Users\\AI000023\\.nuget\\packages\\",
+      "outputPath": "C:\\Xception\\Xception_AI-app\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\AI000045\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\AI000023\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1382,7 +1382,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.200/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.200-preview.0.26103.119/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

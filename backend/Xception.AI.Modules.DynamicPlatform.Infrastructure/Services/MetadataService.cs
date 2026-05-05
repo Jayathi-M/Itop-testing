@@ -33,5 +33,47 @@ namespace Xception.AI.Modules.DynamicPlatform.Infrastructure.Services
             var result = await connection.QueryAsync<TableInfoDto>(sql);
             return result.ToList();
         }
+
+        // UPDATED - now accepts List<CreateTableColumnDto>
+        public async Task<bool> CreateTableAsync(string tableName, string tableSchema, List<CreateTableColumnDto> columns)
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+
+            if (string.IsNullOrWhiteSpace(tableName) || string.IsNullOrWhiteSpace(tableSchema))
+                throw new ArgumentException("Table name and schema are required.");
+
+            var forbidden = new[] { ";", "--", "/*", "*/", "xp_", "'" };
+            foreach (var f in forbidden)
+            {
+                if (tableName.Contains(f) || tableSchema.Contains(f))
+                    throw new ArgumentException("Invalid characters in table name or schema.");
+            }
+
+            // Start with default columns
+            var columnDefs = new List<string>
+            {
+                "id SERIAL PRIMARY KEY",
+                "created_at TIMESTAMP DEFAULT NOW()"
+            };
+
+            // UPDATED - use col.Name and col.DataType
+            if (columns != null && columns.Any())
+            {
+                foreach (var col in columns)
+                {
+                    if (!string.IsNullOrWhiteSpace(col.Name) && !forbidden.Any(f => col.Name.Contains(f)))
+                    {
+                        columnDefs.Add($"\"{col.Name.Trim()}\" {col.DataType}");
+                    }
+                }
+            }
+
+            var sql = $@"CREATE TABLE IF NOT EXISTS ""{tableSchema}"".""{tableName}"" (
+                {string.Join(",\n                ", columnDefs)}
+            );";
+
+            await connection.ExecuteAsync(sql);
+            return true;
+        }
     }
 }

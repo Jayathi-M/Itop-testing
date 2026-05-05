@@ -308,3 +308,15 @@ C:\Users\Venkata Abhishek V\Desktop\Xception_AI\backend\obj\Debug\net10.0\refint
 C:\Users\Venkata Abhishek V\Desktop\Xception_AI\backend\obj\Debug\net10.0\backend.pdb
 C:\Users\Venkata Abhishek V\Desktop\Xception_AI\backend\obj\Debug\net10.0\backend.genruntimeconfig.cache
 C:\Users\Venkata Abhishek V\Desktop\Xception_AI\backend\obj\Debug\net10.0\ref\backend.dll
+C:\Xception\Xception_AI-app\backend\obj\Debug\net10.0\backend.csproj.AssemblyReference.cache
+C:\Xception\Xception_AI-app\backend\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Xception\Xception_AI-app\backend\obj\Debug\net10.0\backend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Xception\Xception_AI-app\backend\obj\Debug\net10.0\backend.AssemblyInfoInputs.cache
+C:\Xception\Xception_AI-app\backend\obj\Debug\net10.0\backend.AssemblyInfo.cs
+C:\Xception\Xception_AI-app\backend\obj\Debug\net10.0\backend.csproj.CoreCompileInputs.cache
+C:\Xception\Xception_AI-app\backend\obj\Debug\net10.0\backend.MvcApplicationPartsAssemblyInfo.cs
+C:\Xception\Xception_AI-app\backend\obj\Debug\net10.0\backend.MvcApplicationPartsAssemblyInfo.cache
+C:\Xception\Xception_AI-app\backend\obj\Debug\net10.0\backend.sourcelink.json
+C:\Xception\Xception_AI-app\backend\obj\Debug\net10.0\backend.dll
+C:\Xception\Xception_AI-app\backend\obj\Debug\net10.0\refint\backend.dll
+C:\Xception\Xception_AI-app\backend\obj\Debug\net10.0\backend.pdb
