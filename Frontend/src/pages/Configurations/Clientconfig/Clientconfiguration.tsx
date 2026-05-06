@@ -83,7 +83,7 @@ const PortPanel = ({ onChange }: { onChange: () => void }) => (
     </Field>
     <Field label="Baud Rate">
       <select className="cc__select" onChange={onChange}>
-        <option>9600</option><option>19200</option><option>38400</option><option>115134</option>
+        <option>9600</option><option>19200</option><option>38400</option><option>115200</option>
       </select>
     </Field>
     <Field label="Data Bits">
