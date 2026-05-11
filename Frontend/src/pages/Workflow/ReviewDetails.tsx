@@ -74,135 +74,162 @@ export default function RecordReviewDetails() {
   return (
     <div className="rd-page">
 
-      {/* ── Header ── */}
+      {/* ── Top header bar ── */}
       <div className="rd-header">
-        <div>
+        <div className="rd-header__text">
           <div className="rd-header__name">{recordName}</div>
-          <div className="rd-header__path">{recordPath}</div>
+          <div className="rd-header__sub">{recordPath}</div>
         </div>
-        <button className="rd-header__close" onClick={() => navigate(-1)}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
-      </div>
-
-      {/* ── Toolbar ── */}
-      <div className="rd-toolbar">
-        <span className="rd-toolbar__title">Review</span>
-        <div className="rd-toolbar__tools">
-          <button className="rd-tool-btn">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <div className="rd-header__actions">
+          <button className="rd-icon-btn" onClick={() => navigate(-1)} title="Previous">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
             </svg>
           </button>
-          <button className="rd-tool-btn">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+          <button className="rd-icon-btn" title="Next">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
             </svg>
           </button>
-          <button className="rd-tool-btn">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/>
+          <button className="rd-icon-btn rd-icon-btn--close" onClick={() => navigate(-1)} title="Close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
           </button>
         </div>
       </div>
 
-      {/* ── Column headers ── */}
-      <div className="rd-col-header">
-        <div className="rd-col-sno">S.NO.</div>
-        <div className="rd-col-desc">Check point description</div>
-        <div className="rd-col-exc">Exception/Further review</div>
-        <div className="rd-col-just">Justification</div>
-        <div className="rd-col-hist">History</div>
-      </div>
+      {/* ── Main content area ── */}
+      <div className="rd-content">
+        <div className="rd-card">
 
-      {/* ── Rows ── */}
-      <div className="rd-rows">
-        {checkpoints.map((cp, idx) => {
-          const needsJust = cp.exception && cp.exception !== 'No'
-          const hasError  = submitAttempted && !!needsJust && !cp.justification.trim()
-
-          return (
-            <div key={idx} className="rd-row">
-
-              {/* S.NO */}
-              <div className="rd-cell-sno">
-                {String(idx + 1).padStart(2, '0')}
-              </div>
-
-              {/* Description */}
-              <div className="rd-cell-desc">
-                {cp.desc}
-              </div>
-
-              {/* Exception dropdown */}
-              <div className="rd-cell-exc">
-                <div className="rd-select-wrap">
-                  <select
-                    className="rd-select"
-                    value={cp.exception}
-                    onChange={e => update(idx, 'exception', e.target.value)}
-                  >
-                    <option value="">Select</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                    <option value="Further Review">Further Review</option>
-                  </select>
-                  <svg className="rd-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="6 9 12 15 18 9"/>
-                  </svg>
-                </div>
-              </div>
-
-              {/* Justification */}
-              <div className="rd-cell-just">
-                <div className={`rd-just-box ${hasError ? 'rd-just-box--error' : ''}`}>
-                  {needsJust && <span className="rd-asterisk">*</span>}
-                  <input
-                    ref={el => { inputRefs.current[idx] = el }}
-                    className="rd-just-input"
-                    placeholder="Enter a justification..."
-                    value={cp.justification}
-                    disabled={!needsJust}
-                    onChange={e => update(idx, 'justification', e.target.value)}
-                    onKeyDown={e => handleKeyDown(e, idx)}
-                  />
-                </div>
-                
-                {hasError && (
-                  <div className="rd-err">Justification is required</div>
-                )}
-              </div>
-
-              {/* History */}
-              <div className="rd-cell-hist">
-                <button className="rd-view-btn" onClick={() => setHistoryModal({ name: cp.name })}>
-                  View
-                </button>
-              </div>
-
+          {/* Card header — "Review" + tool buttons */}
+          <div className="rd-card-header">
+            <span className="rd-card-title">Review</span>
+            <div className="rd-card-tools">
+              <button className="rd-icon-btn" title="Search">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </button>
+              <button className="rd-icon-btn" title="Filter">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+                </svg>
+              </button>
             </div>
-          )
-        })}
+          </div>
+          <div className="rd-divider" />
+
+          {/* Table */}
+          <div className="rd-table-scroll">
+            <table className="rd-table">
+              <thead>
+                <tr>
+                  <th className="rd-th rd-th--sno">S.NO.</th>
+                  <th className="rd-th rd-th--desc">Check point description</th>
+                  <th className="rd-th rd-th--exc">Exception</th>
+                  <th className="rd-th rd-th--just">Justification</th>
+                  <th className="rd-th rd-th--hist">History</th>
+                </tr>
+              </thead>
+              <tbody>
+                {checkpoints.map((cp, idx) => {
+                  const needsJust = cp.exception && cp.exception !== 'No'
+                  const hasError  = submitAttempted && !!needsJust && !cp.justification.trim()
+                  const isLast    = idx === checkpoints.length - 1
+
+                  return (
+                    <tr key={idx} className={`rd-tr${isLast ? ' rd-tr--alt' : ''}`}>
+
+                      {/* S.NO */}
+                      <td className="rd-td rd-td--sno">
+                        {String(idx + 1).padStart(2, '0')}
+                      </td>
+
+                      {/* Description */}
+                      <td className="rd-td rd-td--desc">
+                        <p>{cp.desc}</p>
+                      </td>
+
+                      {/* Exception dropdown */}
+                      <td className="rd-td rd-td--exc">
+                        <div className="rd-select-wrap">
+                          <select
+                            className="rd-select"
+                            value={cp.exception}
+                            onChange={e => update(idx, 'exception', e.target.value)}
+                          >
+                            <option value="">Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            <option value="Further Review">Further Review</option>
+                          </select>
+                          <svg className="rd-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="6 9 12 15 18 9"/>
+                          </svg>
+                        </div>
+                      </td>
+
+                      {/* Justification */}
+                      <td className="rd-td rd-td--just">
+                        <div className="rd-just-cell">
+                          {/* Red asterisk badge */}
+                          {needsJust && (
+                            <span className="rd-asterisk-badge" aria-hidden>
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#d92d20" strokeWidth="2.5" strokeLinecap="round">
+                                <line x1="12" y1="2" x2="12" y2="22"/>
+                                <line x1="2" y1="12" x2="22" y2="12"/>
+                                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                                <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/>
+                              </svg>
+                            </span>
+                          )}
+                          <input
+                            ref={el => { inputRefs.current[idx] = el }}
+                            className={`rd-just-input${hasError ? ' rd-just-input--error' : ''}${!needsJust ? ' rd-just-input--disabled' : ''}`}
+                            placeholder="Enter a justification..."
+                            value={cp.justification}
+                            disabled={!needsJust}
+                            onChange={e => update(idx, 'justification', e.target.value)}
+                            onKeyDown={e => handleKeyDown(e, idx)}
+                          />
+                          {idx === 0 && needsJust && (
+                            <span className="rd-key-hint">⌘ + Enter to Next</span>
+                          )}
+                        </div>
+                        {hasError && <div className="rd-err">Justification is required</div>}
+                      </td>
+
+                      {/* History */}
+                      <td className="rd-td rd-td--hist">
+                        <button className="rd-view-btn" onClick={() => setHistoryModal({ name: cp.name })}>
+                          View
+                        </button>
+                      </td>
+
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="rd-divider" />
+
+          {/* Card footer — pagination placeholder (not data-driven, visual only) */}
+          <div className="rd-card-footer">
+            {submitAttempted && checkpoints.some(cp => cp.exception && cp.exception !== 'No' && !cp.justification.trim()) && (
+              <span className="rd-footer-warn">Please fill all required justifications</span>
+            )}
+          </div>
+
+        </div>
       </div>
 
-      {/* ── Footer ── */}
+      {/* ── Bottom footer — Cancel / Submit ── */}
       <div className="rd-footer">
-        <div className="rd-footer__nav">
-          <button className="rd-nav-btn" onClick={() => navigate(-1)}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
-          <button className="rd-nav-btn">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-        </div>
-
         <div className="rd-footer__right">
-          {submitAttempted && checkpoints.some(cp => cp.exception && cp.exception !== 'No' && !cp.justification.trim()) && (
-            <span className="rd-footer__warn">Please fill all required justifications</span>
-          )}
           <button className="rd-btn-cancel" onClick={() => navigate(-1)}>Cancel</button>
           <button className="rd-btn-submit" onClick={handleSubmit}>Submit</button>
         </div>
@@ -214,8 +241,8 @@ export default function RecordReviewDetails() {
           <div className="rd-modal" onClick={e => e.stopPropagation()}>
             <div className="rd-modal__head">
               <span className="rd-modal__title">History — {historyModal.name}</span>
-              <button className="rd-modal__x" onClick={() => setHistoryModal(null)}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <button className="rd-icon-btn rd-icon-btn--close" onClick={() => setHistoryModal(null)}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                 </svg>
               </button>

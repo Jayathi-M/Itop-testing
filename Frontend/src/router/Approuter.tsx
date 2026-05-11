@@ -1,81 +1,107 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import Mainlayout      from '../layouts/Mainlayout'
-import Placeholderpage from '../pages/Placeholder/Placeholderpage'
-import Login           from '../pages/Login/Login'
 
-import DashboardPage   from '../pages/Dashboard/SystemDashboardPage'
-import UserManagement  from '../pages/UserManagement/UserManagement'
-import Workflow        from '../pages/Workflow/WorkflowLayout'
-import Reports         from '../pages/Reports/Reports'
-import UsersList       from '../pages/UsersList/UsersList'
-import Role            from '../pages/Role/Role'
+// ── Eagerly loaded (tiny, always needed on first paint) ──────────────────────
+import Login      from '../pages/Login/Login'
+import Mainlayout from '../layouts/Mainlayout'
 
-import AuditQueue         from '../pages/Workflow/Queue'
-import RecordReviewList   from '../pages/Workflow/Review'
-import RecordReviewDetails from '../pages/Workflow/ReviewDetails'
-import Report             from '../pages/Workflow/Report'
-import AgentLogs          from '../pages/Workflow/AgentLogs'
-import WorkflowAuditTrail from '../pages/Workflow/AuditTrail'
+// ── Lazy: core pages ─────────────────────────────────────────────────────────
+const Placeholderpage   = lazy(() => import('../pages/Placeholder/Placeholderpage'))
+const DashboardPage     = lazy(() => import('../pages/Dashboard/SystemDashboardPage'))
+const UserManagement    = lazy(() => import('../pages/UserManagement/UserManagement'))
+const Workflow          = lazy(() => import('../pages/Workflow/WorkflowLayout'))
+const Reports           = lazy(() => import('../pages/Reports/Reports'))
+const UsersList         = lazy(() => import('../pages/UsersList/UsersList'))
+const Role              = lazy(() => import('../pages/Role/Role'))
+const NewUser           = lazy(() => import('../pages/UsersList/NewUser/NewUser'))
+const EditUser          = lazy(() => import('../pages/UsersList/EditUser/EditUser'))
 
-import MastersPage         from '../pages/Masters/MastersPage'
-import TableMaster         from '../pages/Masters/Table_masters/TableMaster'
-import AddField            from '../pages/Masters/Table_masters/AddField'
-import Systemconfiguration from '../pages/Configurations/Systemconfig/Systemconfiguration'
-import Empower             from '../pages/Configurations/Empower/Empower'
-import NewUser             from '../pages/UsersList/NewUser/NewUser'
-import EditUser            from '../pages/UsersList/EditUser/EditUser'
+// ── Lazy: audit module ────────────────────────────────────────────────────────
+const AuditQueue          = lazy(() => import('../pages/Workflow/Queue'))
+const RecordReviewList    = lazy(() => import('../pages/Workflow/Review'))
+const RecordReviewDetails = lazy(() => import('../pages/Workflow/ReviewDetails'))
+const Report              = lazy(() => import('../pages/Workflow/Report'))
+const AgentLogs           = lazy(() => import('../pages/Workflow/AgentLogs'))
+const WorkflowAuditTrail  = lazy(() => import('../pages/Workflow/AuditTrail'))
+
+// ── Lazy: masters ─────────────────────────────────────────────────────────────
+const MastersPage  = lazy(() => import('../pages/Masters/MastersPage'))
+const TableMaster  = lazy(() => import('../pages/Masters/Table_masters/TableMaster'))
+const AddField     = lazy(() => import('../pages/Masters/Table_masters/AddField'))
+const MasterList   = lazy(() => import('../pages/Masters/MasterList/MasterList'))
+
+// ── Lazy: configurations ──────────────────────────────────────────────────────
+const Systemconfiguration = lazy(() => import('../pages/Configurations/Systemconfig/Systemconfiguration'))
+const Empower             = lazy(() => import('../pages/Configurations/Empower/Empower'))
+const Dashboardconfig     = lazy(() => import('../pages/Configurations/Dashboardconfig/Dashboardconfig'))
+const Reportconfig        = lazy(() => import('../pages/Configurations/Reportsconfig/Reportconfig'))
+const Templateconfig      = lazy(() => import('../pages/Configurations/Templateconfig/Templateconfig'))
+const Workflowconfig      = lazy(() => import('../pages/Configurations/Workflowconfig/Workflowconfig'))
+const Businessruleconfig  = lazy(() => import('../pages/Configurations/Businessrulesconfig/Businessruleconfig'))
+
+// ── Fallback shown while a chunk is being fetched ────────────────────────────
+function PageLoader() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+      <span>Loading…</span>
+    </div>
+  )
+}
 
 export default function Approuter() {
   return (
-    <Routes>
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
 
-      <Route path="/"      element={<Login />} />
-      <Route path="/login" element={<Login />} />
+        <Route path="/"      element={<Login />} />
+        <Route path="/login" element={<Login />} />
 
-      <Route element={<Mainlayout />}>
-        <Route path="/home"       element={<DashboardPage />} />
-        <Route path="/dashboard"  element={<DashboardPage />} />
-        <Route path="/dashboards" element={<UserManagement />} />
-        <Route path="/workflow"   element={<Workflow />} />
-        <Route path="/reports"    element={<Reports />} />
-        <Route path="/users"      element={<UserManagement />} />
-        <Route path="/userslist"  element={<UsersList />} />
-        <Route path="/role"       element={<Role />} />
+        <Route element={<Mainlayout />}>
+          <Route path="/home"       element={<DashboardPage />} />
+          <Route path="/dashboard"  element={<DashboardPage />} />
+          <Route path="/dashboards" element={<UserManagement />} />
+          <Route path="/workflow"   element={<Workflow />} />
+          <Route path="/reports"    element={<Reports />} />
+          <Route path="/users"      element={<UserManagement />} />
+          <Route path="/userslist"  element={<UsersList />} />
+          <Route path="/role"       element={<Role />} />
 
-        {/* Audit module routes */}
-        <Route path="/audit/queue"                element={<AuditQueue />} />
-        <Route path="/audit/record-review"        element={<RecordReviewList />} />
-        <Route path="/audit/record-review/:id"    element={<RecordReviewDetails />} />
-        <Route path="/audit/report"               element={<Report />} />
-        <Route path="/audit/agent-logs"           element={<AgentLogs />} />
-        <Route path="/audit/audit-trail"          element={<WorkflowAuditTrail />} />
+          {/* Audit module */}
+          <Route path="/audit/queue"             element={<AuditQueue />} />
+          <Route path="/audit/record-review"     element={<RecordReviewList />} />
+          <Route path="/audit/record-review/:id" element={<RecordReviewDetails />} />
+          <Route path="/audit/report"            element={<Report />} />
+          <Route path="/audit/agent-logs"        element={<AgentLogs />} />
+          <Route path="/audit/audit-trail"       element={<WorkflowAuditTrail />} />
 
-        <Route path="/configurations/system"         element={<Systemconfiguration />} />
-        <Route path="/configurations/system/empower" element={<Empower />} />
-        <Route path="/configurations/dashboards"     element={<Placeholderpage title="Dashboard Config" />} />
-        <Route path="/configurations/reports"        element={<Placeholderpage title="Reports Config" />} />
-        <Route path="/configurations/templates"      element={<Placeholderpage title="Templates" />} />
-        <Route path="/configurations/workflow"       element={<Placeholderpage title="Workflow Config" />} />
-        <Route path="/configurations/rules"          element={<Placeholderpage title="Business Rules" />} />
+          {/* Configurations */}
+          <Route path="/configurations/system"         element={<Systemconfiguration />} />
+          <Route path="/configurations/system/empower" element={<Empower />} />
+          <Route path="/configurations/dashboards" element={<Dashboardconfig />} />
+          <Route path="/configurations/reports"    element={<Reportconfig />} />
+          <Route path="/configurations/templates"  element={<Templateconfig />} />
+          <Route path="/configurations/workflow"   element={<Workflowconfig />} />
+          <Route path="/configurations/rules"      element={<Businessruleconfig />} />
 
-        {/* Masters routes */}
-        <Route path="/masters"                       element={<MastersPage />} />
-        <Route path="/masters/table/plant"           element={<Placeholderpage title="Plant" />} />
-        <Route path="/masters/table/employee"           element={<TableMaster />} />
-        <Route path="/masters/table/employee/add-field" element={<AddField />} />
-        <Route path="/masters/table/role"            element={<Placeholderpage title="Role" />} />
-        <Route path="/masters/table/report-template" element={<Placeholderpage title="Report_Template" />} />
-        <Route path="/masters/table/workflow"        element={<Placeholderpage title="Workflow" />} />
-        <Route path="/masters/table/list-master"     element={<Placeholderpage title="List_Master" />} />
-        <Route path="/masters/table/dashboard"       element={<Placeholderpage title="Dashboard" />} />
-        <Route path="/masters/table/service"         element={<Placeholderpage title="Service" />} />
+          {/* Masters */}
+          <Route path="/masters"                          element={<MastersPage />} />
+          <Route path="/masters/table/plant"              element={<MasterList />} />
+          <Route path="/masters/table/employee"           element={<TableMaster />} />
+          <Route path="/masters/table/employee/add-field" element={<AddField />} />
+          <Route path="/masters/table/role"               element={<Placeholderpage title="Groups" />} />
+          <Route path="/masters/table/report-template"    element={<Placeholderpage title="Dashboard Builder" />} />
+          <Route path="/masters/table/workflow"           element={<Placeholderpage title="Report Builder" />} />
+          <Route path="/masters/table/dashboard"          element={<Placeholderpage title="Dashboard" />} />
+          <Route path="/masters/table/service"            element={<Placeholderpage title="Service" />} />
 
-        <Route path="/userslist/new"       element={<NewUser />} />
-        <Route path="/userslist/edit/:id"  element={<EditUser />} />
+          {/* Users */}
+          <Route path="/userslist/new"      element={<NewUser />} />
+          <Route path="/userslist/edit/:id" element={<EditUser />} />
 
-        <Route path="*" element={<Navigate to="/home" replace />} />
-      </Route>
+          <Route path="*" element={<Navigate to="/home" replace />} />
+        </Route>
 
-    </Routes>
+      </Routes>
+    </Suspense>
   )
 }

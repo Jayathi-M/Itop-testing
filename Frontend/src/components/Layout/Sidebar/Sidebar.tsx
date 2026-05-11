@@ -262,7 +262,7 @@ const MASTERS_GROUPS: ConfigGroup[] = [
       { label: 'Groups',           path: '/masters/table/role',            Icon: ReportsIcon      },
       { label: 'Dashboard Builder',  path: '/masters/table/report-template', Icon: ReportsIcon    },
       { label: 'Report Builder',    path: '/masters/table/workflow',        Icon: CircleIcon      },
-      { label: 'Audit Trail',      path: '/masters/table/list-master',     Icon: CircleIcon       },
+      // { label: 'Audit Trail',      path: '/masters/table/list-master',     Icon: CircleIcon       },
     ],
   },
 ]
@@ -307,10 +307,10 @@ export default function Sidebar() {
   const isMastersRoute = location.pathname.startsWith('/masters/table') || location.pathname.startsWith('/masters/list') || location.pathname.startsWith('/masters/groups')
 
   function isActive(item: NavItem): boolean {
-    if (item.panel === 'config')  return location.pathname.startsWith('/configurations') || cfgOpen
-    if (item.panel === 'ums')     return usmOpen || isUMSRoute
-    if (item.panel === 'audit')   return auditOpen || isAuditRoute
-    if (item.panel === 'masters') return mastersOpen || isMastersRoute
+    if (item.panel === 'config')  return location.pathname.startsWith('/configurations')
+    if (item.panel === 'ums')     return isUMSRoute
+    if (item.panel === 'audit')   return isAuditRoute
+    if (item.panel === 'masters') return isMastersRoute
     if (!item.path) return false
     if (isUMSRoute) return false
     if (item.path === '/') return location.pathname === '/'
@@ -421,15 +421,16 @@ export default function Sidebar() {
       {/* ── Config panel ── */}
       {cfgOpen && (
         <div className="cfg-panel">
-          {/* <div className="cfg-panel__head">
+          <div className="cfg-panel__head">
             <div className="cfg-panel__title-wrap">
               <span className="cfg-panel__title">Configuration Center</span>
-              <span className="cfg-panel__title-bar" />
             </div>
             <button className="cfg-panel__back" onClick={() => setCfgOpen(false)}>
-              <i className="fa-solid fa-arrow-left" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
             </button>
-          </div> */}
+          </div>
           <div className="cfg-panel__body">
             {CONFIG_GROUPS.map(group => (
               <div key={group.label} className="cfg-group">
@@ -458,15 +459,16 @@ export default function Sidebar() {
       {/* ── UMS panel ── */}
       {usmOpen && (
         <div className="cfg-panel">
-          {/* <div className="cfg-panel__head">
+          <div className="cfg-panel__head">
             <div className="cfg-panel__title-wrap">
               <span className="cfg-panel__title">User Management</span>
-              <span className="cfg-panel__title-bar" />
             </div>
             <button className="cfg-panel__back" onClick={() => setUsmOpen(false)}>
-              <i className="fa-solid fa-arrow-left" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
             </button>
-          </div> */}
+          </div>
           <div className="cfg-panel__body">
             {CONFIG_USERS.map(group => (
               <div key={group.label} className="cfg-group">
@@ -495,15 +497,16 @@ export default function Sidebar() {
       {/* ── Audit panel ── */}
       {auditOpen && (
         <div className="cfg-panel">
-          {/* <div className="cfg-panel__head">
+          <div className="cfg-panel__head">
             <div className="cfg-panel__title-wrap">
               <span className="cfg-panel__title">Exceptions</span>
-              <span className="cfg-panel__title-bar" />
             </div>
             <button className="cfg-panel__back" onClick={() => setAuditOpen(false)}>
-              <i className="fa-solid fa-arrow-left" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
             </button>
-          </div> */}
+          </div>
           <div className="cfg-panel__body">
             <div className="cfg-group">
               <div className="cfg-group__label">Audit</div>
@@ -530,15 +533,16 @@ export default function Sidebar() {
       {/* ── Masters panel ── */}
       {mastersOpen && (
         <div className="cfg-panel">
-          {/* <div className="cfg-panel__head">
+          <div className="cfg-panel__head">
             <div className="cfg-panel__title-wrap">
               <span className="cfg-panel__title">Masters</span>
-              <span className="cfg-panel__title-bar" />
             </div>
             <button className="cfg-panel__back" onClick={() => setMastersOpen(false)}>
-              <i className="fa-solid fa-arrow-left" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
             </button>
-          </div> */}
+          </div>
           <div className="cfg-panel__body">
             {MASTERS_GROUPS.map(group => (
               <div key={group.label} className="cfg-group">

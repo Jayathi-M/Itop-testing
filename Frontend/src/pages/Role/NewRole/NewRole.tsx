@@ -22,60 +22,144 @@ interface PrivilegeGroup {
 interface NewRoleProps {
   onCancel: () => void;
   onSubmit: (data: { roleName: string }) => void;
+  submitError?: string | null;
 }
 
-// ─── Tab Data ─────────────────────────────────────────────────────────────────
+// ─── Tabs ─────────────────────────────────────────────────────────────────────
 
-const TABS = ["Platform", "File based systems", "CDS", "Lims"];
+const TABS = [
+  "Platform",
+  "File based systems",
+  "CDS",
+  "Lims",
+];
 
-const INITIAL_GROUPS: Record<string, PrivilegeGroup[]> = {
+// ─── Initial Data ─────────────────────────────────────────────────────────────
+
+const INITIAL_GROUPS: Record<
+  string,
+  PrivilegeGroup[]
+> = {
   Platform: [
     {
       key: "platform",
       label: "Platform",
       count: 3,
       expanded: true,
+
       privileges: [
-        { id: "platform_create", name: "Create Config", create: true,  edit: true,  view: false },
-        { id: "platform_edit",   name: "Edit Config",   create: true,  edit: false, view: true  },
-        { id: "platform_view",   name: "View Config",   create: true,  edit: true,  view: false },
+        {
+          id: "platform_create",
+          name: "Create Config",
+          create: true,
+          edit: true,
+          view: false,
+        },
+
+        {
+          id: "platform_edit",
+          name: "Edit Config",
+          create: true,
+          edit: false,
+          view: true,
+        },
+
+        {
+          id: "platform_view",
+          name: "View Config",
+          create: true,
+          edit: true,
+          view: false,
+        },
       ],
     },
   ],
+
   "File based systems": [
     {
       key: "fbs",
       label: "File Based Systems",
       count: 2,
       expanded: true,
+
       privileges: [
-        { id: "fbs_upload", name: "Upload Files",  create: true,  edit: false, view: true  },
-        { id: "fbs_delete", name: "Delete Files",  create: false, edit: true,  view: false },
+        {
+          id: "fbs_upload",
+          name: "Upload Files",
+          create: true,
+          edit: false,
+          view: true,
+        },
+
+        {
+          id: "fbs_delete",
+          name: "Delete Files",
+          create: false,
+          edit: true,
+          view: false,
+        },
       ],
     },
   ],
+
   CDS: [
     {
       key: "cds",
       label: "CDS",
       count: 3,
       expanded: true,
+
       privileges: [
-        { id: "cds_access",  name: "Access",            create: true,  edit: false, view: true  },
-        { id: "cds_review",  name: "Review Exception",  create: true,  edit: false, view: true  },
-        { id: "cds_approve", name: "Approve Exception", create: true,  edit: true,  view: false },
+        {
+          id: "cds_access",
+          name: "Access",
+          create: true,
+          edit: false,
+          view: true,
+        },
+
+        {
+          id: "cds_review",
+          name: "Review Exception",
+          create: true,
+          edit: false,
+          view: true,
+        },
+
+        {
+          id: "cds_approve",
+          name: "Approve Exception",
+          create: true,
+          edit: true,
+          view: false,
+        },
       ],
     },
   ],
-  Lims: [
+
+  LIMS: [
     {
       key: "lims",
       label: "Lims",
       count: 2,
       expanded: true,
+
       privileges: [
-        { id: "lims_read",  name: "Read Records",   create: false, edit: false, view: true  },
-        { id: "lims_write", name: "Write Records",  create: true,  edit: true,  view: false },
+        {
+          id: "lims_read",
+          name: "Read Records",
+          create: false,
+          edit: false,
+          view: true,
+        },
+
+        {
+          id: "lims_write",
+          name: "Write Records",
+          create: true,
+          edit: true,
+          view: false,
+        },
       ],
     },
   ],
@@ -83,175 +167,438 @@ const INITIAL_GROUPS: Record<string, PrivilegeGroup[]> = {
 
 // ─── Checkbox ─────────────────────────────────────────────────────────────────
 
-const Checkbox: React.FC<{ checked: boolean; onChange: () => void }> = ({ checked, onChange }) => (
+const Checkbox: React.FC<{
+  checked: boolean;
+  onChange: () => void;
+}> = ({ checked, onChange }) => (
   <label className="nr-checkbox">
-    <input type="checkbox" checked={checked} onChange={onChange} />
+
+    <input
+      type="checkbox"
+      checked={checked}
+      onChange={onChange}
+    />
+
     <span className="nr-checkbox-box">
       {checked && (
         <svg viewBox="0 0 12 12" fill="none">
-          <path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M2 6l3 3 5-5"
+            stroke="#fff"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       )}
     </span>
   </label>
 );
 
-// ─── ChevronDown Icon ─────────────────────────────────────────────────────────
-
-const ChevronIcon: React.FC<{ open: boolean }> = ({ open }) => (
-  <svg
-    className={`nr-chevron${open ? " nr-chevron-open" : ""}`}
-    viewBox="0 0 16 16" fill="none"
-  >
-    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-const NewRole: React.FC<NewRoleProps> = ({ onCancel, onSubmit }) => {
-  const [roleName, setRoleName]   = useState("");
+const NewRole: React.FC<NewRoleProps> = ({
+  onCancel,
+  onSubmit,
+  submitError,
+}) => {
+
+  // ─── States ─────────────────────────────────
+
+  const [roleNameText, setRoleNameText] = useState("");
+  const [module, setModule] = useState("Platform");
+  const [validationMsg, setValidationMsg] = useState<string | null>(null);
+
   const [activeTab, setActiveTab] = useState("Platform");
-  const [groups, setGroups]       = useState<Record<string, PrivilegeGroup[]>>(
-    JSON.parse(JSON.stringify(INITIAL_GROUPS))
-  );
+
+  const [groups, setGroups] =
+    useState<Record<string, PrivilegeGroup[]>>(
+      JSON.parse(JSON.stringify(INITIAL_GROUPS))
+    );
+
+  // ─── Toggle Expand ──────────────────────────
 
   const toggleExpand = (groupKey: string) => {
-    setGroups(prev => ({
+    setGroups((prev) => ({
       ...prev,
-      [activeTab]: prev[activeTab].map(g =>
-        g.key === groupKey ? { ...g, expanded: !g.expanded } : g
+
+      [activeTab]: prev[activeTab].map((g) =>
+        g.key === groupKey
+          ? {
+              ...g,
+              expanded: !g.expanded,
+            }
+          : g
       ),
     }));
   };
 
-  const togglePrivilege = (groupKey: string, privId: string, field: "create" | "edit" | "view") => {
-    setGroups(prev => ({
+  // ─── Toggle Checkbox ────────────────────────
+
+  const togglePrivilege = (
+    groupKey: string,
+    privId: string,
+    field: "create" | "edit" | "view"
+  ) => {
+
+    setGroups((prev) => ({
       ...prev,
-      [activeTab]: prev[activeTab].map(g =>
-        g.key !== groupKey ? g : {
-          ...g,
-          privileges: g.privileges.map(p =>
-            p.id !== privId ? p : { ...p, [field]: !p[field] }
-          ),
-        }
+
+      [activeTab]: prev[activeTab].map((g) =>
+        g.key !== groupKey
+          ? g
+          : {
+              ...g,
+
+              privileges: g.privileges.map((p) =>
+                p.id !== privId
+                  ? p
+                  : {
+                      ...p,
+                      [field]: !p[field],
+                    }
+              ),
+            }
       ),
     }));
   };
+
+  // ─── Submit ─────────────────────────────────
 
   const handleSubmit = () => {
-    if (!roleName) {
-      alert("Please select the role name");
+    if (!roleNameText.trim()) {
+      setValidationMsg("Please enter a role name");
       return;
     }
-    onSubmit({ roleName });
+    if (!module) {
+      setValidationMsg("Please select a module");
+      return;
+    }
+    setValidationMsg(null);
+    onSubmit({ roleName: roleNameText });
   };
 
-  const currentGroups = groups[activeTab] ?? [];
+  // ─── Current Groups ─────────────────────────
+
+  const currentGroups =
+    groups[activeTab] ?? [];
+
+  // ─── JSX ────────────────────────────────────
 
   return (
     <div className="nr-page">
+
       <div className="nr-card">
 
-        {/* ── Header ── */}
+        {/* HEADER */}
+
         <div className="nr-header">
+
           <div>
-            <h2 className="nr-title">Role Creation</h2>
-            <p className="nr-subtitle">Create a new role with required details</p>
+            <h2 className="nr-title">
+              Role Creation
+            </h2>
+
+            <p className="nr-subtitle">
+              Create a new role with required
+              details
+            </p>
           </div>
-          <button className="nr-close-btn" onClick={onCancel} title="Close">
-            <svg viewBox="0 0 20 20" fill="none">
-              <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-            </svg>
+
+          <button
+            className="nr-close-btn"
+            onClick={onCancel}
+          >
+            ✕
           </button>
+
         </div>
 
-        {/* ── Form fields ── */}
+        {/* FORM FIELDS */}
+
         <div className="nr-fields">
+
+          {/* ROLE NAME */}
+
           <div className="nr-field">
-            <label className="nr-label">Role <span className="nr-required">*</span></label>
+
+            <label className="nr-label">
+              Role Name
+              <span className="nr-required">
+                *
+              </span>
+            </label>
+
+            <input
+              className="nr-input"
+              placeholder="Enter role name"
+              value={roleNameText}
+              onChange={(e) => {
+                setRoleNameText(e.target.value);
+                setValidationMsg(null);
+              }}
+            />
+
+          </div>
+
+          {/* MODULE */}
+
+          <div className="nr-field">
+
+            <label className="nr-label">
+              Module
+              <span className="nr-required">
+                *
+              </span>
+            </label>
+
             <div className="nr-select-wrap">
+
               <select
                 className="nr-select"
-                value={roleName}
-                onChange={e => setRoleName(e.target.value)}
+                value={module}
+                onChange={(e) => {
+
+                  const selectedModule =
+                    e.target.value;
+
+                  // dropdown update
+                  setModule(selectedModule);
+
+                  // tab update
+                  setActiveTab(selectedModule);
+                }}
               >
-                <option value="">Select a role</option>
-                <option value="System Admin">System Admin</option>
-                <option value="QA Reviewer">QA Reviewer</option>
-                <option value="QA Approver">QA Approver</option>
-                <option value="Lab Analyst">Lab Analyst</option>
-                <option value="Auditor">Auditor</option>
-                <option value="Compliance Officer">Compliance Officer</option>
+
+                <option value="Platform">
+                  Platform
+                </option>
+
+                <option value="File based systems">
+                  File based systems
+                </option>
+
+                <option value="CDS">
+                  CDS
+                </option>
+
+                <option value="Lims">
+                  Lims
+                </option>
+
               </select>
+
             </div>
+
           </div>
+
         </div>
 
-        {/* ── Tabs ── */}
+        {/* ERROR BANNER */}
+
+        {(validationMsg || submitError) && (
+          <div className="nr-error-banner">
+            <svg className="nr-error-icon" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="9" stroke="#dc2626" strokeWidth="1.5"/>
+              <path d="M10 6v4M10 14h.01" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+            {validationMsg || submitError}
+          </div>
+        )}
+
+        {/* TABS */}
+
         <div className="nr-tabs">
-          {TABS.map(tab => (
+
+          {TABS.map((tab) => (
+
             <button
+              type="button"
               key={tab}
-              className={`nr-tab${activeTab === tab ? " nr-tab-active" : ""}`}
-              onClick={() => setActiveTab(tab)}
+              className={`nr-tab ${
+                activeTab === tab
+                  ? "nr-tab-active"
+                  : ""
+              }`}
+              onClick={() => {
+
+                // active tab update
+                setActiveTab(tab);
+
+                // dropdown sync
+                setModule(tab);
+              }}
             >
               {tab}
             </button>
+
           ))}
+
         </div>
 
-        {/* ── Privileges table ── */}
+        {/* TABLE */}
+
         <div className="nr-table-wrap">
+
+          {/* TABLE HEADER */}
+
           <div className="nr-table-header">
-            <span className="nr-col-name">Privilege name</span>
-            <span className="nr-col-check">Create</span>
-            <span className="nr-col-check">Edit</span>
-            <span className="nr-col-check">View</span>
+
+            <span className="nr-col-name">
+              Privilege name
+            </span>
+
+            <span className="nr-col-check">
+              Create
+            </span>
+
+            <span className="nr-col-check">
+              Edit
+            </span>
+
+            <span className="nr-col-check">
+              View
+            </span>
+
           </div>
+
+          {/* TABLE BODY */}
 
           <div className="nr-table-body">
-            {currentGroups.map(group => (
-              <div key={group.key} className="nr-group">
-                {/* Group row */}
+
+            {currentGroups.map((group) => (
+
+              <div
+                key={group.key}
+                className="nr-group"
+              >
+
+                {/* GROUP HEADER */}
+
                 <div
                   className="nr-group-row"
-                  onClick={() => toggleExpand(group.key)}
+                  onClick={() =>
+                    toggleExpand(group.key)
+                  }
                 >
-                  <span className="nr-group-label">{group.label}</span>
-                  <span className="nr-group-count">{group.count} Privileges</span>
+
+                  <span className="nr-group-label">
+                    {group.label}
+                  </span>
+
+                  <span className="nr-group-count">
+                    {group.count} Privileges
+                  </span>
+
                 </div>
 
-                {/* Privilege rows */}
-                {group.expanded && group.privileges.map((priv, i) => (
-                  <div
-                    key={priv.id}
-                    className={`nr-priv-row${i < group.privileges.length - 1 ? " nr-priv-row-border" : ""}`}
-                  >
-                    <div className="nr-priv-name-wrap">
-                      <span className="nr-priv-name">{priv.name}</span>
+                {/* PRIVILEGES */}
+
+                {group.expanded &&
+                  group.privileges.map(
+                    (priv, i) => (
+
+                    <div
+                      key={priv.id}
+                      className={`nr-priv-row ${
+                        i <
+                        group.privileges.length - 1
+                          ? "nr-priv-row-border"
+                          : ""
+                      }`}
+                    >
+
+                      <div className="nr-priv-name-wrap">
+                        <span className="nr-priv-name">
+                          {priv.name}
+                        </span>
+                      </div>
+
+                      {/* CREATE */}
+
+                      <span className="nr-col-check">
+
+                        <Checkbox
+                          checked={priv.create}
+                          onChange={() =>
+                            togglePrivilege(
+                              group.key,
+                              priv.id,
+                              "create"
+                            )
+                          }
+                        />
+
+                      </span>
+
+                      {/* EDIT */}
+
+                      <span className="nr-col-check">
+
+                        <Checkbox
+                          checked={priv.edit}
+                          onChange={() =>
+                            togglePrivilege(
+                              group.key,
+                              priv.id,
+                              "edit"
+                            )
+                          }
+                        />
+
+                      </span>
+
+                      {/* VIEW */}
+
+                      <span className="nr-col-check">
+
+                        <Checkbox
+                          checked={priv.view}
+                          onChange={() =>
+                            togglePrivilege(
+                              group.key,
+                              priv.id,
+                              "view"
+                            )
+                          }
+                        />
+
+                      </span>
+
                     </div>
-                    <span className="nr-col-check">
-                      <Checkbox checked={priv.create} onChange={() => togglePrivilege(group.key, priv.id, "create")} />
-                    </span>
-                    <span className="nr-col-check">
-                      <Checkbox checked={priv.edit}   onChange={() => togglePrivilege(group.key, priv.id, "edit")}   />
-                    </span>
-                    <span className="nr-col-check">
-                      <Checkbox checked={priv.view}   onChange={() => togglePrivilege(group.key, priv.id, "view")}   />
-                    </span>
-                  </div>
-                ))}
+
+                  ))}
+
               </div>
+
             ))}
+
           </div>
+
         </div>
+
       </div>
-        {/* ── Footer ── */}
-        <div className="nr-footer">
-          <button className="nr-cancel-btn" onClick={onCancel}>Cancel</button>
-          <button className="nr-submit-btn" onClick={handleSubmit}>Submit</button>
-        </div>
+
+      {/* FOOTER */}
+
+      <div className="nr-footer">
+
+        <button
+          className="nr-cancel-btn"
+          onClick={onCancel}
+        >
+          Cancel
+        </button>
+
+        <button
+          className="nr-submit-btn"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+
+      </div>
+
     </div>
   );
 };

@@ -1,0 +1,249 @@
+/* EditRole.css */
+
+.edit-role-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #f5f6fa;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.edit-role-card {
+  background: #ffffff;
+  border: 1px solid #dcdfe6;
+  border-radius: 10px;
+  overflow: hidden;
+  min-height: calc(100vh - 24px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+
+.edit-role-header {
+  padding: 22px 28px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.edit-role-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.edit-role-header p {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #8b93a7;
+}
+
+/* FORM */
+
+.edit-role-form {
+  display: flex;
+  gap: 22px;
+  padding: 20px 28px 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.form-group input,
+.form-group select {
+  width: 345px;
+  height: 46px;
+  border: 1px solid #d5d9e2;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 14px;
+  background: #fff;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4361ee;
+}
+
+/* ERROR BANNER */
+
+.er-error-banner {
+  margin: 0 28px 14px;
+  padding: 10px 14px;
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.er-error-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+/* TABS */
+
+.tabs-container {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  padding: 0 28px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-top: 8px;
+}
+
+.tab-btn {
+  position: relative;
+  border: none;
+  background: transparent;
+  padding: 14px 0;
+  font-size: 15px;
+  font-weight: 400;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+/* REMOVE BLACK BORDER */
+
+.tab-btn:focus,
+.tab-btn:active {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+/* ACTIVE TAB */
+
+.tab-btn.active {
+  color: #4361ee;
+  font-weight: 500;
+}
+
+/* BLUE LINE */
+
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  background: #4361ee;
+  border-radius: 2px;
+}
+
+/* TABLE */
+
+.permission-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.permission-table thead th {
+  padding: 18px 28px;
+  text-align: left;
+  border-bottom: 1px solid #eceff4;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.permission-table tbody td {
+  padding: 18px 28px;
+  border-bottom: 1px solid #f1f3f6;
+  font-size: 14px;
+  color: #111827;
+}
+
+.permission-table td:not(:first-child),
+.permission-table th:not(:first-child) {
+  text-align: center;
+}
+
+/* SECTION ROW */
+
+.section-row {
+  background: #f7f8fb;
+}
+
+.section-row td {
+  font-weight: 500;
+}
+
+.privilege-count {
+  text-align: right !important;
+  color: #6b7280;
+}
+
+/* CHECKBOX */
+
+.permission-table input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+/* FOOTER */
+
+.footer-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 20px 30px;
+  margin-top: auto;
+  border-top: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+/* BUTTONS */
+
+.cancel-btn,
+.submit-btn {
+  min-width: 96px;
+  height: 42px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #111827;
+}
+
+.cancel-btn:hover {
+  background: #f9fafb;
+}
+
+.submit-btn {
+  background: #4361ee;
+  color: white;
+  border: none;
+}
+
+.submit-btn:hover {
+  background: #3551e0;
+}

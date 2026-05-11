@@ -13,8 +13,9 @@ html, body, #root {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-body);
-  font-size: 14px;
+  font-family: var(--font-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   line-height: 1.5;
   overflow-x: hidden;
   transition: background 0.2s ease, color 0.2s ease;
@@ -26,12 +27,16 @@ a {
 }
 
 button {
-  font-family: var(--font-body);
+  font-family: var(--font-base);
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-button);
   cursor: pointer;
 }
 
 input, select, textarea {
-  font-family: var(--font-body);
+  font-family: var(--font-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
 }
 
 /* ── Scrollbar ── */

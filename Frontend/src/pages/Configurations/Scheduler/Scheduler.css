@@ -1,8 +1,23 @@
-/* ══════════════════════════════════════════════════════
-   Scheduler.css  —  theme-aware (light / dark)
-   Pill colors:  active=blue  inactive=red
-                 paused=orange  completed=green
-══════════════════════════════════════════════════════ */
+
+
+@import "../Checklistconfig/Checklistconfig.css";
+
+.sch-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.scheduler-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.scheduler-container .clc__table-wrap {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
 
 /* ── Light theme ── */
 :root,
@@ -50,13 +65,15 @@
 ══════════════════════════════════════════ */
 .scheduler-container {
   padding: 20px;
-  font-family: 'Nunito', Arial, sans-serif;
+  font-family: var(--font-base);
   background: var(--card, #fff);
   border: 1px solid var(--border, #e5e7eb);
   border-radius: 12px;
   overflow: visible;
   max-width: 100%;
-  max-height: 100%;
+  height: 100%;
+  min-height: 0;
+  flex: 1;
   transition: background-color 0.2s;
 }
 /* ══════════════════════════════════════════
@@ -70,8 +87,8 @@
 }
 .scheduler-header h2 {
   margin: 0;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-page-title);
   color: var(--sch-text-primary);
   transition: color 0.2s;
 }
@@ -85,8 +102,8 @@
   color: #ffffff;
   border: none;
   border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-button);
   cursor: pointer;
   transition: background-color 0.15s;
 }
@@ -98,8 +115,8 @@
   color: var(--sch-text-muted);
   border: 1px solid var(--sch-input-border);
   border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-button);
   cursor: pointer;
   transition: all 0.15s;
 }
@@ -140,22 +157,22 @@
 }
 
 .schedule-id {
-  font-family: monospace;
-  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: var(--font-size-body);
   color: var(--sch-id-color);
   transition: color 0.2s;
 }
 
 .schedule-name {
-  font-weight: 700;
-  font-size: 14px;
+  font-weight: var(--font-weight-body);
+  font-size: var(--font-size-body);
   color: var(--sch-text-primary);
   padding: 0 16px 8px;
   transition: color 0.2s;
 }
 
 .schedule-meta {
-  font-size: 12px;
+  font-size: var(--font-size-body);
   color: var(--sch-text-muted);
   display: flex;
   flex-direction: column;
@@ -165,7 +182,7 @@
 }
 
 .sch-meta-dt {
-  font-size: 11px;
+  font-size: var(--font-size-body);
   color: var(--sch-text-muted);
   opacity: 0.8;
   margin-top: 2px;
@@ -174,8 +191,8 @@
 .sch-pill {
   padding: 3px 10px;
   border-radius: 12px;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   text-transform: capitalize;
   white-space: nowrap;
   letter-spacing: 0.02em;
@@ -247,8 +264,8 @@
 }
 
 .sch-field__label {
-  font-size: 10px;
-  font-weight: 700;
+  font-size: var(--font-size-filter);
+  font-weight: var(--font-weight-filter);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--sch-label-color);
@@ -264,8 +281,8 @@
   border: 1px solid var(--sch-input-border);
   background-color: var(--sch-input-bg);
   color: var(--sch-input-text);
-  font-size: 12px;
-  font-family: 'Nunito', Arial, sans-serif;
+  font-size: var(--font-size-filter);
+  font-family: var(--font-base);
   outline: none;
   transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 }
@@ -300,8 +317,8 @@
   border: 1px solid var(--sch-input-border);
   background: transparent;
   color: var(--sch-text-muted);
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-button);
   cursor: pointer;
   transition: all 0.15s;
 }
@@ -353,15 +370,15 @@
 }
 .sch-modal__header h3 {
   margin: 0;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-page-title);
   color: var(--sch-text-primary);
   transition: color 0.2s;
 }
 
 .sch-modal__close {
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--font-size-body);
   color: var(--sch-text-muted);
   transition: color 0.15s;
   padding: 4px;
@@ -386,8 +403,8 @@
   margin-bottom: 14px;
 }
 .sch-form-group label {
-  font-size: 11px;
-  font-weight: 700;
+  font-size: var(--font-size-filter);
+  font-weight: var(--font-weight-filter);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 6px;
@@ -401,8 +418,8 @@
   border: 1px solid var(--sch-input-border);
   background-color: var(--sch-input-bg);
   color: var(--sch-input-text);
-  font-size: 13px;
-  font-family: 'Nunito', Arial, sans-serif;
+  font-size: var(--font-size-body);
+  font-family: var(--font-base);
   outline: none;
   transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 }
@@ -431,7 +448,7 @@
   width: 240px;
   padding: 9px 14px;
   margin-right: 10px;
-  font-size: 14px;
+  font-size: var(--font-size-body);
   border: 1px solid #d0d5dd;
   border-radius: 8px;
   background-color: #ffffff;
@@ -448,8 +465,7 @@
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
-/* d *//* reuse checklist styles */
-@import "../Checklistconfig/Checklistconfig.css";
+/* reuse checklist styles — import moved to top (PostCSS requirement) */
 
 /* optional override */
 .clc__status--active {
@@ -481,7 +497,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: var(--font-size-body);
 }
 
 /* k */

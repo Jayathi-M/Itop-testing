@@ -85,9 +85,9 @@
 }
 
 .sb__btn-label {
-  font-size: 10px;
-  font-weight: 500;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  font-family: var(--font-base);
   color: inherit;
   white-space: nowrap;
   line-height: 1;
@@ -154,9 +154,9 @@
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  font-size: 13px;
-  font-weight: 700;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  font-family: var(--font-base);
   cursor: pointer;
   transition: opacity 0.15s;
   flex-shrink: 0;
@@ -214,9 +214,9 @@
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  font-size: 16px;
-  font-weight: 700;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  font-family: var(--font-base);
   flex-shrink: 0;
 }
 
@@ -228,8 +228,8 @@
 }
 
 .sb__profile-name {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   color: #0f172a;
   white-space: nowrap;
   overflow: hidden;
@@ -237,14 +237,14 @@
 }
 
 .sb__profile-id {
-  font-size: 11px;
+  font-size: var(--font-size-body);
   font-family: 'JetBrains Mono', monospace;
   color: #3b82f6;
-  font-weight: 500;
+  font-weight: var(--font-weight-body);
 }
 
 .sb__profile-role {
-  font-size: 11px;
+  font-size: var(--font-size-body);
   color: #64748b;
   text-transform: capitalize;
 }
@@ -263,12 +263,12 @@
   background: none;
   border: none;
   color: #ef4444;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-button);
   cursor: pointer;
   text-align: left;
   transition: background 0.15s;
-  font-family: 'Inter', 'Nunito', sans-serif;
+  font-family: var(--font-base);
 }
 
 .sb__profile-logout:hover {
@@ -313,12 +313,12 @@
 }
 
 .cfg-panel__title {
-  font-size: 12px !important;
-  font-weight: 800 !important;
+  font-size: var(--font-size-body) !important;
+  font-weight: var(--font-weight-body) !important;
   color: #1a2540 !important;
   letter-spacing: 0.09em !important;
   text-transform: uppercase !important;
-  font-family: 'Nunito', 'Segoe UI', sans-serif !important;
+  font-family: var(--font-base) !important;
 }
 
 .cfg-panel__title-bar {
@@ -340,7 +340,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: var(--font-size-body);
   transition: border-color 0.15s, color 0.15s;
   box-shadow: 0 1px 3px rgba(0,0,0,0.07);
 }
@@ -367,13 +367,13 @@
 
 .cfg-group__label {
   display: block;
-  font-size: 10px !important;
-  font-weight: 700 !important;
+  font-size: var(--font-size-body) !important;
+  font-weight: var(--font-weight-body) !important;
   letter-spacing: 0.1em !important;
   text-transform: uppercase !important;
   color: #94a3b8 !important;
   padding: 10px 4px 6px !important;
-  font-family: 'Nunito', 'Segoe UI', sans-serif !important;
+  font-family: var(--font-base) !important;
 }
 
 .cfg-item {
@@ -388,9 +388,9 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important; */
   text-decoration: none !important;
   color: #3d4f6b !important;
-  font-size: 13.5px !important;
-  font-weight: 500 !important;
-  font-family: 'Nunito', 'Segoe UI', sans-serif !important;
+  font-size: var(--font-size-body) !important;
+  font-weight: var(--font-weight-body) !important;
+  font-family: var(--font-base) !important;
   cursor: pointer !important;
   transition: background 0.15s, border-color 0.15s, color 0.15s !important;
 }
@@ -476,12 +476,12 @@
 }
 
 .sb-panel__title {
-  font-size: 12px;
-  font-weight: 800;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   color: #0f172a;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-family: var(--font-base);
 }
 
 .sb-panel__title-bar {
@@ -509,9 +509,9 @@
   /* border-radius: 8px; */
   text-decoration: none !important;
   color: #64748b;
-  font-size: 13px;
-  font-weight: 500;
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  font-family: var(--font-base);
   transition: background 0.12s, color 0.12s;
   cursor: pointer;
 }
@@ -530,7 +530,7 @@
 .sb-panel__item--circle {
   padding-left: 12px;
   color: #94a3b8;
-  font-size: 12.5px;
+  font-size: var(--font-size-body);
 }
 
 .sb-panel__item--circle:hover { color: #4f46e5; }
@@ -576,9 +576,9 @@
   border-radius: 8px;
   text-decoration: none !important;
   color: #374151;
-  font-size: 13px;
-  font-weight: 500;
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  font-family: var(--font-base);
   transition: background 0.12s, color 0.12s;
   cursor: pointer;
   margin-bottom: 2px;
@@ -607,8 +607,8 @@
   height: 20px;
   background: #e8ecf0;
   color: #64748b;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   border-radius: 10px;
   display: flex;
   align-items: center;

@@ -464,7 +464,7 @@ function Scheduler({
       </div>
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          <div className="sch-modal">
+          <div className="sch-modal" onClick={e => e.stopPropagation()}>
             <div className="sch-modal__header">
               <h3>Create Schedule</h3>
               <span

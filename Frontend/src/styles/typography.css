@@ -1,34 +1,65 @@
-h1, h2, h3, h4, h5 {
-  font-family: var(--font-heading);
-  letter-spacing: 0.03em;
-  color: var(--text);
+:root {
+  /* Font family */
+  --font-base: 'Inter', sans-serif;
+
+  /* ── Table ───────────────────────────────────────────────────── */
+  --font-size-table-header:   14px;
+  --font-weight-table-header: 600;
+
+  --font-size-table-data:     14px;
+  --font-weight-table-data:   500;
+
+  /* ── Page / modal titles ─────────────────────────────────────── */
+  --font-size-page-title:     18px;
+  --font-weight-page-title:   700;
+
+  /* ── Buttons ─────────────────────────────────────────────────── */
+  --font-size-button:         12px;
+  --font-weight-button:       500;
+
+  /* ── Filter UI ───────────────────────────────────────────────── */
+  --font-size-filter:         12px;
+  --font-weight-filter:       500;
+
+  /* ── Body / labels / inputs / placeholders / misc text ──────── */
+  --font-size-body:           13px;
+  --font-weight-body:         400;
 }
 
-h1 { font-size: 32px; font-weight: 700; }
-h2 { font-size: 26px; font-weight: 700; }
-h3 { font-size: 22px; font-weight: 700; }
-h4 { font-size: 18px; font-weight: 600; }
-h5 { font-size: 15px; font-weight: 600; }
-
-p {
-  line-height: 1.6;
-  color: var(--text2);
+/* ── Global base ──────────────────────────────────────────────── */
+body {
+  font-family: var(--font-base);
+  font-size:   var(--font-size-body);
+  font-weight: var(--font-weight-body);
 }
 
-.mono {
-  font-family: var(--font-mono);
+/* ── Utility classes (optional — use in JSX if needed) ──────── */
+.ty-table-header {
+  font-size:   var(--font-size-table-header);
+  font-weight: var(--font-weight-table-header);
 }
 
-/* Section header used across pages */
-.section-title {
-  font-family: var(--font-heading);
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--text);
+.ty-table-data {
+  font-size:   var(--font-size-table-data);
+  font-weight: var(--font-weight-table-data);
 }
 
-.section-desc {
-  font-size: 13px;
-  color: var(--text3);
-  margin-top: 4px;
+.ty-page-title {
+  font-size:   var(--font-size-page-title);
+  font-weight: var(--font-weight-page-title);
+}
+
+.ty-button {
+  font-size:   var(--font-size-button);
+  font-weight: var(--font-weight-button);
+}
+
+.ty-filter {
+  font-size:   var(--font-size-filter);
+  font-weight: var(--font-weight-filter);
+}
+
+.ty-body {
+  font-size:   var(--font-size-body);
+  font-weight: var(--font-weight-body);
 }

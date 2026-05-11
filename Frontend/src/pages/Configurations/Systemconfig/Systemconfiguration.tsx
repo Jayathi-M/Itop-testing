@@ -57,30 +57,30 @@ const SYSTEMS: Record<string, SystemEntry[]> = {
     { id: 'blen', name: 'Bin Blender',   make: 'GlobePharma',   model: 'BIN-100',    version: '4.2',   site: 'Site B - Mfg',   status: 'configured',  connection: 'online',  risk: 8,  checks: 20, exceptions: 5  },
     { id: 'coat', name: 'Tablet Coater', make: 'Generic',       model: 'Labcoat II', version: '3.1',   site: 'Site B - Mfg',   status: 'in-progress', connection: 'online',  risk: 2,  checks: 14, exceptions: 1  },
   ],
-  Packaging: [
-    { id: 'pack1', name: 'Blister Pack',  make: 'Uhlmann',    model: 'UPS 300',  version: '2.1', site: 'Site C - Pack', status: 'configured',  connection: 'online',  risk: 3, checks: 10, exceptions: 1 },
-    { id: 'pack2', name: 'Carton Sealer', make: 'Marchesini', model: 'MA 305',   version: '1.8', site: 'Site C - Pack', status: 'pending',     connection: 'offline', risk: 0, checks: 0,  exceptions: 0 },
-  ],
+  // Packaging: [
+  //   { id: 'pack1', name: 'Blister Pack',  make: 'Uhlmann',    model: 'UPS 300',  version: '2.1', site: 'Site C - Pack', status: 'configured',  connection: 'online',  risk: 3, checks: 10, exceptions: 1 },
+  //   { id: 'pack2', name: 'Carton Sealer', make: 'Marchesini', model: 'MA 305',   version: '1.8', site: 'Site C - Pack', status: 'pending',     connection: 'offline', risk: 0, checks: 0,  exceptions: 0 },
+  // ],
   Warehouse: [
     { id: 'wh1', name: 'Cold Storage',  make: 'Thermo',  model: 'CryoGuard', version: '3.0', site: 'Site D - WH', status: 'configured',  connection: 'online',  risk: 2, checks: 8, exceptions: 0 },
     { id: 'wh2', name: 'Dispatch Unit', make: 'Generic', model: 'DU-100',    version: '1.2', site: 'Site D - WH', status: 'in-progress', connection: 'online',  risk: 1, checks: 5, exceptions: 0 },
   ],
-  Utilities: [
-    { id: 'util1', name: 'HVAC System', make: 'Carrier',    model: 'AHU-40',  version: '4.1', site: 'Site A - Util', status: 'configured', connection: 'online', risk: 4, checks: 12, exceptions: 2 },
-    { id: 'util2', name: 'Pure Water',  make: 'Millipore',  model: 'Milli-Q', version: '2.5', site: 'Site A - Util', status: 'configured', connection: 'online', risk: 2, checks: 9,  exceptions: 0 },
-  ],
+  // Utilities: [
+  //   { id: 'util1', name: 'HVAC System', make: 'Carrier',    model: 'AHU-40',  version: '4.1', site: 'Site A - Util', status: 'configured', connection: 'online', risk: 4, checks: 12, exceptions: 2 },
+  //   { id: 'util2', name: 'Pure Water',  make: 'Millipore',  model: 'Milli-Q', version: '2.5', site: 'Site A - Util', status: 'configured', connection: 'online', risk: 2, checks: 9,  exceptions: 0 },
+  // ],
   Engineering: [
     { id: 'eng1', name: 'Autoclave',      make: 'Tuttnauer', model: '5596EP',  version: '3.3', site: 'Site B - Eng', status: 'configured',  connection: 'online',  risk: 6, checks: 15, exceptions: 3 },
     { id: 'eng2', name: 'Oven Validator', make: 'Memmert',   model: 'UF110',   version: '2.0', site: 'Site B - Eng', status: 'pending',     connection: 'offline', risk: 0, checks: 0,  exceptions: 0 },
   ],
-  Enterprise: [
-    { id: 'lims', name: 'LIMS',       make: 'LabVantage', model: '8.7',       version: '8.7.2', site: 'Site A - QA', status: 'configured',  connection: 'online',  risk: 1, checks: 30, exceptions: 0 },
-    { id: 'sap',  name: 'SAP QM',     make: 'SAP',        model: 'S/4HANA',   version: '2023',  site: 'Site A - IT', status: 'pending',     connection: 'offline', risk: 0, checks: 0,  exceptions: 0 },
-    { id: 'erp',  name: 'ERP System', make: 'Oracle',     model: 'Cloud ERP', version: '23.4',  site: 'Site A - IT', status: 'configured',  connection: 'online',  risk: 2, checks: 15, exceptions: 0 },
-  ],
+  // Enterprise: [
+  //   { id: 'lims', name: 'LIMS',       make: 'LabVantage', model: '8.7',       version: '8.7.2', site: 'Site A - QA', status: 'configured',  connection: 'online',  risk: 1, checks: 30, exceptions: 0 },
+  //   { id: 'sap',  name: 'SAP QM',     make: 'SAP',        model: 'S/4HANA',   version: '2023',  site: 'Site A - IT', status: 'pending',     connection: 'offline', risk: 0, checks: 0,  exceptions: 0 },
+  //   { id: 'erp',  name: 'ERP System', make: 'Oracle',     model: 'Cloud ERP', version: '23.4',  site: 'Site A - IT', status: 'configured',  connection: 'online',  risk: 2, checks: 15, exceptions: 0 },
+  // ],
 };
 
-const CAT_TABS = ['Quality','Manufacturing','Packaging','Warehouse','Utilities','Engineering','Enterprise'];
+const CAT_TABS = ['Quality','Manufacturing','Warehouse','Engineering'];
 
 const SUB_CARDS: Record<string, SubCard[]> = {
   Quality:       [ { key:'cds',      icon:'fa-database',           name:'CDS',          sub:'Computerized System' }, { key:'noncds', icon:'fa-list-check',           name:'Non-CDS',      sub:'Manual System'        } ],

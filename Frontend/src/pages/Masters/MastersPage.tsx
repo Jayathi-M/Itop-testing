@@ -80,6 +80,7 @@ export default function MastersPage() {
   const [pageSize, setPageSize]           = useState(10)
 
   useEffect(() => {
+    // fetch('http://localhost:5134/api/TableMaster/tables')
     fetch('http://localhost:5134/api/TableMaster/tables')
       .then(res => res.json())
       .then((data: TableInfo[]) => {

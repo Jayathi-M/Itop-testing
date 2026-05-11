@@ -1,122 +1,219 @@
 /* ── Page ───────────────────────────────────────── */
+
 .nr-page {
   padding: 20px;
   background: #f0f2f5;
   min-height: 100vh;
-  height: 100vh;               
-  display: flex;                
-  flex-direction: column;       
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-base);
 }
 
 /* ── Card ───────────────────────────────────────── */
+
 .nr-card {
   background: #fff;
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
-  overflow-y: auto;            
-  flex: 1;                      
+  overflow-y: auto;
+  flex: 1;
 }
 
 /* ── Header ─────────────────────────────────────── */
+
 .nr-header {
   display: flex;
   justify-content: space-between;
-  padding: 16px 20px 10px;
+  align-items: flex-start;
+  padding: 18px 22px 12px;
   border-bottom: 1px solid #eef0f4;
 }
 
 .nr-title {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-page-title);
   margin: 0;
+  color: #111827;
 }
 
 .nr-subtitle {
-  font-size: 12px;
-  color: #9aa0ad;
-  margin-top: 2px;
+  font-size: var(--font-size-body);
+  color: #8b93a7;
+  margin-top: 4px;
 }
 
 .nr-close-btn {
-  background: none;
+  background: transparent;
   border: none;
   cursor: pointer;
+  font-size: 18px;
+  color: #6b7280;
 }
 
-/* ── Field ─────────────────────────────────────── */
+/* ── Form Fields ────────────────────────────────── */
+
 .nr-fields {
-  padding: 12px 20px 0;
+  padding: 18px 22px 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
 }
 
 .nr-field {
-  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  min-width: 240px;
+  max-width: 280px;
+  flex: 1;
 }
 
 .nr-label {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
+  margin-bottom: 7px;
+  color: #111827;
+}
+
+.nr-required {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+/* ── Input ─────────────────────────────────────── */
+
+.nr-input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #d6dae3;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 14px;
+  background: #fff;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.nr-input:focus {
+  border-color: #4361ee;
+}
+
+/* ── Select ────────────────────────────────────── */
+
+.nr-select-wrap {
+  position: relative;
 }
 
 .nr-select {
   width: 100%;
-  height: 34px;
-  margin-top: 4px;
-  padding: 0 10px;
-  border: 1px solid #dfe3ea;
-  border-radius: 6px;
-  font-size: 13px;
+  height: 40px;
+  border: 1px solid #d6dae3;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 14px;
   background: #fff;
-
+  outline: none;
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.nr-select::-ms-expand {
-  display: none;
+.nr-select:focus {
+  border-color: #4361ee;
+}
+
+/* ── Error Banner ───────────────────────────────── */
+
+.nr-error-banner {
+  margin: 0 22px 14px;
+  padding: 10px 14px;
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nr-error-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
 }
 
 /* ── Tabs ───────────────────────────────────────── */
+
 .nr-tabs {
   display: flex;
-  gap: 10px;
-  padding: 10px 20px 0;
-  border-bottom: 1px solid #eef0f4;
+  align-items: center;
+  gap: 24px;
+  padding: 0 22px;
+  margin-top: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
 }
 
 .nr-tab {
-  background: none;
+  position: relative;
+  background: transparent;
   border: none;
-  padding: 6px 10px;
-  font-size: 13px;
-  color: #888;
+  outline: none;
+  padding: 14px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #8b93a7;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nr-tab:hover {
+  color: #4361ee;
 }
 
 .nr-tab-active {
   color: #4361ee;
   font-weight: 600;
-  border-bottom: 2px solid #4361ee;
+}
+
+.nr-tab-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  background: #4361ee;
+  border-radius: 2px;
+}
+
+.nr-tab:focus {
+  outline: none;
 }
 
 /* ── Table ─────────────────────────────────────── */
+
 .nr-table-wrap {
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
-/* header */
+/* table header */
+
 .nr-table-header {
   display: grid;
-  grid-template-columns: 1fr 70px 70px 70px;
-  padding: 8px 20px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #9aa0ad;
+  grid-template-columns: 1fr 90px 90px 90px;
+  align-items: center;
+  padding: 12px 22px;
   background: #fafbfc;
   border-bottom: 1px solid #eef0f4;
+  font-size: 13px;
+  font-weight: 600;
+  color: #8b93a7;
 }
 
 .nr-col-check {
@@ -124,29 +221,37 @@
   justify-content: center;
 }
 
-/* group */
+/* group row */
+
 .nr-group-row {
   display: grid;
   grid-template-columns: 1fr auto;
-  padding: 8px 20px;
+  align-items: center;
+  padding: 12px 22px;
   background: #f7f8fa;
   border-bottom: 1px solid #eef0f4;
-  font-size: 13px;
-  font-weight: 600;
   cursor: pointer;
 }
 
+.nr-group-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
 .nr-group-count {
-  font-size: 11px;
-  color: #9aa0ad;
+  font-size: 13px;
+  color: #8b93a7;
 }
 
 /* privilege row */
+
 .nr-priv-row {
   display: grid;
-  grid-template-columns: 1fr 70px 70px 70px;
-  padding: 8px 20px;
+  grid-template-columns: 1fr 90px 90px 90px;
   align-items: center;
+  padding: 12px 22px;
+  transition: background 0.2s ease;
 }
 
 .nr-priv-row:hover {
@@ -158,10 +263,12 @@
 }
 
 .nr-priv-name {
-  font-size: 13px;
+  font-size: 14px;
+  color: #111827;
 }
 
-/* ── Checkbox FIX ─────────────────────────────── */
+/* ── Checkbox ──────────────────────────────────── */
+
 .nr-checkbox {
   display: flex;
   justify-content: center;
@@ -170,38 +277,36 @@
   cursor: pointer;
 }
 
-/* hide real checkbox */
 .nr-checkbox input {
   position: absolute;
   opacity: 0;
   pointer-events: none;
 }
 
-/* custom box */
 .nr-checkbox-box {
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
   border: 1.5px solid #cbd5e1;
   border-radius: 4px;
   background: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease;
 }
 
-/* checked */
 .nr-checkbox input:checked + .nr-checkbox-box {
   background: #4361ee;
   border-color: #4361ee;
 }
 
-/* tick */
 .nr-checkbox-box svg {
-  width: 9px;
-  height: 9px;
+  width: 10px;
+  height: 10px;
 }
 
-/* ── Footer ───────────────────────────────────── */
+/* ── Footer ────────────────────────────────────── */
+
 .nr-footer {
   display: flex;
   justify-content: flex-end;
@@ -209,28 +314,37 @@
   padding: 16px 24px;
   border-top: 1px solid #e5e7eb;
   background: #fff;
-  flex-shrink: 0;              
   border-radius: 0 0 10px 10px;
 }
 
 .nr-cancel-btn {
-  height: 32px;
-  padding: 0 16px;
-  border: 1px solid #dfe3ea;
-  border-radius: 6px;
+  height: 36px;
+  padding: 0 18px;
+  border: 1px solid #d6dae3;
+  border-radius: 8px;
   background: #fff;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nr-cancel-btn:hover {
+  background: #f9fafb;
 }
 
 .nr-submit-btn {
-  height: 32px;
-  padding: 0 18px;
+  height: 36px;
+  padding: 0 20px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   background: #4361ee;
   color: #fff;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nr-submit-btn:hover {
+  opacity: 0.95;
 }

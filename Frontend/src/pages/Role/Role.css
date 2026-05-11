@@ -1,7 +1,7 @@
 /* ── Role Dashboard Page ─────────────────────────────────────────────────── */
 .role-page {
   padding: 20px 24px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-base);
   background: #f0f2f5;
   min-height: 100vh;
   box-sizing: border-box;
@@ -39,13 +39,13 @@
   padding: 8px 12px 8px 32px;
   border: 1.5px solid #e2e6ef;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: var(--font-size-body);
   outline: none;
   background: #fff;
   color: #333;
   box-sizing: border-box;
   height: 36px;
-  font-family: inherit;
+  font-family: var(--font-base);
 }
 
 .role-search::placeholder { color: #b0b7c3; }
@@ -58,15 +58,15 @@
   border-radius: 8px;
   padding: 0 20px;
   height: 36px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-button);
   cursor: pointer;
   transition: background 0.15s;
   display: flex;
   align-items: center;
   gap: 5px;
   white-space: nowrap;
-  font-family: inherit;
+  font-family: var(--font-base);
 }
 
 .role-new-btn:hover { background: #3451d1; }
@@ -83,7 +83,6 @@
 .role-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
 }
 
 .role-table thead tr {
@@ -94,8 +93,8 @@
 .role-table th {
   text-align: left;
   padding: 12px 20px;
-  font-size: 11.5px;
-  font-weight: 700;
+  font-size: var(--font-size-table-header);
+  font-weight: var(--font-weight-table-header);
   color: #9aa0ad;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -121,18 +120,18 @@
 .role-table th:first-child {
   width: 60px;
   color: #9aa0ad;
-  font-size: 12.5px;
+  font-size: var(--font-size-table-data);
 }
 
 .role-name {
-  font-weight: 600;
+  font-weight: var(--font-weight-table-data);
   color: #1a1f2e;
-  font-size: 13.5px;
+  font-size: var(--font-size-table-data);
   margin-bottom: 3px;
 }
 
 .role-desc {
-  font-size: 12px;
+  font-size: var(--font-size-body);
   color: #b0b7c3;
   margin-top: 0;
 }
@@ -144,8 +143,8 @@
   gap: 6px;
   padding: 5px 13px;
   border-radius: 20px;
-  font-size: 12.5px;
-  font-weight: 500;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   white-space: nowrap;
 }
 
@@ -212,7 +211,7 @@
   border: none;
   background: none;
   border-radius: 7px;
-  font-size: 13px;
+  font-size: var(--font-size-body);
   color: #555;
   cursor: pointer;
   display: flex;
@@ -220,12 +219,12 @@
   justify-content: center;
   padding: 0 6px;
   transition: background 0.12s, color 0.12s;
-  font-family: inherit;
-  font-weight: 500;
+  font-family: var(--font-base);
+  font-weight: var(--font-weight-body);
 }
 
 .role-page-btn:hover         { background: #f0f2f5; }
-.role-page-btn.active        { background: #4361ee; color: #fff; font-weight: 600; }
+.role-page-btn.active        { background: #4361ee; color: #fff; font-weight: var(--font-weight-button); }
 .role-page-btn.dots          { cursor: default; color: #aaa; }
 .role-page-btn.dots:hover    { background: none; }
 
@@ -239,12 +238,12 @@
   border: 1.5px solid #e2e6ef;
   border-radius: 8px;
   background: #fff;
-  font-size: 13px;
+  font-size: var(--font-size-button);
   color: #444;
-  font-weight: 500;
+  font-weight: var(--font-weight-button);
   cursor: pointer;
   transition: border-color 0.12s, background 0.12s, color 0.12s;
-  font-family: inherit;
+  font-family: var(--font-base);
 }
 
 .role-prev-btn:hover,
@@ -259,6 +258,44 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* ── Error / Success banners ─────────────────────────────────────────────── */
+.role-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 20px;
+  padding: 12px 16px;
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.role-error-banner span { flex: 1; }
+
+.role-banner-icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.role-banner-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #dc2626;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.role-banner-close:hover { opacity: 1; }
 
 /* ── Modal overlay ───────────────────────────────────────────────────────── */
 .role-modal-overlay {
@@ -299,14 +336,14 @@
 }
 
 .role-success-title {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-page-title);
   color: #1a1a2e;
   margin: 0 0 8px;
 }
 
 .role-success-msg {
-  font-size: 14px;
+  font-size: var(--font-size-body);
   color: #666;
   margin: 0 0 24px;
 }
@@ -317,8 +354,8 @@
   border: none;
   border-radius: 8px;
   padding: 10px 36px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-button);
   cursor: pointer;
   transition: background 0.15s;
 }
@@ -334,3 +371,4 @@
   border-radius: 14px;
   box-shadow: 0 8px 40px rgba(0,0,0,0.18);
 }
+

@@ -1,246 +1,369 @@
-import React, { useState } from "react";
+// Role.tsx
+
+import React, { useState, useEffect } from "react";
 import "./Role.css";
 import NewRole from "./NewRole/NewRole";
- 
-// ─── Types ────────────────────────────────────────────────────────────────────
- 
+import EditRole from "./EditRole/EditRole";
+
+const BASE_URL = "http://localhost:5134";
+
+// ─────────────────────────────────────────────
+// TYPES
+// ─────────────────────────────────────────────
+
+interface RoleResponse {
+  roleId: number;
+  roleName: string;
+  isActive: boolean;
+  createdBy: number;
+  createdDate: string;
+  changedBy: number | null;
+  changedDate: string | null;
+}
+
 interface RoleRow {
   id: number;
   name: string;
-  description: string;
-  status: "Active" | "Inactive" | "Pending approval";
-  modifiedBy: string;
-  modifiedOn: string;
-  version: string;
+  isActive: boolean;
+  createdBy: number;
+  createdDate: string;
+  changedBy: number | null;
+  changedDate: string | null;
 }
- 
-// ─── Initial Data ─────────────────────────────────────────────────────────────
- 
-const initialRoles: RoleRow[] = [
-  { id: 1, name: "System Admin",       description: "Full platform access with config rights", status: "Active",           modifiedBy: "Mohan",     modifiedOn: "Apr 17, 10:20 AM", version: "2.4" },
-  { id: 2, name: "QA Reviewer",        description: "Reviews exceptions and sample sets",      status: "Active",           modifiedBy: "Akhil",     modifiedOn: "Apr 17, 10:20 AM", version: "2.8" },
-  { id: 3, name: "QA Approver",        description: "Full platform access with config rights", status: "Active",           modifiedBy: "Pavan",     modifiedOn: "Apr 17, 10:20 AM", version: "4.0" },
-  { id: 4, name: "Lab Analyst",        description: "Full platform access with config rights", status: "Pending approval", modifiedBy: "Kushal",    modifiedOn: "Apr 17, 10:20 AM", version: "7.0" },
-  { id: 5, name: "Auditor",            description: "Full platform access with config rights", status: "Active",           modifiedBy: "Venkatesh", modifiedOn: "Apr 17, 10:20 AM", version: "7.6" },
-  { id: 6, name: "Compliance Officer", description: "Full platform access with config rights", status: "Inactive",         modifiedBy: "Abhi",      modifiedOn: "Apr 17, 10:20 AM", version: "5.0" },
-  { id: 7, name: "System Admin",       description: "Full platform access with config rights", status: "Active",           modifiedBy: "Mohan",     modifiedOn: "Apr 17, 10:20 AM", version: "2.3" },
-];
- 
-const TOTAL_PAGES = 10;
- 
-// ─── Status Badge ─────────────────────────────────────────────────────────────
- 
-const StatusBadge: React.FC<{ status: RoleRow["status"] }> = ({ status }) => {
-  const cls =
-    status === "Active"           ? "role-badge role-badge-active"   :
-    status === "Pending approval" ? "role-badge role-badge-pending"  :
-                                    "role-badge role-badge-inactive";
-  return <span className={cls}>{status}</span>;
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+
+const mapToRow = (r: RoleResponse): RoleRow => ({
+  id: r.roleId,
+  name: r.roleName,
+  isActive: r.isActive,
+  createdBy: r.createdBy,
+  createdDate: r.createdDate,
+  changedBy: r.changedBy,
+  changedDate: r.changedDate,
+});
+
+const formatDate = (iso: string | null) => {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 };
- 
-// ─── Icons ────────────────────────────────────────────────────────────────────
- 
+
+// ─────────────────────────────────────────────
+// STATUS BADGE
+// ─────────────────────────────────────────────
+
+const StatusBadge: React.FC<{ isActive: boolean }> = ({ isActive }) => (
+  <span className={`role-badge ${isActive ? "role-badge-active" : "role-badge-inactive"}`}>
+    {isActive ? "Active" : "Inactive"}
+  </span>
+);
+
 const PencilIcon = () => (
   <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M14.846 2.404a1.937 1.937 0 012.738 2.738l-.91.91-2.738-2.738.91-.91zM12.748 4.5L3.5 13.748V16.5h2.752l9.248-9.248L12.748 4.5z" fill="currentColor"/>
+    <path
+      d="M14.846 2.404a1.937 1.937 0 012.738 2.738l-.91.91-2.738-2.738.91-.91zM12.748 4.5L3.5 13.748V16.5h2.752l9.248-9.248L12.748 4.5z"
+      fill="currentColor"
+    />
   </svg>
 );
- 
-const DotsIcon = () => (
-  <svg viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="10" cy="4.5"  r="1.5" />
-    <circle cx="10" cy="10"   r="1.5" />
-    <circle cx="10" cy="15.5" r="1.5" />
-  </svg>
-);
- 
-// ─── Success Popup ────────────────────────────────────────────────────────────
- 
-const SuccessPopup: React.FC<{ message: string; onClose: () => void }> = ({ message, onClose }) => (
-  <div style={{
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    zIndex: 1000,
-  }}>
-    <div style={{
-      backgroundColor: "#dcfce7",
-      border: "1px solid #86efac",
-      padding: "14px 24px",
-      color: "#16a34a",
-      fontSize: "14px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-    }}>
-      <span>{message}</span>
-      <button
-        onClick={onClose}
-        style={{
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          color: "#16a34a",
-          fontSize: "18px",
-          lineHeight: 1,
-          marginLeft: "12px",
-        }}
-      >
-        ×
-      </button>
-    </div>
-  </div>
-);
- 
-// ─── Pagination ───────────────────────────────────────────────────────────────
- 
-const Pagination: React.FC<{ current: number; total: number; onChange: (p: number) => void }> = ({ current, total, onChange }) => {
-  const pages: (number | "...")[] = [1, 2, 3, "...", 8, 9, 10];
-  return (
-    <div className="role-pagination">
-      <button className="role-prev-btn" onClick={() => onChange(Math.max(1, current - 1))} disabled={current === 1}>
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-          <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-        Previous
-      </button>
-      <div className="role-pagination-pages">
-        {pages.map((p, i) =>
-          p === "..." ? (
-            <button key={`dots-${i}`} className="role-page-btn dots" tabIndex={-1}>...</button>
-          ) : (
-            <button key={p} className={`role-page-btn${current === p ? " active" : ""}`} onClick={() => onChange(p as number)}>
-              {p}
-            </button>
-          )
-        )}
-      </div>
-      <button className="role-next-btn" onClick={() => onChange(Math.min(total, current + 1))} disabled={current === total}>
-        Next
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-          <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </button>
-    </div>
-  );
+
+// ─────────────────────────────────────────────
+// LOGGED-IN USER
+// ─────────────────────────────────────────────
+
+const getLoggedInUserId = (): number => {
+  return parseInt(localStorage.getItem("userId") ?? "1", 10);
 };
- 
-// ─── Main Component ───────────────────────────────────────────────────────────
- 
+
+// ─────────────────────────────────────────────
+// MAIN COMPONENT
+// ─────────────────────────────────────────────
+
 const Role: React.FC = () => {
-  const [roles, setRoles]             = useState<RoleRow[]>(initialRoles);
-  const [showForm, setShowForm]       = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [successMsg, setSuccessMsg]   = useState("");
-  const [search, setSearch]           = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
- 
-  const handleSubmit = (data: { roleName: string }) => {
-    const now = new Date().toLocaleString("en-US", {
-      month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
-    });
-    const newRole: RoleRow = {
-      id:          roles.length + 1,
-      name:        data.roleName,
-      description: "Full platform access with config rights",
-      status:      "Active",
-      modifiedBy:  "You",
-      modifiedOn:  now,
-      version:     "1.0",
-    };
-    setRoles(prev => [...prev, newRole]);
-    setShowForm(false);
-    setSuccessMsg(`"${data.roleName}" role has been added.`);
-    setShowSuccess(true);
+  const [roles, setRoles] = useState<RoleRow[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
+  const [showNewRole, setShowNewRole] = useState(false);
+  const [showEditRole, setShowEditRole] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<RoleRow | null>(null);
+
+  const [search, setSearch] = useState("");
+
+  // ─────────────────────────────────────────────
+  // GET — load roles on mount
+  // ─────────────────────────────────────────────
+
+  const fetchRoles = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`${BASE_URL}/api/user-management/roles`);
+      if (!res.ok) throw new Error(`Failed to load roles (${res.status})`);
+      const data: RoleResponse[] = await res.json();
+      setRoles(data.map(mapToRow));
+    } catch (err: any) {
+      setError(err.message ?? "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
- 
-  const filtered = roles.filter(r =>
-    r.name.toLowerCase().includes(search.toLowerCase())
+
+  useEffect(() => {
+    fetchRoles();
+  }, []);
+
+  // ─────────────────────────────────────────────
+  // POST — create new role
+  // ─────────────────────────────────────────────
+
+  const parseResponse = async (res: Response) => {
+    const text = await res.text();
+    try { return text ? JSON.parse(text) : {}; } catch { return {}; }
+  };
+
+  const handleNewRoleSubmit = async (data: { roleName: string }) => {
+    setError(null);
+    setSuccess(null);
+    try {
+      const res = await fetch(`${BASE_URL}/api/user-management/newrole`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          roleName: data.roleName,
+          createdBy: getLoggedInUserId(),
+        }),
+      });
+
+      const result = await parseResponse(res);
+
+      if (!res.ok) {
+        throw new Error(result.message ?? "Failed to create role");
+      }
+
+      await fetchRoles();
+      setShowNewRole(false);
+      setSuccess(result.message ?? "Role created successfully!");
+    } catch (err: any) {
+      setError(err.message ?? "Something went wrong");
+    }
+  };
+
+  // ─────────────────────────────────────────────
+  // PUT — update existing role
+  // ─────────────────────────────────────────────
+
+  const handleUpdateRole = async (data: { roleName: string }) => {
+    if (!selectedRole) return;
+    setError(null);
+    setSuccess(null);
+    try {
+      const res = await fetch(`${BASE_URL}/api/user-management/updaterole/${selectedRole.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          roleName: data.roleName,
+          changedBy: getLoggedInUserId(),
+        }),
+      });
+
+      const result = await parseResponse(res);
+
+      if (!res.ok) {
+        throw new Error(result.message ?? "Failed to update role");
+      }
+
+      await fetchRoles();
+      setShowEditRole(false);
+      setSelectedRole(null);
+      setSuccess(result.message ?? "Role updated successfully!");
+    } catch (err: any) {
+      setError(err.message ?? "Something went wrong");
+    }
+  };
+
+  // ─────────────────────────────────────────────
+  // OPEN EDIT PAGE
+  // ─────────────────────────────────────────────
+
+  const handleEditClick = (role: RoleRow) => {
+    setSelectedRole(role);
+    setShowEditRole(true);
+  };
+
+  // ─────────────────────────────────────────────
+  // SEARCH FILTER
+  // ─────────────────────────────────────────────
+
+  const filteredRoles = roles.filter((role) =>
+    role.name.toLowerCase().includes(search.toLowerCase())
   );
- 
-  // ── Show NewRole as a full page ──
-  if (showForm) {
+
+  // ─────────────────────────────────────────────
+  // SHOW NEW ROLE PAGE
+  // ─────────────────────────────────────────────
+
+  if (showNewRole) {
     return (
       <NewRole
-        onCancel={() => setShowForm(false)}
-        onSubmit={handleSubmit}
+        onCancel={() => { setShowNewRole(false); setError(null); }}
+        onSubmit={handleNewRoleSubmit}
+        submitError={error}
       />
     );
   }
- 
+
+  // ─────────────────────────────────────────────
+  // SHOW EDIT ROLE PAGE
+  // ─────────────────────────────────────────────
+
+  if (showEditRole && selectedRole) {
+    return (
+      <EditRole
+        roleData={selectedRole}
+        onCancel={() => {
+          setShowEditRole(false);
+          setSelectedRole(null);
+          setError(null);
+        }}
+        onSubmit={handleUpdateRole}
+        submitError={error}
+      />
+    );
+  }
+
+  // ─────────────────────────────────────────────
+  // MAIN TABLE UI
+  // ─────────────────────────────────────────────
+
   return (
     <div className="role-page">
- 
       <div className="role-table-wrap">
- 
-        {/* ── Toolbar ── */}
+
+        {/* ERROR BANNER */}
+        {error && (
+          <div className="role-error-banner">
+            <svg className="role-banner-icon" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="9" stroke="#dc2626" strokeWidth="1.5"/>
+              <path d="M10 6v4M10 14h.01" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+            <span>{error}</span>
+            <button className="role-banner-close" onClick={() => setError(null)}>✕</button>
+          </div>
+        )}
+
+        {/* TOP BAR */}
         <div className="role-toolbar">
           <div className="role-search-wrap">
-            <svg className="role-search-icon" viewBox="0 0 20 20" fill="none">
-              <circle cx="9" cy="9" r="6" stroke="#b0b7c3" strokeWidth="1.6" />
-              <path d="M15 15l-3-3" stroke="#b0b7c3" strokeWidth="1.6" strokeLinecap="round" />
-            </svg>
             <input
               className="role-search"
               placeholder="Search"
               value={search}
-              onChange={e => setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <button className="role-new-btn" onClick={() => setShowForm(true)}>
+
+          <button
+            className="role-new-btn"
+            onClick={() => setShowNewRole(true)}
+          >
             + New Role
           </button>
         </div>
- 
-        {/* ── Table ── */}
-        <table className="role-table">
-          <thead>
-            <tr>
-              <th>S NO</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Modified by</th>
-              <th>Modified on</th>
-              <th>Version</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((role, idx) => (
-              <tr key={role.id}>
-                <td>{idx + 1}</td>
-                <td>
-                  <div className="role-name">{role.name}</div>
-                  <div className="role-desc">{role.description}</div>
-                </td>
-                <td><StatusBadge status={role.status} /></td>
-                <td>{role.modifiedBy}</td>
-                <td>{role.modifiedOn}</td>
-                <td>{role.version}</td>
-                <td>
-                  <div className="role-actions">
-                    <button className="role-action-btn" title="Edit"><PencilIcon /></button>
-                  </div>
-                </td>
+
+        {/* LOADING */}
+        {loading && (
+          <div className="role-loading">Loading roles...</div>
+        )}
+
+        {/* TABLE */}
+        {!loading && (
+          <table className="role-table">
+            <thead>
+              <tr>
+                <th>S NO</th>
+                <th>ROLE NAME</th>
+                <th>STATUS</th>
+                <th>CREATED BY</th>
+                <th>CREATED ON</th>
+                <th>MODIFIED BY</th>
+                <th>MODIFIED ON</th>
+                <th>ACTIONS</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
- 
-        {/* ── Pagination ── */}
-        <Pagination current={currentPage} total={TOTAL_PAGES} onChange={setCurrentPage} />
- 
+            </thead>
+
+            <tbody>
+              {filteredRoles.map((role, index) => (
+                <tr key={role.id}>
+                  <td>{index + 1}</td>
+
+                  <td>
+                    <div className="role-name">{role.name}</div>
+                  </td>
+
+                  <td>
+                    <StatusBadge isActive={role.isActive} />
+                  </td>
+
+                  <td>{role.createdBy}</td>
+
+                  <td>{formatDate(role.createdDate)}</td>
+
+                  <td>{role.changedBy ?? "—"}</td>
+
+                  <td>{formatDate(role.changedDate)}</td>
+
+                  <td>
+                    <button
+                      className="role-action-btn"
+                      onClick={() => handleEditClick(role)}
+                    >
+                      <PencilIcon />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+
+              {filteredRoles.length === 0 && (
+                <tr>
+                  <td colSpan={8} style={{ textAlign: "center", padding: "2rem" }}>
+                    No roles found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        )}
+
       </div>
- 
-      {/* ── Success Popup ── */}
-      {showSuccess && (
-        <SuccessPopup message={successMsg} onClose={() => setShowSuccess(false)} />
+
+      {/* SUCCESS MODAL */}
+      {success && (
+        <div className="role-success-overlay" onClick={() => setSuccess(null)}>
+          <div className="role-success-box" onClick={(e) => e.stopPropagation()}>
+            <div className="role-success-icon">
+              <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="28" cy="28" r="28" fill="#eafaf1"/>
+                <path d="M18 28l8 8 14-14" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <h3 className="role-success-title">Success!</h3>
+            <p className="role-success-msg">{success}</p>
+            <button className="role-success-btn" onClick={() => setSuccess(null)}>Done</button>
+          </div>
+        </div>
       )}
- 
+
     </div>
   );
 };
- 
+
 export default Role;
- 

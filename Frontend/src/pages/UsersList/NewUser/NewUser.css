@@ -3,7 +3,7 @@
   padding: 24px;
   background: #f5f7fb;
   min-height: 100%;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-family: var(--font-base);
   display: flex;
   flex-direction: column;
 }
@@ -39,16 +39,16 @@
 }
 
 .nu-header-title {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-page-title);
   color: #101828;
   line-height: 28px;
   margin: 0;
 }
 
 .nu-header-sub {
-  font-size: 12px;
-  font-weight: 400;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   color: #475467;
   line-height: 18px;
   margin: 0;
@@ -105,8 +105,8 @@
 .nu-section-head:hover { background: #f2f4f7; }
 
 .nu-section-title {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-button);
   color: #101828;
   line-height: 20px;
 }
@@ -150,8 +150,8 @@
 
 /* ── Labels ── */
 .nu-label {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   color: #344054;
   line-height: 20px;
 }
@@ -163,13 +163,13 @@
   border: 1px solid #d0d5dd;
   border-radius: 8px;
   background: #ffffff;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   color: #101828;
   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
-  font-family: inherit;
+  font-family: var(--font-base);
 }
 .nu-input::placeholder { color: #667085; }
 .nu-input:focus { border-color: #84adff; box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.12); }
@@ -188,15 +188,15 @@
   border: 1px solid #d0d5dd;
   border-radius: 8px;
   background: #ffffff;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   color: #667085;
   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
   outline: none;
   appearance: none;
   cursor: pointer;
   transition: border-color 0.15s;
-  font-family: inherit;
+  font-family: var(--font-base);
 }
 .nu-select:focus { border-color: #84adff; }
 
@@ -271,8 +271,8 @@
 }
 
 .nu-check-label {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   color: #101828;
   line-height: 20px;
 }
@@ -294,12 +294,12 @@
   border: 1px solid #d0d5dd;
   border-radius: 8px;
   background: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-button);
   color: #344054;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
-  font-family: inherit;
+  font-family: var(--font-base);
 }
 .nu-btn-cancel:hover { background: #f9fafb; border-color: #98a2b3; }
 
@@ -308,11 +308,11 @@
   border: none;
   border-radius: 8px;
   background: #4361ee;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-button);
   color: #ffffff;
   cursor: pointer;
   transition: background 0.15s;
-  font-family: inherit;
+  font-family: var(--font-base);
 }
 .nu-btn-save:hover { background: #3451d1; }

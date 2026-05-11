@@ -1,6 +1,6 @@
 /* ── Read-only notice ── */
 .al-notice {
-  font-size: 12.5px;
+  font-size: var(--font-size-body);
   color: #475569;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
@@ -14,7 +14,7 @@
 
 .al-hostname {
   font-family: 'Courier New', monospace;
-  font-size: 12.5px;
+  font-size: var(--font-size-body);
   color: #334155;
 }
 
@@ -24,13 +24,13 @@
   color: #2563eb;
   padding: 3px 9px;
   border-radius: 10px;
-  font-size: 12px;
-  font-weight: 500;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
 }
 
 /* ── Job ID link ── */
 .al-jobid {
-  font-size: 13px;
+  font-size: var(--font-size-body);
   cursor: pointer;
   font-family: 'Courier New', monospace;
 }
@@ -39,8 +39,8 @@
 /* ── Error count with warning icon ── */
 .al-error-count {
   color: #ea580c;
-  font-weight: 600;
-  font-size: 13px;
+  font-weight: var(--font-weight-body);
+  font-size: var(--font-size-body);
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -74,8 +74,8 @@
   display: inline-block;
   padding: 2px 8px;
   border-radius: 8px;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   letter-spacing: 0.03em;
   text-transform: uppercase;
 }
@@ -115,15 +115,15 @@
 }
 
 .al-modal__title {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-page-title);
   color: #0f172a;
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-base);
   margin-bottom: 4px;
 }
 
 .al-modal__meta {
-  font-size: 12.5px;
+  font-size: var(--font-size-body);
   color: #64748b;
   display: flex;
   align-items: center;
@@ -149,16 +149,16 @@
 }
 
 .al-summary-label {
-  font-size: 11px;
-  font-weight: 700;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: #94a3b8;
 }
 
 .al-summary-value {
-  font-size: 13.5px;
-  font-weight: 600;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
   color: #334155;
 }
 
